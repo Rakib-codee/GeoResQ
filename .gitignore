@@ -1,0 +1,75 @@
+# ==========================================
+# GeoResQ Safety & Low-Storage .gitignore
+# ==========================================
+
+# 1. Raw & Processed Satellite Datasets (NEVER commit imagery)
+data/
+datasets/
+BRIGHT/
+pre-event/
+post-event/
+target/
+*.tif
+*.tiff
+*.geotiff
+*.jp2
+*.kmz
+*.kml
+*.shp
+*.shx
+*.dbf
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.parquet
+
+# 2. Model Checkpoints & Large Binary Artifacts
+checkpoints/
+weights/
+saved_models/
+*.pth
+*.pt
+*.ckpt
+*.onnx
+*.safetensors
+*.h5
+*.pkl
+
+# 3. Secrets, Credentials & Cloud Keys (NEVER commit secrets)
+.env
+.env.*
+kaggle.json
+*credentials*.json
+*token*.json
+*.pem
+*.key
+
+# 4. Python, PyTest & Jupyter Caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+build/
+dist/
+*.egg-info/
+
+# 5. OS & Editor Files (macOS / VS Code)
+.DS_Store
+.AppleDouble
+.LSOverride
+.vscode/
+.idea/
+
+# 6. Temporary Logs & Scratch Outputs (keep results/metrics & results/figures tracked!)
+logs/
+wandb/
+runs/
+tmp/
+temp/
