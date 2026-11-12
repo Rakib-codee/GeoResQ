@@ -1,0 +1,86 @@
+# GeoResQ Dataset & Cloud Storage Configuration
+# Verified against official BRIGHT repository & ESSD 2025 publication
+
+dataset:
+  name: "BRIGHT"
+  full_title: "BRIGHT: A globally distributed multimodal building damage assessment dataset with very-high-resolution for all-weather disaster response"
+  paper_doi: "10.5194/essd-17-6217-2025"
+  zenodo_concept_doi: "10.5281/zenodo.14619797"
+  zenodo_version_doi: "10.5281/zenodo.20072020"
+  huggingface_repo: "Kullervo/BRIGHT"
+
+# Cloud-first storage paths (never store raw .tif files on local MacBook)
+paths:
+  kaggle_input_root: "/kaggle/input/georesq-bright-subset"
+  kaggle_working_root: "/kaggle/working/georesq_outputs"
+  colab_drive_root: "/content/drive/MyDrive/GeoResQ"
+  local_manifest_dir: "results/metrics"
+
+# Verified image specifications from official BRIGHT benchmark code & GeoTIFF headers
+modalities:
+  pre_event:
+    folder: "pre-event"
+    suffix: "_pre_disaster.tif"
+    sensor_type: "Optical RGB"
+    channels: 3
+    dtype: "uint8"
+    tile_size: [1024, 1024]
+  post_event:
+    folder: "post-event"
+    suffix: "_post_disaster.tif"
+    sensor_type: "SAR Amplitude"
+    raw_channels: 1
+    benchmark_stacked_channels: 3
+    dtype: "uint8"
+    tile_size: [1024, 1024]
+  target:
+    folder: "target"
+    suffix: "_building_damage.tif"
+    dtype: "uint8"
+    tile_size: [1024, 1024]
+
+# Official pixel-value label convention (verified in bda_benchmark & cvprw26/src/dataset/classes.py)
+labels:
+  num_classes: 4
+  ignore_index: 255
+  classes:
+    0: "background"
+    1: "intact"
+    2: "damaged"
+    3: "destroyed"
+
+# Licensing & event eligibility
+# We strictly exclude the 3 Google-Earth-derived events that cannot be freely redistributed
+excluded_restricted_events:
+  - "ukraine-conflict"
+  - "myanmar-hurricane"
+  - "mexico-hurricane"
+
+# 11 open-license directly accessible events (3,395 total paired tiles)
+eligible_open_events:
+  source_pool:
+    - "bata-explosion"
+    - "beirut-explosion"
+    - "congo-volcano"
+    - "haiti-earthquake"
+    - "hawaii-wildfire"
+    - "la_palma-volcano"
+    - "libya-flood"
+    - "morocco-earthquake"
+    - "turkey-earthquake"
+  official_unseen_test_pool:
+    - "marshall-wildfire"
+    - "noto-earthquake"
+
+# Initial event-separated subset plan (v0.1 pipeline verification: 45 tiles, zero scene leakage)
+subset_v0_1:
+  seed: 42
+  train_events:
+    turkey-earthquake: 10
+    morocco-earthquake: 10
+    bata-explosion: 10
+  val_events:
+    beirut-explosion: 4
+    libya-flood: 4
+  test_unseen_events:
+    noto-earthquake: 7
