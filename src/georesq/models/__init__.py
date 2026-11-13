@@ -22,12 +22,14 @@ def build_model(model_cfg: dict[str, object]):
         sar_ch = 3 if bool(model_cfg.get("stack_sar_3ch", True)) else 1
         return DualStreamDamageNet(
             backbone_name=str(model_cfg.get("backbone", "resnet18")),
-            fusion_mode=str(model_cfg.get("fusion_mode", "gated_cross_fusion")),
+            fusion_mode=str(model_cfg.get("fusion_mode", "lite_gated_fusion")),
             num_classes=num_classes,
             opt_in_channels=3,
             sar_in_channels=sar_ch,
             pretrained=bool(model_cfg.get("pretrained", True)),
             dropout_p=float(model_cfg.get("dropout_p", 0.1)),  # type: ignore[arg-type]
+            use_fullres_skip=bool(model_cfg.get("use_fullres_skip", False)),
+            aux_loc_head=bool(model_cfg.get("aux_loc_head", False)),
         )
 
     raise ValueError(f"Unknown model architecture: {arch!r}")

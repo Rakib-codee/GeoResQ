@@ -1,12 +1,9 @@
 """Joint Optical-SAR-Mask preprocessing and spatial augmentations for GeoResQ.
 
-Supports two verified normalization regimes:
-1. 'official_imagenet': Matches official BRIGHT `bda_benchmark/dataset/imutils.py`
-   (3-ch Optical + 3-ch stacked SAR normalized with ImageNet mean/std) for fair
-   Stage B baseline reproduction.
-2. 'modality_specific': Uses train-split-only empirical Optical RGB stats and native
-   1-channel (or 3-ch) SAR stats from `results/metrics/band_stats_v0_1.json` for
-   Stage C multimodal fusion.
+Supports verified normalization regimes:
+1. 'official_imagenet': Matches official BRIGHT `bda_benchmark/dataset/imutils.py`.
+2. 'modality_specific': Train-split-only empirical stats from BRIGHT v0.1 (30 train tiles).
+3. 'modality_specific_v0_2': Train-split-only empirical stats from BRIGHT v0.2 (150 train tiles).
 """
 
 from __future__ import annotations
@@ -18,11 +15,15 @@ VALID_LABELS = frozenset({0, 1, 2, 3, 255})
 IMAGENET_MEAN_255 = (123.675, 116.28, 103.53)
 IMAGENET_STD_255 = (58.395, 57.12, 57.375)
 
-# Verified train-only statistics from GeoResQ BRIGHT v0.1 subset (30 train tiles)
 SUBSET_OPTICAL_MEAN_01 = (0.395894, 0.374892, 0.317233)
 SUBSET_OPTICAL_STD_01 = (0.250682, 0.203664, 0.188265)
 SUBSET_SAR_MEAN_01 = 0.237721
 SUBSET_SAR_STD_01 = 0.172405
+
+SUBSET_V02_OPTICAL_MEAN_01 = (0.374346, 0.367878, 0.324874)
+SUBSET_V02_OPTICAL_STD_01 = (0.247753, 0.210499, 0.196245)
+SUBSET_V02_SAR_MEAN_01 = 0.237165
+SUBSET_V02_SAR_STD_01 = 0.166060
 
 
 def validate_raw_triplet(pre_opt, post_sar, mask) -> None:
@@ -132,12 +133,7 @@ def normalize_multimodal(
     norm_mode: str = "official_imagenet",
     stack_sar_3ch: bool = True,
 ):
-    """Normalize Optical & SAR and transpose to CHW float32 arrays ready for PyTorch.
-
-    Returns:
-        pre_chw: float32 array of shape (3, H, W)
-        post_chw: float32 array of shape (3, H, W) if stack_sar_3ch else (1, H, W)
-    """
+    """Normalize Optical & SAR and transpose to CHW float32 arrays ready for PyTorch."""
     import numpy as np
 
     pre_f = pre_opt[:, :, :3].astype(np.float32)
@@ -153,12 +149,19 @@ def normalize_multimodal(
         if not stack_sar_3ch:
             post_norm = post_norm[:, :, :1]
 
-    elif norm_mode == "modality_specific":
-        opt_mean = np.array(SUBSET_OPTICAL_MEAN_01, dtype=np.float32)
-        opt_std = np.array(SUBSET_OPTICAL_STD_01, dtype=np.float32)
+    elif norm_mode in ("modality_specific", "modality_specific_v0_2"):
+        if norm_mode == "modality_specific_v0_2":
+            o_m, o_s = SUBSET_V02_OPTICAL_MEAN_01, SUBSET_V02_OPTICAL_STD_01
+            s_m, s_s = SUBSET_V02_SAR_MEAN_01, SUBSET_V02_SAR_STD_01
+        else:
+            o_m, o_s = SUBSET_OPTICAL_MEAN_01, SUBSET_OPTICAL_STD_01
+            s_m, s_s = SUBSET_SAR_MEAN_01, SUBSET_SAR_STD_01
+
+        opt_mean = np.array(o_m, dtype=np.float32)
+        opt_std = np.array(o_s, dtype=np.float32)
         pre_norm = ((pre_f / 255.0) - opt_mean) / opt_std
 
-        sar_1 = ((post_f / 255.0) - SUBSET_SAR_MEAN_01) / SUBSET_SAR_STD_01
+        sar_1 = ((post_f / 255.0) - s_m) / s_s
         if stack_sar_3ch:
             post_norm = np.stack((sar_1, sar_1, sar_1), axis=-1)
         else:

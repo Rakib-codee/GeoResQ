@@ -1,8 +1,7 @@
-"""Official BRIGHT Benchmark Loss: Cross-Entropy + 0.75 * Lovasz-Softmax.
+"""Official BRIGHT Benchmark Loss (CE + 0.75 * Lovasz-Softmax) & Auxiliary Localization Loss.
 
-Reference:
-- Berman et al., "The Lovasz-Softmax loss: A tractable surrogate for the optimization
-  of the intersection-over-union measure in neural networks", CVPR 2018 (MIT License).
+References:
+- Berman et al., "The Lovasz-Softmax loss", CVPR 2018 (MIT License).
 - Official BRIGHT `bda_benchmark/script/standard_ML/train_UNet.py`.
 """
 
@@ -100,3 +99,31 @@ if nn is not None:
             probas = F.softmax(logits, dim=1)
             lov = lovasz_softmax(probas, targets, ignore_index=self.ignore_index)
             return ce + self.lovasz_weight * lov
+
+    class BuildingLocBCEDiceLoss(nn.Module):
+        """Binary BCEWithLogits + Soft Dice on building footprint mask (ignoring 255)."""
+
+        def __init__(self, ignore_index: int = 255, smooth: float = 1.0) -> None:
+            super().__init__()
+            self.ignore_index = int(ignore_index)
+            self.smooth = float(smooth)
+
+        def forward(
+            self, loc_logits: torch.Tensor, loc_targets: torch.Tensor
+        ) -> torch.Tensor:
+            flat_logits = loc_logits.view(-1)
+            flat_targets = loc_targets.view(-1)
+            valid = flat_targets != self.ignore_index
+            if not torch.any(valid):
+                return loc_logits.sum() * 0.0
+
+            v_logits = flat_logits[valid]
+            v_targets = (flat_targets[valid] > 0).float()
+
+            bce = F.binary_cross_entropy_with_logits(v_logits, v_targets)
+            probs = torch.sigmoid(v_logits)
+            inter = (probs * v_targets).sum()
+            dice_loss = 1.0 - (2.0 * inter + self.smooth) / (
+                probs.sum() + v_targets.sum() + self.smooth
+            )
+            return bce + dice_loss

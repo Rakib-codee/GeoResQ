@@ -1,4 +1,4 @@
-"""Unit tests for Milestone 4 & 5 DualStreamDamageNet & controlled modality isolation."""
+"""Unit tests for Milestone 4 & 5 DualStreamDamageNet, 1x skip, AuxLoc & losses."""
 
 from __future__ import annotations
 
@@ -19,16 +19,19 @@ class TestDualStreamFusionModels(unittest.TestCase):
             self.skipTest("PyTorch not installed in local lightweight environment")
 
         from georesq.models import VALID_FUSION_MODES, build_model, get_parameter_groups
-        from georesq.training.losses import BrightComboLoss
+        from georesq.training.losses import BrightComboLoss, BuildingLocBCEDiceLoss
 
-        criterion = BrightComboLoss(class_weights=[0.3, 0.6, 1.4, 1.7])
+        criterion = BrightComboLoss(class_weights=[0.6, 0.85, 1.25, 1.3])
+        loc_crit = BuildingLocBCEDiceLoss()
         pre_a = torch.randn(2, 3, 128, 128)
         pre_b = torch.randn(2, 3, 128, 128)
         sar_a = torch.randn(2, 3, 128, 128)
         sar_b = torch.randn(2, 3, 128, 128)
         target = torch.randint(0, 4, (2, 128, 128))
+        loc_target = (target > 0).long()
 
         for mode in VALID_FUSION_MODES:
+            use_v02_heads = mode in ("optical_only", "sar_only", "concat", "lite_gated_fusion")
             model = build_model(
                 {
                     "architecture": "dual_stream_unet",
@@ -36,6 +39,8 @@ class TestDualStreamFusionModels(unittest.TestCase):
                     "fusion_mode": mode,
                     "num_classes": 4,
                     "pretrained": False,
+                    "use_fullres_skip": use_v02_heads,
+                    "aux_loc_head": use_v02_heads,
                 }
             )
             groups = get_parameter_groups(model, base_lr=3e-4)
@@ -71,8 +76,12 @@ class TestDualStreamFusionModels(unittest.TestCase):
                     self.assertFalse(torch.allclose(out_1, out_diff_opt, atol=1e-5))
 
             model.train()
-            logits = model(pre_a, sar_a)
-            loss = criterion(logits, target)
+            clf_logits, loc_logits = model.forward_with_aux(pre_a, sar_a)
+            loss = criterion(clf_logits, target)
+            if use_v02_heads:
+                self.assertIsNotNone(loc_logits)
+                self.assertEqual(tuple(loc_logits.shape), (2, 1, 128, 128))  # type: ignore[union-attr]
+                loss = loss + 0.5 * loc_crit(loc_logits, loc_target)  # type: ignore[arg-type]
             self.assertTrue(torch.isfinite(loss).item())
             loss.backward()
 

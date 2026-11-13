@@ -1,0 +1,17 @@
+{
+  "subset_version": "v0.2",
+  "computed_strictly_on_split": "train",
+  "num_train_tiles": 150,
+  "optical_rgb_mean_0_1": [
+    0.374346,
+    0.367878,
+    0.324874
+  ],
+  "optical_rgb_std_0_1": [
+    0.247753,
+    0.210499,
+    0.196245
+  ],
+  "sar_mean_0_1": 0.237165,
+  "sar_std_0_1": 0.16606
+}

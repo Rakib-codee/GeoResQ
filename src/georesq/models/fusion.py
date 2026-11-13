@@ -1,13 +1,14 @@
 """Modular Dual-Stream Optical-SAR Segmentation & Controlled Ablation Architecture.
 
 Supports five controlled configurations sharing the exact same ResNet encoder
-blocks and multi-scale segmentation decoder:
+blocks and multi-scale segmentation decoder, plus optional 1x full-resolution
+boundary skip and auxiliary binary building-localization head for Milestone 5:
   1. `optical_only`       : Pre-event optical stream only (no post-SAR input)
   2. `sar_only`           : Post-event SAR stream only (no pre-optical input)
   3. `concat`             : Dual-stream ResNet + naive multi-scale [O_i, S_i] 1x1 concat
   4. `gated_cross_fusion` : Dual-stream ResNet + dense 3x3 Prior-Gated Cross-Fusion (v0.1)
   5. `lite_gated_fusion`  : Parameter-efficient Bottleneck Depthwise Residual Prior-Gated
-                            Cross-Fusion with LayerScale init (26.79M vs 39.77M params)
+                            Cross-Fusion with LayerScale init (26.8M vs 39.8M params)
 """
 
 from __future__ import annotations
@@ -225,12 +226,7 @@ class PriorGatedCrossFusionBlock(nn.Module):
 
 
 class LitePriorGatedFusionBlock(nn.Module):
-    """Parameter-efficient Bottleneck Depthwise Residual Prior-Gated Cross-Fusion.
-
-    Designed from Milestone 4 ablation diagnosis: reduces fusion overhead by 96%
-    (+0.50M vs +13.48M params) and anchors representation on 1x1 multimodal concat
-    with LayerScale residual initialization (`gamma=0.05`) to prevent early overfitting.
-    """
+    """Parameter-efficient Bottleneck Depthwise Residual Prior-Gated Cross-Fusion."""
 
     def __init__(self, channels: int, init_scale: float = 0.05) -> None:
         super().__init__()
@@ -296,13 +292,15 @@ class DecoderStage(nn.Module):
 
 
 class MultiScaleSegmentationDecoder(nn.Module):
-    """Pyramid segmentation decoder restoring full (H, W) building damage masks."""
+    """Pyramid segmentation decoder with optional 1x boundary skip & localization head."""
 
     def __init__(
         self,
         enc_channels: tuple[int, int, int, int, int] = (64, 64, 128, 256, 512),
         num_classes: int = 4,
-        dropout_p: float = 0.1,
+        dropout_p: int | float = 0.1,
+        fullres_skip_ch: int = 0,
+        aux_loc_head: bool = False,
     ) -> None:
         super().__init__()
         c0, c1, c2, c3, c4 = enc_channels
@@ -310,26 +308,68 @@ class MultiScaleSegmentationDecoder(nn.Module):
         self.up3 = DecoderStage(256, c2, 128) # 1/16 -> 1/8
         self.up2 = DecoderStage(128, c1, 64)  # 1/8  -> 1/4
         self.up1 = DecoderStage(64, c0, 64)   # 1/4  -> 1/2
-        self.final_head = nn.Sequential(
-            nn.Conv2d(64, 32, kernel_size=3, padding=1, bias=False),
-            nn.BatchNorm2d(32),
-            nn.ReLU(inplace=True),
-            nn.Dropout2d(p=dropout_p),
-            nn.Conv2d(32, num_classes, kernel_size=1),
-        )
+        self.fullres_skip_ch = int(fullres_skip_ch)
+        self.aux_loc_head = bool(aux_loc_head)
 
-    def forward(
+        if self.fullres_skip_ch == 0 and not self.aux_loc_head:
+            self.final_head: nn.Module | None = nn.Sequential(
+                nn.Conv2d(64, 32, kernel_size=3, padding=1, bias=False),
+                nn.BatchNorm2d(32),
+                nn.ReLU(inplace=True),
+                nn.Dropout2d(p=float(dropout_p)),
+                nn.Conv2d(32, num_classes, kernel_size=1),
+            )
+            self.hr_refine = None
+            self.clf_head = None
+            self.loc_head = None
+        else:
+            self.final_head = None
+            in_hr = 64 + self.fullres_skip_ch
+            self.hr_refine = nn.Sequential(
+                nn.Conv2d(in_hr, 32, kernel_size=3, padding=1, bias=False),
+                nn.BatchNorm2d(32),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(32, 32, kernel_size=3, padding=1, bias=False),
+                nn.BatchNorm2d(32),
+                nn.ReLU(inplace=True),
+                nn.Dropout2d(p=float(dropout_p)),
+            )
+            self.clf_head = nn.Conv2d(32, num_classes, kernel_size=1)
+            self.loc_head = (
+                nn.Conv2d(32, 1, kernel_size=1) if self.aux_loc_head else None
+            )
+
+    def forward_features(
         self,
         features: list[torch.Tensor],
         output_size: tuple[int, int],
-    ) -> torch.Tensor:
+        stem_1x: torch.Tensor | None = None,
+    ) -> tuple[torch.Tensor, torch.Tensor | None]:
         f0, f1, f2, f3, f4 = features
         d4 = self.up4(f4, f3)
         d3 = self.up3(d4, f2)
         d2 = self.up2(d3, f1)
         d1 = self.up1(d2, f0)
         d0 = F.interpolate(d1, size=output_size, mode="bilinear", align_corners=False)
-        return self.final_head(d0)
+
+        if self.final_head is not None:
+            return self.final_head(d0), None
+
+        assert self.hr_refine is not None and self.clf_head is not None
+        hr_in = torch.cat([d0, stem_1x], dim=1) if stem_1x is not None else d0
+        hr_feat = self.hr_refine(hr_in)
+        clf_logits = self.clf_head(hr_feat)
+        loc_logits = self.loc_head(hr_feat) if self.loc_head is not None else None
+        return clf_logits, loc_logits
+
+    def forward(
+        self,
+        features: list[torch.Tensor],
+        output_size: tuple[int, int],
+        stem_1x: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        clf_logits, _ = self.forward_features(features, output_size, stem_1x=stem_1x)
+        return clf_logits
 
 
 class DualStreamDamageNet(nn.Module):
@@ -344,6 +384,8 @@ class DualStreamDamageNet(nn.Module):
         sar_in_channels: int = 3,
         pretrained: bool = True,
         dropout_p: float = 0.1,
+        use_fullres_skip: bool = False,
+        aux_loc_head: bool = False,
     ) -> None:
         super().__init__()
         if fusion_mode not in VALID_FUSION_MODES:
@@ -353,10 +395,13 @@ class DualStreamDamageNet(nn.Module):
         self.backbone_name = backbone_name
         self.fusion_mode = fusion_mode
         self.num_classes = num_classes
+        self.use_fullres_skip = bool(use_fullres_skip)
+        self.aux_loc_head = bool(aux_loc_head)
 
         self.optical_encoder: ResNetBackbone | None = None
         self.sar_encoder: ResNetBackbone | None = None
         self.fusion_blocks: nn.ModuleList | None = None
+        self.boundary_stem: nn.Module | None = None
 
         if fusion_mode in (
             "optical_only",
@@ -382,6 +427,19 @@ class DualStreamDamageNet(nn.Module):
                 pretrained=pretrained,
             )
 
+        skip_ch = 0
+        if self.use_fullres_skip:
+            stem_in = sar_in_channels if fusion_mode == "sar_only" else opt_in_channels
+            skip_ch = 32
+            self.boundary_stem = nn.Sequential(
+                nn.Conv2d(stem_in, 32, kernel_size=3, padding=1, bias=False),
+                nn.BatchNorm2d(32),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(32, 32, kernel_size=3, padding=1, bias=False),
+                nn.BatchNorm2d(32),
+                nn.ReLU(inplace=True),
+            )
+
         enc_channels = ResNetBackbone.out_channels
         if fusion_mode == "concat":
             self.fusion_blocks = nn.ModuleList(
@@ -400,13 +458,15 @@ class DualStreamDamageNet(nn.Module):
             enc_channels=enc_channels,
             num_classes=num_classes,
             dropout_p=dropout_p,
+            fullres_skip_ch=skip_ch,
+            aux_loc_head=self.aux_loc_head,
         )
 
-    def forward(
+    def forward_with_aux(
         self,
         pre_opt: torch.Tensor,
         post_sar: torch.Tensor | None = None,
-    ) -> torch.Tensor:
+    ) -> tuple[torch.Tensor, torch.Tensor | None]:
         if post_sar is None:
             if pre_opt.shape[1] != 6:
                 raise ValueError(
@@ -433,4 +493,19 @@ class DualStreamDamageNet(nn.Module):
                 for block, o_f, s_f in zip(self.fusion_blocks, opt_feats, sar_feats)
             ]
 
-        return self.decoder(fused_pyramid, output_size=out_hw)
+        stem_1x = None
+        if self.boundary_stem is not None:
+            stem_src = post_sar if self.fusion_mode == "sar_only" else pre_opt
+            stem_1x = self.boundary_stem(stem_src)
+
+        return self.decoder.forward_features(
+            fused_pyramid, output_size=out_hw, stem_1x=stem_1x
+        )
+
+    def forward(
+        self,
+        pre_opt: torch.Tensor,
+        post_sar: torch.Tensor | None = None,
+    ) -> torch.Tensor:
+        clf_logits, _ = self.forward_with_aux(pre_opt, post_sar)
+        return clf_logits
