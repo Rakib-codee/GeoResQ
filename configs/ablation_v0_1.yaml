@@ -1,0 +1,63 @@
+# GeoResQ Milestone 4 — Controlled 4-Way Multimodal Optical-SAR Ablation Suite
+# All variants share identical seed, splits, loss, crop size, optimizer, and decoder.
+
+experiment:
+  suite_name: "ablation_v0_1"
+  seed: 42
+  subset_version: "v0.1"
+  manifest_relpath: "results/metrics/manifest_v0_1.csv"
+  baseline_summary_relpath: "results/metrics/baseline_unet_v0_1_summary.json"
+
+shared_data:
+  norm_mode: "modality_specific"
+  stack_sar_3ch: true
+  input_modality: "multimodal"
+
+optimization:
+  epochs: 25
+  train_batch_size: 4
+  eval_batch_size: 2
+  crop_size: 512
+  optimizer: "adamw"
+  learning_rate: 0.0003
+  backbone_lr_scale: 0.33
+  weight_decay: 0.001
+  lr_scheduler: "cosine"
+  min_lr: 0.00001
+  use_amp: true
+  lovasz_weight: 0.75
+  use_train_class_weights: true
+  class_weight_power: 0.35
+  num_workers: 2
+  save_every_epochs: 5
+  selection_metric: "mIoU_foreground3"
+
+variants:
+  optical_only:
+    label: "Optical-Only (Pre-Event ResNet-18)"
+    architecture: "dual_stream_unet"
+    backbone: "resnet18"
+    fusion_mode: "optical_only"
+    pretrained: true
+    dropout_p: 0.1
+  sar_only:
+    label: "SAR-Only (Post-Event ResNet-18)"
+    architecture: "dual_stream_unet"
+    backbone: "resnet18"
+    fusion_mode: "sar_only"
+    pretrained: true
+    dropout_p: 0.1
+  dual_stream_concat:
+    label: "Dual-Stream Naive Concat (ResNet-18)"
+    architecture: "dual_stream_unet"
+    backbone: "resnet18"
+    fusion_mode: "concat"
+    pretrained: true
+    dropout_p: 0.1
+  dual_stream_gated_fusion:
+    label: "Dual-Stream Prior-Gated Cross-Fusion (Ours)"
+    architecture: "dual_stream_unet"
+    backbone: "resnet18"
+    fusion_mode: "gated_cross_fusion"
+    pretrained: true
+    dropout_p: 0.1
