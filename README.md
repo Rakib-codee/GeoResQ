@@ -126,6 +126,9 @@ python3 scripts/predict_tile.py \
   --post-sar path/to/tile_post_disaster.tif \
   --checkpoint exports/lite_gated_fusion_v0_2_fp16.pth \
   --output-dir outputs/tile_triage
+
+# 3. Launch the Interactive Visual Triage & All-Weather Studio (http://localhost:8000):
+python3 scripts/run_dashboard.py --port 8000
 ```
 
 ---

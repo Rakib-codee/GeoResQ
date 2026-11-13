@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoResQ v0.2 — Multimodal Satellite Triage & All-Weather Intelligence Studio</title>
+  <style>
+    :root {
+      --bg-0: #070b14;
+      --bg-1: #0f172a;
+      --bg-2: #162033;
+      --bg-3: #1e293b;
+      --border: #26354d;
+      --text-0: #f8fafc;
+      --text-1: #cbd5e1;
+      --text-2: #94a3b8;
+      --accent: #38bdf8;
+      --accent-dim: rgba(56, 189, 248, 0.14);
+      --intact: #2ecc71;
+      --damaged: #f39c12;
+      --destroyed: #e74c3c;
+      --bg-cls: #181c24;
+      --warn: #fbbf24;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, sans-serif;
+      background: var(--bg-0);
+      color: var(--text-0);
+      line-height: 1.45;
+      min-height: 100vh;
+      font-variant-numeric: tabular-nums;
+    }
+    .disclaimer-bar {
+      background: linear-gradient(90deg, rgba(245, 158, 11, 0.16), rgba(239, 68, 68, 0.16));
+      border-bottom: 1px solid rgba(251, 191, 36, 0.32);
+      color: #fde68a;
+      font-size: 11.5px;
+      padding: 6px 18px;
+      text-align: center;
+      letter-spacing: 0.01em;
+    }
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 20px;
+      background: var(--bg-1);
+      border-bottom: 1px solid var(--border);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-mark {
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      background: linear-gradient(135deg, #0284c7, #ef4444);
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 0 18px rgba(56, 189, 248, 0.28);
+    }
+    .brand h1 { font-size: 16.5px; font-weight: 700; letter-spacing: -0.01em; }
+    .brand p { font-size: 11.5px; color: var(--text-2); }
+    .header-controls {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      color: var(--text-1);
+    }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--intact); }
+    .dot.demo { background: var(--warn); }
+    nav.tabs {
+      display: flex;
+      gap: 4px;
+      padding: 0 20px;
+      background: var(--bg-1);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+    }
+    .tab-btn {
+      background: transparent;
+      color: var(--text-2);
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: 11px 15px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .tab-btn:hover { color: var(--text-0); }
+    .tab-btn.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+      background: rgba(56, 189, 248, 0.06);
+    }
+    main { padding: 16px 20px 36px; max-width: 1620px; margin: 0 auto; }
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; }
+
+    /* Triage Studio 3-column grid */
+    .studio-grid {
+      display: grid;
+      grid-template-columns: 315px minmax(460px, 1fr) 365px;
+      gap: 16px;
+      align-items: start;
+    }
+    @media (max-width: 1220px) {
+      .studio-grid { grid-template-columns: 1fr; }
+    }
+    .card {
+      background: var(--bg-1);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+    .card-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-2);
+      font-weight: 700;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    label.field-lbl {
+      display: block;
+      font-size: 12px;
+      color: var(--text-1);
+      font-weight: 600;
+      margin: 10px 0 5px;
+    }
+    select, input[type="text"], input[type="file"] {
+      width: 100%;
+      background: var(--bg-2);
+      color: var(--text-0);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 7px 10px;
+      font-size: 12.5px;
+      outline: none;
+    }
+    select:focus, input[type="text"]:focus { border-color: var(--accent); }
+    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: linear-gradient(135deg, #0284c7, #2563eb);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 9px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      transition: filter 0.15s;
+    }
+    .btn:hover { filter: brightness(1.1); }
+    .btn.secondary {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      color: var(--text-1);
+      font-weight: 600;
+      font-size: 12px;
+      padding: 7px 11px;
+    }
+    .btn-row { display: flex; gap: 8px; margin-top: 10px; }
+
+    /* Center Map Canvas */
+    .viewer-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      background: var(--bg-2);
+      padding: 8px 12px;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+    }
+    .viewer-toolbar .grp {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-1);
+    }
+    .viewer-toolbar select { width: auto; padding: 5px 8px; font-size: 12px; }
+    .canvas-wrap {
+      position: relative;
+      width: 100%;
+      max-width: 580px;
+      margin: 0 auto;
+      aspect-ratio: 1 / 1;
+      background: #050811;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      cursor: crosshair;
+    }
+    canvas#triageCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      image-rendering: pixelated;
+    }
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: var(--text-1);
+    }
+    .swatch {
+      display: inline-block;
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
+      margin-right: 5px;
+      vertical-align: middle;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+    @media (max-width: 680px) { .kpi-strip { grid-template-columns: repeat(2, 1fr); } }
+    .kpi {
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: 9px 11px;
+    }
+    .kpi .k-lbl { font-size: 11px; color: var(--text-2); }
+    .kpi .k-val { font-size: 17px; font-weight: 700; margin-top: 2px; color: var(--text-0); }
+    .kpi .k-sub { font-size: 10.5px; color: var(--text-2); margin-top: 2px; }
+
+    /* Sector Table */
+    .sector-list {
+      max-height: 335px;
+      overflow-y: auto;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    table.tbl {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    table.tbl th {
+      background: var(--bg-2);
+      color: var(--text-2);
+      text-align: left;
+      padding: 7px 8px;
+      position: sticky;
+      top: 0;
+      font-size: 11px;
+      border-bottom: 1px solid var(--border);
+    }
+    table.tbl td {
+      padding: 7px 8px;
+      border-bottom: 1px solid rgba(38, 53, 77, 0.55);
+      color: var(--text-1);
+    }
+    table.tbl tr.sec-row { cursor: pointer; transition: background 0.12s; }
+    table.tbl tr.sec-row:hover { background: rgba(56, 189, 248, 0.09); }
+    table.tbl tr.sec-row.selected {
+      background: rgba(56, 189, 248, 0.20);
+      outline: 1px solid var(--accent);
+    }
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 5px;
+      font-size: 10.5px;
+      font-weight: 700;
+    }
+    .badge.crit { background: rgba(231, 76, 60, 0.2); color: #fca5a5; }
+    .badge.unc { background: rgba(245, 158, 11, 0.2); color: #fcd34d; }
+    .badge.ok { background: rgba(46, 204, 113, 0.18); color: #86efac; }
+
+    .cls-bar {
+      display: flex;
+      height: 10px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--bg-3);
+      margin: 8px 0;
+    }
+
+    /* Analytics Grids */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1.25fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 1024px) { .two-col { grid-template-columns: 1fr; } }
+    .fig-img {
+      width: 100%;
+      border-radius: 9px;
+      border: 1px solid var(--border);
+      margin-top: 8px;
+    }
+    .cm-grid {
+      display: grid;
+      grid-template-columns: 95px repeat(4, 1fr);
+      gap: 4px;
+      margin-top: 10px;
+      font-size: 12px;
+    }
+    .cm-cell {
+      padding: 10px 6px;
+      border-radius: 6px;
+      text-align: center;
+      font-weight: 700;
+    }
+    .cm-hdr {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-2);
+      font-size: 11px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .filter-bar input, .filter-bar select { width: auto; min-width: 190px; }
+    pre.code-box {
+      background: #060a12;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 11px 13px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: #e2e8f0;
+      overflow-x: auto;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="disclaimer-bar">
+    RESEARCH DECISION-SUPPORT PROTOTYPE ONLY — HUMAN IMAGERY-ANALYST VERIFICATION REQUIRED. Never use for autonomous emergency dispatch, insurance adjudication, or conflict targeting.
+  </div>
+
+  <header>
+    <div class="brand">
+      <div class="brand-mark">GR</div>
+      <div>
+        <h1>GeoResQ v0.2 — All-Weather Satellite Damage & Uncertainty Studio</h1>
+        <p>Pre-Event VHR Optical + Post-Event X-Band SAR Cross-Modal Triage & Stress-Testing Console</p>
+      </div>
+    </div>
+    <div class="header-controls">
+      <span class="pill" id="devicePill"><span class="dot" id="engineDot"></span><span id="deviceText">Connecting...</span></span>
+      <select id="ckptSelect" style="width: auto; max-width: 280px;" title="Select discovered .pth checkpoint">
+        <option value="">Demo Preview Mode (No .pth Loaded)</option>
+      </select>
+      <button class="btn secondary" style="width:auto;" onclick="promptCheckpointPath()">Set .pth Path</button>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" onclick="switchTab('studio', this)">1. Live Tile Triage Studio</button>
+    <button class="tab-btn" onclick="switchTab('stress', this)">2. All-Weather Stress Lab (M6)</button>
+    <button class="tab-btn" onclick="switchTab('hazards', this)">3. Cross-Hazard & 144-Tile Audit (M7)</button>
+    <button class="tab-btn" onclick="switchTab('setup', this)">4. Trained Checkpoint Setup & Model Card</button>
+  </nav>
+
+  <main>
+    <!-- TAB 1: LIVE TILE TRIAGE STUDIO -->
+    <section id="tab-studio" class="tab-pane active">
+      <div class="studio-grid">
+        <!-- LEFT CONTROL RAIL -->
+        <div class="card">
+          <div class="card-title">
+            <span>Input & Sensor Controls</span>
+            <span id="statusSpinner" style="color:var(--accent);font-size:11px;">Ready</span>
+          </div>
+
+          <label class="field-lbl">1. Satellite Scene / Discovered GeoTIFF</label>
+          <select id="sceneSelect" onchange="clearCustomUploadsAndRun()"></select>
+
+          <details style="margin-top:8px; background:var(--bg-2); padding:8px 10px; border-radius:8px; border:1px solid var(--border);">
+            <summary style="font-size:12px; font-weight:600; cursor:pointer; color:var(--accent);">Upload Custom .tif / .png Pair</summary>
+            <label class="field-lbl">Pre-Event Optical (RGB .tif/.png)</label>
+            <input type="file" id="filePreOpt" accept=".tif,.tiff,.png,.jpg,.jpeg" />
+            <label class="field-lbl">Post-Event SAR (1-ch .tif/.png)</label>
+            <input type="file" id="filePostSar" accept=".tif,.tiff,.png,.jpg,.jpeg" />
+            <label class="field-lbl">Optional Ground Truth Mask (.tif/.png)</label>
+            <input type="file" id="fileTarget" accept=".tif,.tiff,.png" />
+            <button class="btn secondary" style="margin-top:8px;" onclick="runPrediction(true)">Run Uploaded Pair</button>
+          </details>
+
+          <label class="field-lbl">2. Architecture Variant (`v0.2`)</label>
+          <select id="variantSelect" onchange="runPrediction(false)">
+            <option value="lite_gated_fusion_v0_2">Lite Gated Fusion (Ours — 26.78M)</option>
+            <option value="dual_concat_v0_2">Dual-Stream Concat (26.32M)</option>
+            <option value="optical_only_v0_2">Optical-Only Control (14.43M)</option>
+            <option value="sar_only_v0_2">SAR-Only Control (14.43M)</option>
+          </select>
+
+          <label class="field-lbl">3. All-Weather Degradation Simulator</label>
+          <select id="corruptionSelect" onchange="onCorruptionChange()">
+            <option value="clean">Clean Archive + Clean SAR</option>
+            <option value="cloud_occlusion">Pre-Optical Cloud Occlusion</option>
+            <option value="smoke_haze">Wildfire Smoke & Koschmieder Haze</option>
+            <option value="optical_dropout">Archive Optical Swath Dropout</option>
+            <option value="sar_speckle">Post-SAR Nakagami Speckle (ENL)</option>
+            <option value="compound_storm">Compound Storm (Cloud + Smoke + SAR)</option>
+          </select>
+
+          <label class="field-lbl" style="display:flex;justify-content:space-between;">
+            <span>Degradation Severity</span>
+            <span id="sevReadout" style="color:var(--accent);">0.00</span>
+          </label>
+          <input type="range" id="severityRange" min="0" max="1" step="0.05" value="0"
+                 oninput="document.getElementById('sevReadout').textContent = Number(this.value).toFixed(2)"
+                 onchange="runPrediction(false)" />
+          <div style="display:flex;justify-content:space-between;font-size:10.5px;color:var(--text-2);margin-top:2px;">
+            <span>0.0 (Clean)</span><span>0.25</span><span>0.50</span><span>0.75</span><span>1.0 (Extreme)</span>
+          </div>
+
+          <div style="margin-top:14px;">
+            <button class="btn" onclick="runPrediction(false)">Run Multimodal Triage</button>
+          </div>
+
+          <div style="margin-top:12px; padding-top:10px; border-top:1px solid var(--border); font-size:11.5px; color:var(--text-2);" id="engineModeBanner">
+            Initializing engine...
+          </div>
+        </div>
+
+        <!-- CENTER SYNCHRONIZED SPLIT-SWIPE MAP VIEWER -->
+        <div class="card">
+          <div class="viewer-toolbar">
+            <div class="grp">
+              <span>Left Base:</span>
+              <select id="leftLayerSelect" onchange="redrawCanvas()">
+                <option value="pre_optical">Pre-Event Optical</option>
+                <option value="post_sar">Post-Event SAR</option>
+              </select>
+            </div>
+            <div class="grp">
+              <span>Right / Overlay:</span>
+              <select id="rightLayerSelect" onchange="redrawCanvas()">
+                <option value="predicted_damage">Predicted Damage Map</option>
+                <option value="entropy">Shannon Entropy [0,1]</option>
+                <option value="prior_gate">Spatial Prior Gate g(x,y)</option>
+                <option value="post_sar">Post-Event SAR</option>
+                <option value="ground_truth">Ground Truth Mask</option>
+              </select>
+            </div>
+            <div class="grp">
+              <span>Split:</span>
+              <input type="range" id="splitSlider" min="0" max="100" value="50" style="width:78px;" oninput="redrawCanvas()" />
+            </div>
+            <div class="grp">
+              <span>Blend:</span>
+              <input type="range" id="alphaSlider" min="25" max="100" value="88" style="width:68px;" oninput="redrawCanvas()" />
+            </div>
+            <label style="font-size:11.5px;display:flex;align-items:center;gap:4px;cursor:pointer;">
+              <input type="checkbox" id="showGridChk" checked onchange="redrawCanvas()" /> 4x4 Triage Grid
+            </label>
+          </div>
+
+          <div class="canvas-wrap" id="canvasWrap">
+            <canvas id="triageCanvas" width="512" height="512"></canvas>
+          </div>
+
+          <div class="legend-row">
+            <span><i class="swatch" style="background:#181c24;"></i>0: Background</span>
+            <span><i class="swatch" style="background:#2ecc71;"></i>1: Intact</span>
+            <span><i class="swatch" style="background:#f39c12;"></i>2: Damaged</span>
+            <span><i class="swatch" style="background:#e74c3c;"></i>3: Destroyed</span>
+            <span id="cursorReadout" style="color:var(--accent);font-weight:600;">Drag split line or click sector</span>
+          </div>
+
+          <div class="kpi-strip">
+            <div class="kpi">
+              <div class="k-lbl">Building Footprint</div>
+              <div class="k-val" id="kpiBldg">--%</div>
+              <div class="k-sub" id="kpiShape">-- x -- px</div>
+            </div>
+            <div class="kpi">
+              <div class="k-lbl">Predicted Destroyed</div>
+              <div class="k-val" id="kpiDest" style="color:#f87171;">-- px</div>
+              <div class="k-sub" id="kpiGate">Prior gate mean: --</div>
+            </div>
+            <div class="kpi">
+              <div class="k-lbl">Mean Bldg Entropy</div>
+              <div class="k-val" id="kpiEnt" style="color:#fbbf24;">--</div>
+              <div class="k-sub">Normalized [0, 1]</div>
+            </div>
+            <div class="kpi">
+              <div class="k-lbl" id="kpiEvalTitle">Latency / GT Score</div>
+              <div class="k-val" id="kpiEvalVal" style="color:var(--accent);">-- ms</div>
+              <div class="k-sub" id="kpiEvalSub">Inference wall-clock</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT SECTOR PRIORITY & EXPORT RAIL -->
+        <div class="card">
+          <div class="card-title">
+            <span>Human-Review Sector Queue</span>
+            <span style="font-size:11px;color:var(--warn);">Click Row to Highlight</span>
+          </div>
+
+          <div class="cls-bar" id="classDistBar"></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-2);margin-bottom:10px;" id="classPctText"></div>
+
+          <div class="sector-list">
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Sector</th>
+                  <th>Bldg%</th>
+                  <th>Entropy</th>
+                  <th>Score</th>
+                  <th>Flag</th>
+                </tr>
+              </thead>
+              <tbody id="sectorTableBody"></tbody>
+            </table>
+          </div>
+
+          <div id="gtMetricsBox" style="display:none; margin-top:12px; padding:10px; border-radius:8px; background:var(--bg-2); border:1px solid var(--border); font-size:12px;"></div>
+
+          <div class="btn-row">
+            <button class="btn secondary" onclick="downloadReportJson()">Export Triage JSON</button>
+            <button class="btn secondary" onclick="downloadMaskPng()">Save Damage PNG</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: ALL-WEATHER STRESS LAB (MILESTONE 6) -->
+    <section id="tab-stress" class="tab-pane">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">
+            <span>Milestone 6 — Interactive Degradation Curves (104 Unseen Test Tiles)</span>
+            <div style="display:flex;gap:8px;">
+              <select id="m6CorrSelect" onchange="renderM6Chart()" style="width:auto;padding:4px 8px;font-size:12px;">
+                <option value="smoke_haze">Wildfire Smoke & Haze</option>
+                <option value="compound_storm">Compound Storm (Cloud+Smoke+SAR)</option>
+                <option value="cloud_occlusion">Pre-Optical Cloud Occlusion</option>
+                <option value="optical_dropout">Archive Optical Swath Dropout</option>
+                <option value="sar_speckle">Post-SAR Nakagami Speckle</option>
+              </select>
+              <select id="m6MetricSelect" onchange="renderM6Chart()" style="width:auto;padding:4px 8px;font-size:12px;">
+                <option value="mIoU_foreground3">Damage mIoU (3-cls %)</option>
+                <option value="bright_loc_f1">Building Loc-F1 (%)</option>
+                <option value="retention_mIoU_fg3_pct">Relative mIoU Retention (%)</option>
+              </select>
+            </div>
+          </div>
+          <div id="m6SvgContainer" style="width:100%;height:320px;"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>5-Corruption Area Under Degradation Curve (AUDC %)</span></div>
+          <table class="tbl" id="audcTable">
+            <thead>
+              <tr>
+                <th>Model (`v0.2`)</th>
+                <th>Cloud mIoU</th>
+                <th>Smoke s=0.75</th>
+                <th>Storm AUDC</th>
+                <th>Mean mIoU AUDC</th>
+                <th>Mean Loc AUDC</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <div style="margin-top:14px;">
+            <div class="card-title"><span>Learned `LitePriorGatedFusion` LayerScale |gamma| Profile</span></div>
+            <div id="gammaBars" style="font-size:12px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Verified Qualitative Degradation & Spatial Prior-Gate Contours (`marshall-wildfire_00000035`)</span></div>
+        <img class="fig-img" src="results/figures/stress_test_v0_2_corruptions_and_gates.png" alt="Stress Test Gate Response" />
+      </div>
+    </section>
+
+    <!-- TAB 3: CROSS-HAZARD & 144-TILE AUDIT (MILESTONE 7) -->
+    <section id="tab-hazards" class="tab-pane">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">
+            <span>Unseen Test-104 Row-Normalized 4x4 Confusion Matrix</span>
+            <select id="cmModelSelect" onchange="renderConfusionMatrix()" style="width:auto;padding:4px 8px;font-size:12px;">
+              <option value="lite_gated_fusion_v0_2">Lite Gated Fusion (Ours)</option>
+              <option value="dual_concat_v0_2">Dual Concat (v0.2)</option>
+              <option value="optical_only_v0_2">Optical-Only (v0.2)</option>
+              <option value="sar_only_v0_2">SAR-Only (v0.2)</option>
+            </select>
+          </div>
+          <div id="cmContainer" class="cm-grid"></div>
+          <div id="cmStatsRow" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Disaggregated Performance Across 5 Held-Out Disasters (144 Tiles)</span></div>
+          <table class="tbl" id="hazardTable">
+            <thead>
+              <tr>
+                <th>Held-Out Disaster</th>
+                <th>Opt-Only mIoU</th>
+                <th>Dual Concat mIoU</th>
+                <th>Lite Gated mIoU</th>
+                <th>Lite Gated Loc-F1</th>
+                <th>Lite Gated Dest-F1</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">
+          <span>Searchable 144-Tile Held-Out Audit Explorer (`per_tile_audit_v0_2.csv`)</span>
+          <span id="tileCountBadge" style="color:var(--accent);">144 tiles</span>
+        </div>
+        <div class="filter-bar">
+          <input type="text" id="tileSearchInput" placeholder="Filter by sample_id (e.g. marshall, noto_00000038)..." oninput="renderTileAuditTable()" />
+          <select id="tileEventFilter" onchange="renderTileAuditTable()">
+            <option value="ALL">All 5 Held-Out Disasters</option>
+            <option value="marshall-wildfire">marshall-wildfire (Test, n=25)</option>
+            <option value="noto-earthquake">noto-earthquake (Test, n=79)</option>
+            <option value="beirut-explosion">beirut-explosion (Val, n=15)</option>
+            <option value="congo-volcano">congo-volcano (Val, n=10)</option>
+            <option value="libya-flood">libya-flood (Val, n=15)</option>
+          </select>
+          <select id="tileModeFilter" onchange="renderTileAuditTable()">
+            <option value="ALL">All Physical Error / Success Tags</option>
+            <option value="cross_event_success">cross_event_success</option>
+            <option value="rubble_destroyed_as_intact">rubble_destroyed_as_intact</option>
+            <option value="sub_roof_damaged_as_intact">sub_roof_damaged_as_intact</option>
+            <option value="sar_layover_or_clutter_fp">sar_layover_or_clutter_fp</option>
+            <option value="missed_small_or_sparse_buildings">missed_small_or_sparse_buildings</option>
+          </select>
+        </div>
+        <div style="max-height:310px;overflow-y:auto;border:1px solid var(--border);border-radius:8px;">
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th>Sample ID</th>
+                <th>Event</th>
+                <th>GT Bldg%</th>
+                <th>GT Dest%</th>
+                <th>Opt IoU</th>
+                <th>Concat IoU</th>
+                <th>Lite Gated IoU</th>
+                <th>Gated Loc-F1</th>
+                <th>Gated Dest-F1</th>
+                <th>Dominant Mode</th>
+              </tr>
+            </thead>
+            <tbody id="tileAuditBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Automated 5-Case Cross-Hazard Success & Physical Failure Gallery</span></div>
+        <img class="fig-img" src="results/figures/failure_modes_gallery_v0_2.png" alt="Failure Modes Gallery" />
+      </div>
+    </section>
+
+    <!-- TAB 4: TRAINED CHECKPOINT SETUP & MODEL CARD -->
+    <section id="tab-setup" class="tab-pane">
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title"><span>How to Connect Your Trained `v0.2` Checkpoint (`51 MB` fp16) Locally</span></div>
+          <p style="font-size:13px;color:var(--text-1);margin-bottom:10px;">
+            To keep Git history lightweight (&lt;15 MB), `.pth` model weights and `.tif` GeoTIFFs are excluded via <code>.gitignore</code>. Place your Kaggle-exported <code>lite_gated_fusion_v0_2_fp16.pth</code> (51 MB) and optional <code>demo_unseen_tiles.zip</code> (3 MB) inside <code>exports/</code>:
+          </p>
+          <pre class="code-box">cd /Users/rakib/GeoResQ/GeoResQ
+mkdir -p exports
+# Move downloaded Kaggle exports into exports/ (auto-detected by dashboard!):
+mv ~/Downloads/lite_gated_fusion_v0_2_fp16.pth exports/ 2>/dev/null || true
+unzip -o ~/Downloads/demo_unseen_tiles.zip -d exports/ 2>/dev/null || true
+
+# Launch interactive visual dashboard on Apple Silicon MPS / CUDA / CPU:
+python3 scripts/run_dashboard.py --port 8000</pre>
+          <p style="font-size:12.5px;color:var(--text-2);margin-top:8px;">
+            Once placed in <code>exports/</code>, refresh this page: the top-right pill turns green (<strong>Trained PyTorch Checkpoint on MPS/CUDA</strong>) and real <code>marshall-wildfire</code> &amp; <code>noto-earthquake</code> GeoTIFF tiles appear automatically in the Scene dropdown!
+          </p>
+        </div>
+
+        <div class="card">
+          <div class="card-title"><span>Responsible-AI Guardrails & Physical Limitations</span></div>
+          <ul style="padding-left:18px;font-size:13px;color:var(--text-1);display:grid;gap:8px;">
+            <li><strong>Mandatory Human-in-the-Loop Verification:</strong> Ranked sectors (<code>R1C1..R4C4</code>) and Shannon entropy maps are triage aids for qualified imagery analysts, never autonomous dispatch triggers.</li>
+            <li><strong>Sub-Roof Damage Ambiguity (Class 2):</strong> Floodwater silt (<code>libya-flood</code>) and shockwave facade damage (<code>beirut-explosion</code>) preserve nadir roof silhouettes, routing moderate damage to <code>Intact</code>.</li>
+            <li><strong>Pancaked Timber Rubble vs. Ash/Lava:</strong> Multimodal SAR fusion excels when corner reflections vanish (lava/wildfire ash), whereas fractured ceramic roof rubble (<code>noto-earthquake</code>) retains strong radar backscatter.</li>
+            <li><strong>Prohibited Contexts:</strong> Strictly prohibited for armed-conflict targeting, surveillance, or automated insurance/financial claim denial.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title"><span>Milestone 5 Qualitative Predictions (`v0.2` Multi-Hazard Benchmark)</span></div>
+        <img class="fig-img" src="results/figures/benchmark_v0_2_predictions.png" alt="Milestone 5 Predictions" />
+      </div>
+    </section>
+  </main>
+
+  <script>
+    let latestPrediction = null;
+    let benchmarkData = null;
+    let loadedImages = {};
+    let selectedSectorId = null;
+    let draggingSplit = false;
+
+    function switchTab(tabId, btnEl) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById('tab-' + tabId).classList.add('active');
+      btnEl.classList.add('active');
+      if (tabId === 'stress' && benchmarkData) renderM6Chart();
+      if (tabId === 'hazards' && benchmarkData) renderConfusionMatrix();
+    }
+
+    async function initDashboard() {
+      const statusRes = await fetch('api/status').then(r => r.json());
+      document.getElementById('deviceText').textContent = statusRes.device;
+
+      const ckptSel = document.getElementById('ckptSelect');
+      ckptSel.innerHTML = '<option value="">Demo Preview Mode (No .pth Loaded)</option>';
+      statusRes.discovered_checkpoints.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.path;
+        opt.textContent = `${c.name} (${c.size_mb} MB)`;
+        if (statusRes.active_checkpoint === c.path) opt.selected = true;
+        ckptSel.appendChild(opt);
+      });
+      ckptSel.onchange = async () => {
+        await fetch('api/set-checkpoint', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({path: ckptSel.value})
+        });
+        runPrediction(false);
+      };
+
+      const sceneSel = document.getElementById('sceneSelect');
+      sceneSel.innerHTML = '';
+      if (statusRes.discovered_real_tiles.length > 0) {
+        const grpReal = document.createElement('optgroup');
+        grpReal.label = 'Discovered Real BRIGHT GeoTIFF Tiles';
+        statusRes.discovered_real_tiles.forEach(t => {
+          const o = document.createElement('option');
+          o.value = t.id;
+          o.textContent = t.sample_id;
+          grpReal.appendChild(o);
+        });
+        sceneSel.appendChild(grpReal);
+      }
+      const grpBuilt = document.createElement('optgroup');
+      grpBuilt.label = 'Built-in Procedural Test Scenes';
+      statusRes.builtin_scenes.forEach(s => {
+        const o = document.createElement('option');
+        o.value = s.id;
+        o.textContent = s.label;
+        grpBuilt.appendChild(o);
+      });
+      sceneSel.appendChild(grpBuilt);
+
+      setupCanvasInteractions();
+      await runPrediction(false);
+
+      benchmarkData = await fetch('api/benchmarks').then(r => r.json());
+      populateStressAndHazardTabs();
+    }
+
+    async function promptCheckpointPath() {
+      const p = prompt('Enter full or relative path to a trained GeoResQ .pth checkpoint (e.g. exports/lite_gated_fusion_v0_2_fp16.pth):');
+      if (p === null) return;
+      const res = await fetch('api/set-checkpoint', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({path: p.trim()})
+      }).then(r => r.json());
+      if (res.error) {
+        alert(res.error);
+        return;
+      }
+      await initDashboard();
+    }
+
+    function onCorruptionChange() {
+      const c = document.getElementById('corruptionSelect').value;
+      const rng = document.getElementById('severityRange');
+      if (c === 'clean') {
+        rng.value = 0;
+      } else if (Number(rng.value) === 0) {
+        rng.value = 0.65;
+      }
+      document.getElementById('sevReadout').textContent = Number(rng.value).toFixed(2);
+      runPrediction(false);
+    }
+
+    function clearCustomUploadsAndRun() {
+      document.getElementById('filePreOpt').value = '';
+      document.getElementById('filePostSar').value = '';
+      document.getElementById('fileTarget').value = '';
+      runPrediction(false);
+    }
+
+    function fileToDataUrl(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function runPrediction(useUploads) {
+      const spinner = document.getElementById('statusSpinner');
+      spinner.textContent = 'Running...';
+
+      const payload = {
+        scene_id: document.getElementById('sceneSelect').value,
+        variant_id: document.getElementById('variantSelect').value,
+        corruption: document.getElementById('corruptionSelect').value,
+        severity: Number(document.getElementById('severityRange').value),
+        checkpoint_path: document.getElementById('ckptSelect').value || null,
+        grid_size: 4
+      };
+
+      const fPre = document.getElementById('filePreOpt').files[0];
+      const fPost = document.getElementById('filePostSar').files[0];
+      const fTgt = document.getElementById('fileTarget').files[0];
+      if (useUploads || (fPre && fPost)) {
+        if (!fPre || !fPost) {
+          alert('Please select both Pre-Event Optical and Post-Event SAR files.');
+          spinner.textContent = 'Ready';
+          return;
+        }
+        payload.pre_opt_b64 = await fileToDataUrl(fPre);
+        payload.post_sar_b64 = await fileToDataUrl(fPost);
+        payload.custom_label = fPre.name.replace(/\.[^.]+$/, '');
+        if (fTgt) payload.target_b64 = await fileToDataUrl(fTgt);
+      }
+
+      const res = await fetch('api/predict', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(payload)
+      }).then(r => r.json());
+
+      if (res.error) {
+        spinner.textContent = 'Error';
+        alert('Inference Error: ' + res.error);
+        return;
+      }
+
+      latestPrediction = res;
+      selectedSectorId = res.sectors.length ? res.sectors[0].sector_id : null;
+
+      // Preload layer images
+      loadedImages = {};
+      const entries = Object.entries(res.layers).filter(([, uri]) => Boolean(uri));
+      await Promise.all(entries.map(([k, uri]) => new Promise(resolve => {
+        const img = new Image();
+        img.onload = () => { loadedImages[k] = img; resolve(); };
+        img.src = uri;
+      })));
+
+      updateStudioUI(res);
+      redrawCanvas();
+      spinner.textContent = `${res.inference_ms} ms`;
+    }
+
+    function updateStudioUI(res) {
+      const dot = document.getElementById('engineDot');
+      dot.className = res.trained_checkpoint_loaded ? 'dot' : 'dot demo';
+      document.getElementById('engineModeBanner').innerHTML =
+        `<strong>Active Engine:</strong> ${res.engine_mode}<br>` +
+        `<strong>Scene:</strong> ${res.tile_label} | <strong>Input Perturbation:</strong> opt MAE=${res.corruption_diagnostics.opt_mae_u8}, sar MAE=${res.corruption_diagnostics.sar_mae_u8}`;
+
+      document.getElementById('kpiBldg').textContent = `${res.summary.building_coverage_pct.toFixed(1)}%`;
+      document.getElementById('kpiShape').textContent = `${res.shape_hw[0]} x ${res.shape_hw[1]} px`;
+      document.getElementById('kpiDest').textContent = res.summary.destroyed_pixels.toLocaleString() + ' px';
+      document.getElementById('kpiGate').textContent = `Prior gate mean: ${res.gate_mean.toFixed(3)}`;
+      document.getElementById('kpiEnt').textContent = res.summary.mean_entropy_buildings.toFixed(3);
+
+      const gtBox = document.getElementById('gtMetricsBox');
+      if (res.ground_truth_evaluation) {
+        const g = res.ground_truth_evaluation;
+        document.getElementById('kpiEvalTitle').textContent = 'Tile Loc-F1 / mIoU3';
+        document.getElementById('kpiEvalVal').textContent = `${(g.bright_loc_f1 * 100).toFixed(1)}%`;
+        document.getElementById('kpiEvalSub').textContent = `mIoU_fg3: ${(g.mIoU_foreground3 * 100).toFixed(1)}% (${res.inference_ms}ms)`;
+        gtBox.style.display = 'block';
+        gtBox.innerHTML =
+          `<div style="font-weight:700;color:var(--accent);margin-bottom:4px;">Ground-Truth Tile Evaluation</div>` +
+          `Loc-F1: <strong>${(g.bright_loc_f1 * 100).toFixed(2)}%</strong> | ` +
+          `mIoU_fg3: <strong>${(g.mIoU_foreground3 * 100).toFixed(2)}%</strong> | ` +
+          `Destroyed F1: <strong>${(g.per_class.destroyed.f1 * 100).toFixed(2)}%</strong>`;
+      } else {
+        document.getElementById('kpiEvalTitle').textContent = 'Inference Latency';
+        document.getElementById('kpiEvalVal').textContent = `${res.inference_ms} ms`;
+        document.getElementById('kpiEvalSub').textContent = 'No ground truth mask';
+        gtBox.style.display = 'none';
+      }
+
+      // Class distribution bar
+      const cb = res.summary.class_breakdown;
+      const colors = {background: '#334155', intact: '#2ecc71', damaged: '#f39c12', destroyed: '#e74c3c'};
+      document.getElementById('classDistBar').innerHTML = Object.entries(cb)
+        .map(([k, v]) => `<div style="width:${Math.max(v.pct, 0.5)}%;background:${colors[k]};" title="${k}: ${v.pct}%"></div>`)
+        .join('');
+      document.getElementById('classPctText').innerHTML =
+        `<span>Bg ${cb.background.pct}%</span>` +
+        `<span style="color:#4ade80;">Intact ${cb.intact.pct}%</span>` +
+        `<span style="color:#fbbf24;">Dmg ${cb.damaged.pct}%</span>` +
+        `<span style="color:#f87171;">Dest ${cb.destroyed.pct}%</span>`;
+
+      // Sector Priority Queue
+      const tbody = document.getElementById('sectorTableBody');
+      tbody.innerHTML = '';
+      res.sectors.forEach((sec, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'sec-row' + (sec.sector_id === selectedSectorId ? ' selected' : '');
+        let bCls = 'ok', bTxt = 'Routine';
+        if (sec.review_reason === 'high_predicted_severe_damage') { bCls = 'crit'; bTxt = 'Severe'; }
+        else if (sec.review_reason === 'elevated_predictive_uncertainty') { bCls = 'unc'; bTxt = 'Uncertain'; }
+        else if (sec.review_reason === 'sparse_background_low_priority') { bCls = 'ok'; bTxt = 'Sparse'; }
+
+        tr.innerHTML =
+          `<td>${idx + 1}</td>` +
+          `<td style="font-weight:700;color:var(--text-0);">${sec.sector_id}</td>` +
+          `<td>${sec.building_coverage_pct.toFixed(1)}%</td>` +
+          `<td>${sec.mean_entropy.toFixed(3)}</td>` +
+          `<td style="font-weight:700;">${sec.triage_priority_score.toFixed(3)}</td>` +
+          `<td><span class="badge ${bCls}">${bTxt}</span></td>`;
+        tr.onclick = () => {
+          selectedSectorId = sec.sector_id;
+          document.querySelectorAll('#sectorTableBody tr').forEach(r => r.classList.remove('selected'));
+          tr.classList.add('selected');
+          redrawCanvas();
+        };
+        tbody.appendChild(tr);
+      });
+    }
+
+    function redrawCanvas() {
+      if (!latestPrediction) return;
+      const canvas = document.getElementById('triageCanvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width, H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      const leftKey = document.getElementById('leftLayerSelect').value;
+      const rightKey = document.getElementById('rightLayerSelect').value;
+      const splitPct = Number(document.getElementById('splitSlider').value) / 100.0;
+      const alpha = Number(document.getElementById('alphaSlider').value) / 100.0;
+      const splitX = Math.round(W * splitPct);
+
+      const leftImg = loadedImages[leftKey] || loadedImages.pre_optical;
+      const rightImg = loadedImages[rightKey] || loadedImages.predicted_damage;
+
+      if (leftImg) ctx.drawImage(leftImg, 0, 0, W, H);
+
+      if (rightImg) {
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(splitX, 0, W - splitX, H);
+        ctx.clip();
+        if (leftImg) ctx.drawImage(leftImg, 0, 0, W, H);
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(rightImg, 0, 0, W, H);
+        ctx.restore();
+      }
+
+      // Split curtain vertical handle
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(splitX, 0);
+      ctx.lineTo(splitX, H);
+      ctx.stroke();
+      ctx.fillStyle = '#0f172a';
+      ctx.strokeStyle = '#38bdf8';
+      ctx.beginPath();
+      ctx.arc(splitX, H / 2, 11, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.stroke();
+      ctx.fillStyle = '#38bdf8';
+      ctx.font = 'bold 10px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('<>', splitX, H / 2 + 3.5);
+
+      // Optional 4x4 sector overlay & active sector highlight
+      if (document.getElementById('showGridChk').checked && latestPrediction.sectors) {
+        const origH = latestPrediction.shape_hw[0], origW = latestPrediction.shape_hw[1];
+        const sy = H / origH, sx = W / origW;
+        latestPrediction.sectors.forEach((sec, rankIdx) => {
+          const [y0, y1, x0, x1] = sec.bbox_yx;
+          const rx = x0 * sx, ry = y0 * sy, rw = (x1 - x0) * sx, rh = (y1 - y0) * sy;
+          const isSel = sec.sector_id === selectedSectorId;
+          ctx.strokeStyle = isSel ? '#fde047' : 'rgba(148, 163, 184, 0.30)';
+          ctx.lineWidth = isSel ? 2.6 : 1;
+          ctx.strokeRect(rx + 1, ry + 1, rw - 2, rh - 2);
+          if (isSel || rankIdx < 3) {
+            ctx.fillStyle = isSel ? 'rgba(250, 204, 21, 0.90)' : 'rgba(15, 23, 42, 0.72)';
+            ctx.fillRect(rx + 3, ry + 3, 54, 16);
+            ctx.fillStyle = isSel ? '#0f172a' : '#38bdf8';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(`#${rankIdx + 1} ${sec.sector_id}`, rx + 6, ry + 14);
+          }
+        });
+      }
+    }
+
+    function setupCanvasInteractions() {
+      const canvas = document.getElementById('triageCanvas');
+      const slider = document.getElementById('splitSlider');
+
+      function getCanvasPos(ev) {
+        const rect = canvas.getBoundingClientRect();
+        const clientX = ev.touches ? ev.touches[0].clientX : ev.clientX;
+        const clientY = ev.touches ? ev.touches[0].clientY : ev.clientY;
+        return {
+          x: ((clientX - rect.left) / rect.width) * canvas.width,
+          y: ((clientY - rect.top) / rect.height) * canvas.height
+        };
+      }
+
+      canvas.addEventListener('mousedown', ev => {
+        const pos = getCanvasPos(ev);
+        const splitX = (Number(slider.value) / 100) * canvas.width;
+        if (Math.abs(pos.x - splitX) < 18) {
+          draggingSplit = true;
+        } else if (latestPrediction && latestPrediction.sectors) {
+          const sy = latestPrediction.shape_hw[0] / canvas.height;
+          const sx = latestPrediction.shape_hw[1] / canvas.width;
+          const oy = pos.y * sy, ox = pos.x * sx;
+          const hit = latestPrediction.sectors.find(s => oy >= s.bbox_yx[0] && oy <= s.bbox_yx[1] && ox >= s.bbox_yx[2] && ox <= s.bbox_yx[3]);
+          if (hit) {
+            selectedSectorId = hit.sector_id;
+            updateStudioUI(latestPrediction);
+            redrawCanvas();
+          }
+        }
+      });
+
+      window.addEventListener('mouseup', () => { draggingSplit = false; });
+      canvas.addEventListener('mousemove', ev => {
+        const pos = getCanvasPos(ev);
+        if (draggingSplit) {
+          slider.value = Math.max(0, Math.min(100, Math.round((pos.x / canvas.width) * 100)));
+          redrawCanvas();
+        }
+        if (latestPrediction) {
+          const gy = Math.floor((pos.y / canvas.height) * latestPrediction.shape_hw[0]);
+          const gx = Math.floor((pos.x / canvas.width) * latestPrediction.shape_hw[1]);
+          document.getElementById('cursorReadout').textContent = `Cursor: (y=${gy}, x=${gx})`;
+        }
+      });
+    }
+
+    function downloadReportJson() {
+      if (!latestPrediction) return;
+      const copy = {...latestPrediction};
+      delete copy.layers;
+      const blob = new Blob([JSON.stringify(copy, null, 2)], {type: 'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `georesq_triage_${Date.now()}.json`;
+      a.click();
+    }
+
+    function downloadMaskPng() {
+      if (!latestPrediction || !latestPrediction.layers.predicted_damage) return;
+      const a = document.createElement('a');
+      a.href = latestPrediction.layers.predicted_damage;
+      a.download = `georesq_damage_mask_${Date.now()}.png`;
+      a.click();
+    }
+
+    /* TAB 2 & TAB 3 ANALYTICS RENDERERS */
+    function populateStressAndHazardTabs() {
+      if (!benchmarkData) return;
+
+      // AUDC Table & Gammas
+      const st = benchmarkData.stress_test_v0_2;
+      if (st) {
+        const audcBody = document.querySelector('#audcTable tbody');
+        const names = {
+          optical_only_v0_2: 'Optical-Only (v0.2)',
+          sar_only_v0_2: 'SAR-Only (v0.2)',
+          dual_concat_v0_2: 'Dual Concat (v0.2)',
+          lite_gated_fusion_v0_2: 'Lite Gated Fusion (Ours)'
+        };
+        audcBody.innerHTML = Object.keys(names).map(vid => {
+          const a = st.audc_summary[vid];
+          const smoke75 = (st.results_by_corruption.smoke_haze[vid][3].mIoU_foreground3 * 100).toFixed(2);
+          return `<tr>
+            <td style="font-weight:700;color:var(--text-0);">${names[vid]}</td>
+            <td>${a.cloud_occlusion_audc_mIoU_fg3_pct.toFixed(2)}%</td>
+            <td>${smoke75}%</td>
+            <td>${a.compound_storm_audc_mIoU_fg3_pct.toFixed(2)}%</td>
+            <td style="font-weight:700;">${a.mean_audc_mIoU_fg3_pct.toFixed(2)}%</td>
+            <td style="font-weight:700;color:var(--accent);">${a.mean_audc_loc_f1_pct.toFixed(2)}%</td>
+          </tr>`;
+        }).join('');
+
+        const g = st.learned_lite_gated_layerscale_gammas || {};
+        const stages = ['stage0_1_2', 'stage1_1_4', 'stage2_1_8', 'stage3_1_16', 'stage4_1_32'];
+        document.getElementById('gammaBars').innerHTML = stages.map(s => {
+          const val = g[s] || 0;
+          const wPct = Math.min(100, (val / 0.065) * 100);
+          return `<div style="margin:6px 0;">
+            <div style="display:flex;justify-content:space-between;"><span>${s}</span><strong>${val.toFixed(5)}</strong></div>
+            <div style="background:var(--bg-3);height:7px;border-radius:4px;margin-top:2px;">
+              <div style="width:${wPct}%;height:100%;background:var(--accent);border-radius:4px;"></div>
+            </div>
+          </div>`;
+        }).join('');
+        renderM6Chart();
+      }
+
+      // Hazard table & 144-tile audit
+      const fa = benchmarkData.failure_analysis_v0_2;
+      if (fa) {
+        const hBody = document.querySelector('#hazardTable tbody');
+        hBody.innerHTML = Object.entries(fa.per_event_heldout_summary).map(([ev, byV]) => {
+          const optM = (byV.optical_only_v0_2.mIoU_foreground3 * 100).toFixed(2);
+          const catM = (byV.dual_concat_v0_2.mIoU_foreground3 * 100).toFixed(2);
+          const gatM = (byV.lite_gated_fusion_v0_2.mIoU_foreground3 * 100).toFixed(2);
+          const gatL = (byV.lite_gated_fusion_v0_2.bright_loc_f1 * 100).toFixed(2);
+          const gatD = (byV.lite_gated_fusion_v0_2.per_class.destroyed.f1 * 100).toFixed(2);
+          return `<tr>
+            <td style="font-weight:700;color:var(--text-0);">${ev}</td>
+            <td>${optM}%</td>
+            <td>${catM}%</td>
+            <td style="font-weight:700;color:var(--accent);">${gatM}%</td>
+            <td>${gatL}%</td>
+            <td>${gatD}%</td>
+          </tr>`;
+        }).join('');
+        renderConfusionMatrix();
+        renderTileAuditTable();
+      }
+    }
+
+    function renderM6Chart() {
+      const st = benchmarkData?.stress_test_v0_2;
+      if (!st) return;
+      const corr = document.getElementById('m6CorrSelect').value;
+      const metric = document.getElementById('m6MetricSelect').value;
+      const seriesByModel = st.results_by_corruption[corr];
+      const styles = {
+        optical_only_v0_2: {color: '#3b82f6', label: 'Optical-Only'},
+        sar_only_v0_2: {color: '#f59e0b', label: 'SAR-Only'},
+        dual_concat_v0_2: {color: '#10b981', label: 'Dual Concat'},
+        lite_gated_fusion_v0_2: {color: '#ef4444', label: 'Lite Gated (Ours)'}
+      };
+
+      const W = 640, H = 295, padL = 48, padR = 22, padT = 24, padB = 38;
+      let maxY = 10;
+      Object.values(seriesByModel).forEach(pts => {
+        pts.forEach(p => {
+          const val = metric.endsWith('_pct') ? p[metric] : p[metric] * 100;
+          if (val > maxY) maxY = val;
+        });
+      });
+      maxY = Math.ceil(maxY * 1.12);
+
+      const xPos = s => padL + s * (W - padL - padR);
+      const yPos = v => H - padB - (v / maxY) * (H - padT - padB);
+
+      let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:100%;">`;
+      for (let i = 0; i <= 4; i++) {
+        const yv = (maxY * i) / 4;
+        const y = yPos(yv);
+        svg += `<line x1="${padL}" y1="${y}" x2="${W - padR}" y2="${y}" stroke="#1e293b" stroke-width="1"/>`;
+        svg += `<text x="${padL - 8}" y="${y + 4}" fill="#94a3b8" font-size="11" text-anchor="end">${yv.toFixed(0)}%</text>`;
+      }
+      [0, 0.25, 0.5, 0.75, 1.0].forEach(s => {
+        const x = xPos(s);
+        svg += `<text x="${x}" y="${H - 12}" fill="#94a3b8" font-size="11" text-anchor="middle">${s.toFixed(2)}</text>`;
+      });
+
+      let legX = padL;
+      Object.entries(styles).forEach(([vid, stInfo]) => {
+        const pts = seriesByModel[vid];
+        const pathD = pts.map((p, idx) => {
+          const val = metric.endsWith('_pct') ? p[metric] : p[metric] * 100;
+          return `${idx === 0 ? 'M' : 'L'}${xPos(p.severity).toFixed(1)},${yPos(val).toFixed(1)}`;
+        }).join(' ');
+        svg += `<path d="${pathD}" fill="none" stroke="${stInfo.color}" stroke-width="2.6"/>`;
+        pts.forEach(p => {
+          const val = metric.endsWith('_pct') ? p[metric] : p[metric] * 100;
+          svg += `<circle cx="${xPos(p.severity)}" cy="${yPos(val)}" r="4.2" fill="${stInfo.color}">
+            <title>${stInfo.label} (s=${p.severity}): ${val.toFixed(2)}%</title>
+          </circle>`;
+        });
+        svg += `<rect x="${legX}" y="4" width="11" height="11" rx="2" fill="${stInfo.color}"/>`;
+        svg += `<text x="${legX + 15}" y="13" fill="#e2e8f0" font-size="11.5" font-weight="600">${stInfo.label}</text>`;
+        legX += 142;
+      });
+      svg += `</svg>`;
+      document.getElementById('m6SvgContainer').innerHTML = svg;
+    }
+
+    function renderConfusionMatrix() {
+      const fa = benchmarkData?.failure_analysis_v0_2;
+      if (!fa) return;
+      const vid = document.getElementById('cmModelSelect').value;
+      const ed = fa.unseen_test_104_summary[vid].error_decomposition;
+      const mat = ed.row_normalized_pct;
+      const clsNames = ['Bg (0)', 'Intact (1)', 'Damaged (2)', 'Destroyed (3)'];
+
+      let html = `<div class="cm-hdr">True \\ Pred</div>` + clsNames.map(c => `<div class="cm-hdr">${c}</div>`).join('');
+      mat.forEach((row, rIdx) => {
+        html += `<div class="cm-hdr">${clsNames[rIdx]}</div>`;
+        row.forEach(val => {
+          const alpha = 0.12 + 0.78 * (val / 100.0);
+          const bg = `rgba(37, 99, 235, ${alpha.toFixed(2)})`;
+          html += `<div class="cm-cell" style="background:${bg};color:${val > 45 ? '#fff' : '#cbd5e1'};">${val.toFixed(1)}%</div>`;
+        });
+      });
+      document.getElementById('cmContainer').innerHTML = html;
+      document.getElementById('cmStatsRow').innerHTML =
+        `<div class="kpi"><div class="k-lbl">Missed Bldg FN</div><div class="k-val">${ed.missed_building_fn_rate_pct.toFixed(1)}%</div></div>` +
+        `<div class="kpi"><div class="k-lbl">False Bldg Alarm</div><div class="k-val">${ed.false_building_alarm_rate_pct.toFixed(1)}%</div></div>` +
+        `<div class="kpi"><div class="k-lbl">Cond. Severity Acc</div><div class="k-val" style="color:var(--accent);">${ed.conditional_severity_acc_given_detected_pct.toFixed(1)}%</div></div>`;
+    }
+
+    function renderTileAuditTable() {
+      const rows = benchmarkData?.per_tile_audit || [];
+      const q = document.getElementById('tileSearchInput').value.trim().toLowerCase();
+      const ev = document.getElementById('tileEventFilter').value;
+      const mode = document.getElementById('tileModeFilter').value;
+
+      const filtered = rows.filter(r => {
+        if (q && !r.sample_id.toLowerCase().includes(q)) return false;
+        if (ev !== 'ALL' && r.disaster_event !== ev) return false;
+        if (mode !== 'ALL' && r.mode_tag !== mode) return false;
+        return true;
+      });
+
+      document.getElementById('tileCountBadge').textContent = `${filtered.length} / ${rows.length} tiles`;
+      document.getElementById('tileAuditBody').innerHTML = filtered.map(r => `<tr>
+        <td style="font-weight:600;color:var(--text-0);">${r.sample_id}</td>
+        <td>${r.disaster_event}</td>
+        <td>${Number(r.gt_bldg_pct).toFixed(1)}%</td>
+        <td>${Number(r.gt_destroyed_pct).toFixed(2)}%</td>
+        <td>${Number(r.opt_fg_iou).toFixed(3)}</td>
+        <td>${Number(r.concat_fg_iou).toFixed(3)}</td>
+        <td style="font-weight:700;color:var(--accent);">${Number(r.gated_fg_iou).toFixed(3)}</td>
+        <td>${Number(r.gated_loc_f1).toFixed(3)}</td>
+        <td>${Number(r.gated_destroyed_f1).toFixed(3)}</td>
+        <td><span class="badge ${r.mode_tag === 'cross_event_success' ? 'ok' : 'unc'}">${r.mode_tag}</span></td>
+      </tr>`).join('');
+    }
+
+    initDashboard();
+  </script>
+</body>
+</html>
