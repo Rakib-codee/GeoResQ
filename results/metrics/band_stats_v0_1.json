@@ -1,0 +1,27 @@
+{
+  "computed_on_split": "train_only",
+  "num_train_tiles": 30,
+  "total_train_pixels": 31457280,
+  "optical_rgb_mean_0_1": [
+    0.395894,
+    0.374892,
+    0.317233
+  ],
+  "optical_rgb_std_0_1": [
+    0.250682,
+    0.203664,
+    0.188265
+  ],
+  "sar_mean_0_1": 0.237721,
+  "sar_std_0_1": 0.172405,
+  "official_imagenet_mean": [
+    0.485,
+    0.456,
+    0.406
+  ],
+  "official_imagenet_std": [
+    0.229,
+    0.224,
+    0.225
+  ]
+}
