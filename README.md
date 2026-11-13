@@ -14,26 +14,34 @@ During the critical first 24–72 hours after earthquakes, volcanic eruptions, f
 
 **GeoResQ** investigates asymmetric **Pre-Event Optical RGB + Post-Event VHR X-Band SAR** semantic segmentation for 4-class building damage assessment (`0: Background`, `1: Intact`, `2: Damaged`, `3: Destroyed`) on the open-license events of the **BRIGHT** benchmark (*Chen et al., ESSD 2025*), asking three empirical questions:
 1. **Multimodal Synergy & Architecture:** How much do dual-stream optical–SAR architectures improve zero-shot cross-disaster generalization over unimodal baselines, and how can cross-modal gating avoid small-sample over-parameterization?
-2. **All-Weather & Sensor Degradation Robustness:** How gracefully do unimodal, naive concatenation (`Dual Concat`), and spatially gated (`Lite Gated Fusion`) models degrade under cloud occlusion, Koschmieder smoke/haze, archive swath dropout, Nakagami-$L$ SAR speckle, and compound storm conditions?
+2. **All-Weather & Sensor Degradation Robustness:** How gracefully do unimodal, naive concatenation (`Dual Concat`), and spatially gated (`Lite Gated Fusion`) models degrade under cloud occlusion, Koschmieder smoke/haze, archive swath dropout, Nakagami $L$ SAR speckle, and compound storm conditions?
 3. **Cross-Hazard Physics & Failure Taxonomy:** Across 5 held-out disaster mechanisms (port blast, basaltic lava inundation, flash flood, suburban wildfire, and M7.6 seismic timber collapse), which physical damage signatures are observable from overhead Optical–SAR fusion and which remain fundamentally ambiguous?
 
 ---
 
-## 2. Architecture & Diagnostic Evolution (`v0.1` $\rightarrow$ `v0.2`)
+## 2. Architecture & Diagnostic Evolution (`v0.1` → `v0.2`)
 
 ### From Milestone 4 Negative Diagnosis (`v0.1`, 45 Tiles) to `LitePriorGatedFusion` (`v0.2`, 294 Tiles)
 In our controlled Milestone 4 study (`results/metrics/ablation_v0_1_table.csv`), two critical failure modes emerged:
 - **Dense Fusion Over-Parameterization:** Full-channel `3×3` cross-modal fusion blocks (`39.77M` params vs. `26.29M` `Dual Concat`) overfit at `epoch = 2` on small training splits, collapsing to `0.0115` unseen foreground mIoU on `noto-earthquake`.
-- **Rooftop Merging from Stride-2 Stem & Aggressive Class Weights:** Down-weighting background (`power = 0.35`, $w_{\text{bg}} = 0.30$ vs. $w_{\text{dest}} = 1.73$) without a `1×` skip flooded narrow `2–4 px` alleys with false-positive building predictions (`49.8%` background recall).
+- **Rooftop Merging from Stride-2 Stem & Aggressive Class Weights:** Down-weighting background (`power = 0.35`), where $w_{\mathrm{bg}} = 0.30$ vs. $w_{\mathrm{dest}} = 1.73$, without a `1×` skip flooded narrow `2–4 px` alleys with false-positive building predictions (`49.8%` background recall).
 
 **GeoResQ `v0.2` (`src/georesq/models/fusion.py`)** resolves both bottlenecks with minimal parameter overhead (`26.78M` vs. `26.32M` `Dual Concat`, **`+1.7%` params**):
-1. **`LitePriorGatedFusionBlock` at all 5 ResNet-18 Pyramid Scales (`1/2` $\rightarrow$ `1/32`):**
-   - Projects optical and SAR features $(F_l^{\text{opt}}, F_l^{\text{sar}}) \in \mathbb{R}^{C_l \times H_l \times W_l}$ through `1×1` bottlenecks ($M_l = \max(32, C_l/4)$) to $(o_m, s_m)$.
-   - Computes a spatial sigmoid optical building-prior gate $g_l = \sigma(\text{Conv}_{3\times3}(o_m)) \in [0, 1]^{1 \times H_l \times W_l}$ to modulate post-SAR backscatter ($g_l \odot s_m$) alongside cross-modal discrepancy $|o_m - s_m|$.
-   - Applies a `3×3` depthwise-separable change branch + Squeeze-and-Excitation + learnable **LayerScale** residual ($\gamma_0 = 0.05$) anchored on a `1×1` concatenation projection:
-     $$F_l^{\text{fused}} = \text{ReLU}\!\Big(\text{BN}(\text{Conv}_{1\times1}([F_l^{\text{opt}}; F_l^{\text{sar}}])) + \gamma_l \cdot \text{SE}\big(\Phi_{\text{dw}}([g_l \odot s_m;\; |o_m - s_m|])\big)\Big)$$
+
+1. **`LitePriorGatedFusionBlock` at all 5 ResNet-18 Pyramid Scales (`1/2` → `1/32`):**
+   - Projects optical and SAR features $(F_l^{\mathrm{opt}}, F_l^{\mathrm{sar}}) \in \mathbb{R}^{C_l \times H_l \times W_l}$ through `1×1` bottlenecks of width $M_l = \max(32, C_l / 4)$ to obtain $(o_m, s_m)$.
+   - Computes a spatial sigmoid optical building-prior gate $g_l = \sigma(\mathrm{Conv}_{3\times 3}(o_m)) \in [0, 1]^{1 \times H_l \times W_l}$ to modulate post-SAR backscatter $(g_l \odot s_m)$ alongside cross-modal discrepancy $\lvert o_m - s_m \rvert$.
+   - Refines $[g_l \odot s_m,\, \lvert o_m - s_m \rvert]$ via a `3×3` depthwise-separable change branch $\Phi_{\mathrm{dw}}$, Squeeze-and-Excitation $\mathrm{SE}$, and learnable **LayerScale** $(\gamma_0 = 0.05)$ anchored on a `1×1` concatenation projection.
 2. **Full-Resolution `1×` (`32`-ch) Boundary Skip Stem:** Preserves sharp `0.30–0.50 m` street canyons and individual roof edges prior to stride-2 encoder pooling.
-3. **Tempered Combo + Auxiliary Localization Objective:** Combines class-weighted Cross-Entropy (`power = 0.15`) + `0.75 × Lovasz-Softmax` with `0.5 × BuildingLocBCEDiceLoss` on binary building footprints.
+3. **Tempered Combo + Auxiliary Localization Objective:** Combines class-weighted Cross-Entropy (`power = 0.15`), Lovasz-Softmax, and binary building localization BCE + Soft Dice.
+
+$$
+F_l^{\mathrm{fused}} = \mathrm{ReLU}\Big(\mathrm{BN}\big(\mathrm{Conv}_{1\times 1}([F_l^{\mathrm{opt}}, F_l^{\mathrm{sar}}])\big) + \gamma_l \cdot \mathrm{SE}\big(\Phi_{\mathrm{dw}}([g_l \odot s_m,\, \lvert o_m - s_m \rvert])\big)\Big)
+$$
+
+$$
+\mathcal{L}_{\mathrm{total}} = \mathcal{L}_{\mathrm{CE}}^{(p=0.15)} + 0.75\,\mathcal{L}_{\mathrm{Lovasz}} + 0.50\,\mathcal{L}_{\mathrm{Loc}}
+$$
 
 ![Milestone 5 Qualitative Predictions](results/figures/benchmark_v0_2_predictions.png)
 
