@@ -1,0 +1,50 @@
+# GeoResQ Baseline & Multimodal Training Configuration
+# Explicitly records published BRIGHT reference settings vs free-cloud adaptations
+
+experiment:
+  name: "baseline_unet_v0_1"
+  seed: 42
+  subset_version: "v0.1"
+  manifest_relpath: "results/metrics/manifest_v0_1.csv"
+
+model:
+  architecture: "baseline_unet"
+  in_channels: 6
+  num_classes: 4
+  base_channels: 64
+  input_modality: "multimodal"
+  norm_mode: "official_imagenet"
+  stack_sar_3ch: true
+
+optimization:
+  epochs: 25
+  train_batch_size: 4
+  eval_batch_size: 2
+  crop_size: 512
+  optimizer: "adamw"
+  learning_rate: 0.0003
+  weight_decay: 0.001
+  lr_scheduler: "cosine"
+  min_lr: 0.00001
+  use_amp: true
+  lovasz_weight: 0.75
+  use_train_class_weights: true
+  class_weight_power: 0.35
+  num_workers: 2
+  save_every_epochs: 5
+  selection_metric: "mIoU_foreground3"
+
+published_bright_reference:
+  source_script: "bda_benchmark/script/standard_ML/train_UNet.py"
+  crop_size: 640
+  train_batch_size: 16
+  max_iters: 800000
+  learning_rate: 0.0001
+  weight_decay: 0.005
+  loss: "CrossEntropy(unweighted) + 0.75 * LovaszSoftmax"
+
+documented_deviations:
+  - "crop_size reduced from 640 to 512 and batch_size from 16 to 4 with FP16 AMP to fit within single free Kaggle Tesla T4 (14.56 GB VRAM)."
+  - "25 epochs (~200 steps on 30-tile v0.1 subset) with CosineAnnealingLR (lr=3e-4 -> 1e-5) instead of 800k iterations on 2,918 tiles."
+  - "Smoothed inverse-frequency class weights (power=0.35, computed strictly on train split) + ignore_index=255 added to CrossEntropy to mitigate 85.3% background dominance."
+  - "Best checkpoint selected strictly by validation mIoU_foreground3 (Intact/Damaged/Destroyed); unseen test event (noto-earthquake) is never evaluated until training finishes."
