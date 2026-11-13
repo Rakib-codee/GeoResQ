@@ -1,0 +1,789 @@
+{
+  "timestamp_utc": "2026-11-13T14:08:30.575048+00:00",
+  "suite_name": "ablation_v0_1",
+  "subset_version": "v0.1",
+  "seed": 42,
+  "comparison_table": [
+    {
+      "variant_id": "baseline_unet",
+      "short_name": "Scratch UNet (6ch)",
+      "params_M": 31.05,
+      "peak_vram_mb": 3607.66,
+      "train_sec": 177.94,
+      "ms_per_tile": 310.19,
+      "best_epoch": 7,
+      "val_mIoU_all4": 0.174018,
+      "val_mIoU_fg3": 0.075703,
+      "val_macro_f1_fg3": 0.134508,
+      "val_loc_f1": 0.45587,
+      "val_intact_f1": 0.264544,
+      "val_damaged_f1": 0.138916,
+      "val_destroyed_f1": 6.3e-05,
+      "test_mIoU_all4": 0.219923,
+      "test_mIoU_fg3": 0.00795,
+      "test_macro_f1_fg3": 0.015546,
+      "test_loc_f1": 0.052727,
+      "test_intact_f1": 0.045597,
+      "test_damaged_f1": 0.000933,
+      "test_destroyed_f1": 0.000108
+    },
+    {
+      "variant_id": "optical_only",
+      "short_name": "Optical-Only (R18)",
+      "params_M": 14.4,
+      "peak_vram_mb": 1843.81,
+      "train_sec": 108.58,
+      "ms_per_tile": 175.56,
+      "best_epoch": 11,
+      "val_mIoU_all4": 0.177351,
+      "val_mIoU_fg3": 0.077615,
+      "val_macro_f1_fg3": 0.135048,
+      "val_loc_f1": 0.501741,
+      "val_intact_f1": 0.306424,
+      "val_damaged_f1": 0.000202,
+      "val_destroyed_f1": 0.098518,
+      "test_mIoU_all4": 0.241819,
+      "test_mIoU_fg3": 0.060753,
+      "test_macro_f1_fg3": 0.105841,
+      "test_loc_f1": 0.389591,
+      "test_intact_f1": 0.282431,
+      "test_damaged_f1": 0.002247,
+      "test_destroyed_f1": 0.032843
+    },
+    {
+      "variant_id": "sar_only",
+      "short_name": "SAR-Only (R18)",
+      "params_M": 14.4,
+      "peak_vram_mb": 2018.78,
+      "train_sec": 99.09,
+      "ms_per_tile": 216.94,
+      "best_epoch": 7,
+      "val_mIoU_all4": 0.206598,
+      "val_mIoU_fg3": 0.090061,
+      "val_macro_f1_fg3": 0.157457,
+      "val_loc_f1": 0.458421,
+      "val_intact_f1": 0.293906,
+      "val_damaged_f1": 0.177876,
+      "val_destroyed_f1": 0.000589,
+      "test_mIoU_all4": 0.169677,
+      "test_mIoU_fg3": 0.038452,
+      "test_macro_f1_fg3": 0.069676,
+      "test_loc_f1": 0.263664,
+      "test_intact_f1": 0.19748,
+      "test_damaged_f1": 0.009477,
+      "test_destroyed_f1": 0.002071
+    },
+    {
+      "variant_id": "dual_stream_concat",
+      "short_name": "Dual Concat (R18)",
+      "params_M": 26.29,
+      "peak_vram_mb": 2415.69,
+      "train_sec": 107.64,
+      "ms_per_tile": 189.54,
+      "best_epoch": 5,
+      "val_mIoU_all4": 0.22317,
+      "val_mIoU_fg3": 0.094815,
+      "val_macro_f1_fg3": 0.163017,
+      "val_loc_f1": 0.559774,
+      "val_intact_f1": 0.334621,
+      "val_damaged_f1": 0.152597,
+      "val_destroyed_f1": 0.001832,
+      "test_mIoU_all4": 0.234253,
+      "test_mIoU_fg3": 0.054355,
+      "test_macro_f1_fg3": 0.095571,
+      "test_loc_f1": 0.389487,
+      "test_intact_f1": 0.260859,
+      "test_damaged_f1": 0.023869,
+      "test_destroyed_f1": 0.001987
+    },
+    {
+      "variant_id": "dual_stream_gated_fusion",
+      "short_name": "Prior-Gated Fusion (Ours)",
+      "params_M": 39.77,
+      "peak_vram_mb": 3120.66,
+      "train_sec": 117.97,
+      "ms_per_tile": 218.88,
+      "best_epoch": 2,
+      "val_mIoU_all4": 0.182176,
+      "val_mIoU_fg3": 0.104098,
+      "val_macro_f1_fg3": 0.171259,
+      "val_loc_f1": 0.464285,
+      "val_intact_f1": 0.408732,
+      "val_damaged_f1": 0.0,
+      "val_destroyed_f1": 0.105045,
+      "test_mIoU_all4": 0.213271,
+      "test_mIoU_fg3": 0.011482,
+      "test_macro_f1_fg3": 0.022571,
+      "test_loc_f1": 0.358061,
+      "test_intact_f1": 0.036853,
+      "test_damaged_f1": 0.0,
+      "test_destroyed_f1": 0.030861
+    }
+  ],
+  "variant_details": {
+    "optical_only": {
+      "timestamp_utc": "2026-11-13T14:02:41.686167+00:00",
+      "variant_id": "optical_only",
+      "label": "Optical-Only (Pre-Event ResNet-18)",
+      "seed": 42,
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 1843.81,
+        "training_duration_seconds": 108.58
+      },
+      "model_info": {
+        "total_params": 14404356,
+        "trainable_params": 14404356,
+        "fp32_size_mb": 54.95
+      },
+      "best_checkpoint": {
+        "epoch": 11,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.077615
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 1.951527,
+        "final_epoch_train_loss": 1.225654,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.483948,
+        "mIoU_all4": 0.177351,
+        "mIoU_foreground3": 0.077615,
+        "macro_f1_all4": 0.262661,
+        "macro_f1_foreground3": 0.135048,
+        "bright_loc_f1": 0.501741,
+        "bright_harmonic_damage_f1": 0.000604,
+        "per_class": {
+          "background": {
+            "iou": 0.476558,
+            "precision": 0.945541,
+            "recall": 0.490007,
+            "f1": 0.645498,
+            "support_pixels": 6456701
+          },
+          "intact": {
+            "iou": 0.180933,
+            "precision": 0.182781,
+            "recall": 0.947097,
+            "f1": 0.306424,
+            "support_pixels": 904932
+          },
+          "damaged": {
+            "iou": 0.000101,
+            "precision": 0.001369,
+            "recall": 0.000109,
+            "f1": 0.000202,
+            "support_pixels": 551039
+          },
+          "destroyed": {
+            "iou": 0.051811,
+            "precision": 0.124948,
+            "recall": 0.081318,
+            "f1": 0.098518,
+            "support_pixels": 475936
+          }
+        },
+        "confusion_matrix": [
+          [
+            3163831,
+            3007311,
+            30026,
+            255533
+          ],
+          [
+            34401,
+            857058,
+            716,
+            12757
+          ],
+          [
+            14001,
+            534224,
+            60,
+            2754
+          ],
+          [
+            133819,
+            290402,
+            13013,
+            38702
+          ]
+        ],
+        "loss": 1.799696,
+        "inference_seconds": 1.4045,
+        "ms_per_tile": 175.56,
+        "tiles_per_sec": 5.7
+      },
+      "unseen_event_test_metrics_noto_earthquake": {
+        "overall_pixel_accuracy": 0.767289,
+        "mIoU_all4": 0.241819,
+        "mIoU_foreground3": 0.060753,
+        "macro_f1_all4": 0.299271,
+        "macro_f1_foreground3": 0.105841,
+        "bright_loc_f1": 0.389591,
+        "bright_harmonic_damage_f1": 0.006264,
+        "per_class": {
+          "background": {
+            "iou": 0.785017,
+            "precision": 0.988474,
+            "recall": 0.792269,
+            "f1": 0.879562,
+            "support_pixels": 6805919
+          },
+          "intact": {
+            "iou": 0.164437,
+            "precision": 0.198678,
+            "recall": 0.488255,
+            "f1": 0.282431,
+            "support_pixels": 470312
+          },
+          "damaged": {
+            "iou": 0.001125,
+            "precision": 0.001328,
+            "recall": 0.007308,
+            "f1": 0.002247,
+            "support_pixels": 28600
+          },
+          "destroyed": {
+            "iou": 0.016696,
+            "precision": 0.017433,
+            "recall": 0.283202,
+            "f1": 0.032843,
+            "support_pixels": 35201
+          }
+        },
+        "confusion_matrix": [
+          [
+            5392116,
+            882594,
+            130669,
+            400540
+          ],
+          [
+            59986,
+            229632,
+            26283,
+            154411
+          ],
+          [
+            575,
+            20876,
+            209,
+            6940
+          ],
+          [
+            2311,
+            22695,
+            226,
+            9969
+          ]
+        ],
+        "loss": 1.463424,
+        "inference_seconds": 2.595,
+        "ms_per_tile": 370.71,
+        "tiles_per_sec": 2.7
+      }
+    },
+    "sar_only": {
+      "timestamp_utc": "2026-11-13T14:04:24.979301+00:00",
+      "variant_id": "sar_only",
+      "label": "SAR-Only (Post-Event ResNet-18)",
+      "seed": 42,
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 2018.78,
+        "training_duration_seconds": 99.09
+      },
+      "model_info": {
+        "total_params": 14404356,
+        "trainable_params": 14404356,
+        "fp32_size_mb": 54.95
+      },
+      "best_checkpoint": {
+        "epoch": 7,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.090061
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 2.014086,
+        "final_epoch_train_loss": 1.418019,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.555512,
+        "mIoU_all4": 0.206598,
+        "mIoU_foreground3": 0.090061,
+        "macro_f1_all4": 0.296799,
+        "macro_f1_foreground3": 0.157457,
+        "bright_loc_f1": 0.458421,
+        "bright_harmonic_damage_f1": 0.001757,
+        "per_class": {
+          "background": {
+            "iou": 0.55621,
+            "precision": 0.866447,
+            "recall": 0.608368,
+            "f1": 0.714827,
+            "support_pixels": 6456701
+          },
+          "intact": {
+            "iou": 0.172268,
+            "precision": 0.183917,
+            "recall": 0.731174,
+            "f1": 0.293906,
+            "support_pixels": 904932
+          },
+          "damaged": {
+            "iou": 0.09762,
+            "precision": 0.295464,
+            "recall": 0.127238,
+            "f1": 0.177876,
+            "support_pixels": 551039
+          },
+          "destroyed": {
+            "iou": 0.000294,
+            "precision": 0.007237,
+            "recall": 0.000307,
+            "f1": 0.000589,
+            "support_pixels": 475936
+          }
+        },
+        "confusion_matrix": [
+          [
+            3928049,
+            2414786,
+            103954,
+            9912
+          ],
+          [
+            173310,
+            661663,
+            63216,
+            6743
+          ],
+          [
+            81919,
+            395633,
+            70113,
+            3374
+          ],
+          [
+            350235,
+            125540,
+            15,
+            146
+          ]
+        ],
+        "loss": 1.83011,
+        "inference_seconds": 1.7355,
+        "ms_per_tile": 216.94,
+        "tiles_per_sec": 4.61
+      },
+      "unseen_event_test_metrics_noto_earthquake": {
+        "overall_pixel_accuracy": 0.569526,
+        "mIoU_all4": 0.169677,
+        "mIoU_foreground3": 0.038452,
+        "macro_f1_all4": 0.232431,
+        "macro_f1_foreground3": 0.069676,
+        "bright_loc_f1": 0.263664,
+        "bright_harmonic_damage_f1": 0.005056,
+        "per_class": {
+          "background": {
+            "iou": 0.563351,
+            "precision": 0.999505,
+            "recall": 0.563509,
+            "f1": 0.720697,
+            "support_pixels": 6805919
+          },
+          "intact": {
+            "iou": 0.109557,
+            "precision": 0.114216,
+            "recall": 0.728697,
+            "f1": 0.19748,
+            "support_pixels": 470312
+          },
+          "damaged": {
+            "iou": 0.004761,
+            "precision": 0.005028,
+            "recall": 0.082448,
+            "f1": 0.009477,
+            "support_pixels": 28600
+          },
+          "destroyed": {
+            "iou": 0.001037,
+            "precision": 0.002129,
+            "recall": 0.002017,
+            "f1": 0.002071,
+            "support_pixels": 35201
+          }
+        },
+        "confusion_matrix": [
+          [
+            3835194,
+            2599092,
+            341981,
+            29652
+          ],
+          [
+            1901,
+            342715,
+            122068,
+            3628
+          ],
+          [
+            0,
+            26242,
+            2358,
+            0
+          ],
+          [
+            0,
+            32530,
+            2600,
+            71
+          ]
+        ],
+        "loss": 1.757042,
+        "inference_seconds": 1.3496,
+        "ms_per_tile": 192.8,
+        "tiles_per_sec": 5.19
+      }
+    },
+    "dual_stream_concat": {
+      "timestamp_utc": "2026-11-13T14:06:16.806597+00:00",
+      "variant_id": "dual_stream_concat",
+      "label": "Dual-Stream Naive Concat (ResNet-18)",
+      "seed": 42,
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 2415.69,
+        "training_duration_seconds": 107.64
+      },
+      "model_info": {
+        "total_params": 26287428,
+        "trainable_params": 26287428,
+        "fp32_size_mb": 100.28
+      },
+      "best_checkpoint": {
+        "epoch": 5,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.094815
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 1.866983,
+        "final_epoch_train_loss": 1.062833,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.587387,
+        "mIoU_all4": 0.22317,
+        "mIoU_foreground3": 0.094815,
+        "macro_f1_all4": 0.311363,
+        "macro_f1_foreground3": 0.163017,
+        "bright_loc_f1": 0.559774,
+        "bright_harmonic_damage_f1": 0.005402,
+        "per_class": {
+          "background": {
+            "iou": 0.608235,
+            "precision": 0.940343,
+            "recall": 0.632648,
+            "f1": 0.756401,
+            "support_pixels": 6456701
+          },
+          "intact": {
+            "iou": 0.200928,
+            "precision": 0.207783,
+            "recall": 0.858958,
+            "f1": 0.334621,
+            "support_pixels": 904932
+          },
+          "damaged": {
+            "iou": 0.082601,
+            "precision": 0.217263,
+            "recall": 0.117596,
+            "f1": 0.152597,
+            "support_pixels": 551039
+          },
+          "destroyed": {
+            "iou": 0.000917,
+            "precision": 0.080474,
+            "recall": 0.000927,
+            "f1": 0.001832,
+            "support_pixels": 475936
+          }
+        },
+        "confusion_matrix": [
+          [
+            4084816,
+            2250434,
+            116803,
+            4648
+          ],
+          [
+            30909,
+            777299,
+            96507,
+            217
+          ],
+          [
+            23534,
+            462531,
+            64800,
+            174
+          ],
+          [
+            204704,
+            250645,
+            20146,
+            441
+          ]
+        ],
+        "loss": 1.712713,
+        "inference_seconds": 1.5163,
+        "ms_per_tile": 189.54,
+        "tiles_per_sec": 5.28
+      },
+      "unseen_event_test_metrics_noto_earthquake": {
+        "overall_pixel_accuracy": 0.753619,
+        "mIoU_all4": 0.234253,
+        "mIoU_foreground3": 0.054355,
+        "macro_f1_all4": 0.289821,
+        "macro_f1_foreground3": 0.095571,
+        "bright_loc_f1": 0.389487,
+        "bright_harmonic_damage_f1": 0.005464,
+        "per_class": {
+          "background": {
+            "iou": 0.773948,
+            "precision": 0.992425,
+            "recall": 0.778547,
+            "f1": 0.872571,
+            "support_pixels": 6805919
+          },
+          "intact": {
+            "iou": 0.149993,
+            "precision": 0.179772,
+            "recall": 0.475202,
+            "f1": 0.260859,
+            "support_pixels": 470312
+          },
+          "damaged": {
+            "iou": 0.012079,
+            "precision": 0.012388,
+            "recall": 0.325979,
+            "f1": 0.023869,
+            "support_pixels": 28600
+          },
+          "destroyed": {
+            "iou": 0.000994,
+            "precision": 0.007896,
+            "recall": 0.001136,
+            "f1": 0.001987,
+            "support_pixels": 35201
+          }
+        },
+        "confusion_matrix": [
+          [
+            5298729,
+            980293,
+            522428,
+            4469
+          ],
+          [
+            35285,
+            223493,
+            211007,
+            527
+          ],
+          [
+            1833,
+            17414,
+            9323,
+            30
+          ],
+          [
+            3326,
+            22003,
+            9832,
+            40
+          ]
+        ],
+        "loss": 1.482121,
+        "inference_seconds": 1.4075,
+        "ms_per_tile": 201.07,
+        "tiles_per_sec": 4.97
+      }
+    },
+    "dual_stream_gated_fusion": {
+      "timestamp_utc": "2026-11-13T14:08:19.745500+00:00",
+      "variant_id": "dual_stream_gated_fusion",
+      "label": "Dual-Stream Prior-Gated Cross-Fusion (Ours)",
+      "seed": 42,
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 3120.66,
+        "training_duration_seconds": 117.97
+      },
+      "model_info": {
+        "total_params": 39771604,
+        "trainable_params": 39771604,
+        "fp32_size_mb": 151.72
+      },
+      "best_checkpoint": {
+        "epoch": 2,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.104098
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 1.797576,
+        "final_epoch_train_loss": 1.057911,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.429982,
+        "mIoU_all4": 0.182176,
+        "mIoU_foreground3": 0.104098,
+        "macro_f1_all4": 0.275439,
+        "macro_f1_foreground3": 0.171259,
+        "bright_loc_f1": 0.464285,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.41641,
+            "precision": 0.921132,
+            "recall": 0.431805,
+            "f1": 0.587979,
+            "support_pixels": 6456701
+          },
+          "intact": {
+            "iou": 0.256859,
+            "precision": 0.290139,
+            "recall": 0.691296,
+            "f1": 0.408732,
+            "support_pixels": 904932
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 551039
+          },
+          "destroyed": {
+            "iou": 0.055434,
+            "precision": 0.060322,
+            "recall": 0.406221,
+            "f1": 0.105045,
+            "support_pixels": 475936
+          }
+        },
+        "confusion_matrix": [
+          [
+            2788036,
+            1034728,
+            667,
+            2633270
+          ],
+          [
+            58707,
+            625576,
+            0,
+            220649
+          ],
+          [
+            33777,
+            359452,
+            0,
+            157810
+          ],
+          [
+            146231,
+            136370,
+            0,
+            193335
+          ]
+        ],
+        "loss": 1.88183,
+        "inference_seconds": 1.751,
+        "ms_per_tile": 218.88,
+        "tiles_per_sec": 4.57
+      },
+      "unseen_event_test_metrics_noto_earthquake": {
+        "overall_pixel_accuracy": 0.783517,
+        "mIoU_all4": 0.213271,
+        "mIoU_foreground3": 0.011482,
+        "macro_f1_all4": 0.241998,
+        "macro_f1_foreground3": 0.022571,
+        "bright_loc_f1": 0.358061,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.818639,
+            "precision": 0.969369,
+            "recall": 0.840378,
+            "f1": 0.900277,
+            "support_pixels": 6805919
+          },
+          "intact": {
+            "iou": 0.018773,
+            "precision": 0.381611,
+            "recall": 0.019362,
+            "f1": 0.036853,
+            "support_pixels": 470312
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 28600
+          },
+          "destroyed": {
+            "iou": 0.015672,
+            "precision": 0.015814,
+            "recall": 0.63609,
+            "f1": 0.030861,
+            "support_pixels": 35201
+          }
+        },
+        "confusion_matrix": [
+          [
+            5719545,
+            13856,
+            0,
+            1072518
+          ],
+          [
+            160655,
+            9106,
+            0,
+            300551
+          ],
+          [
+            7861,
+            304,
+            0,
+            20435
+          ],
+          [
+            12214,
+            596,
+            0,
+            22391
+          ]
+        ],
+        "loss": 1.665703,
+        "inference_seconds": 1.6792,
+        "ms_per_tile": 239.88,
+        "tiles_per_sec": 4.17
+      }
+    }
+  }
+}

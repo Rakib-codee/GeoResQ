@@ -1,4 +1,4 @@
-"""Unit tests for Milestone 4 DualStreamDamageNet & controlled modality isolation."""
+"""Unit tests for Milestone 4 & 5 DualStreamDamageNet & controlled modality isolation."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ if str(REPO_ROOT / "src") not in sys.path:
 
 
 class TestDualStreamFusionModels(unittest.TestCase):
-    def test_all_four_ablation_modes_shapes_isolation_and_gradients(self) -> None:
+    def test_all_ablation_modes_shapes_isolation_and_gradients(self) -> None:
         try:
             import torch
         except ImportError:
@@ -42,6 +42,10 @@ class TestDualStreamFusionModels(unittest.TestCase):
             grouped_count = sum(len(g["params"]) for g in groups)  # type: ignore[arg-type]
             total_trainable = sum(1 for p in model.parameters() if p.requires_grad)
             self.assertEqual(grouped_count, total_trainable)
+
+            if mode == "lite_gated_fusion":
+                total_params = sum(p.numel() for p in model.parameters())
+                self.assertLess(total_params, 28_000_000)
 
             model.eval()
             with torch.no_grad():

@@ -1,12 +1,13 @@
 """Modular Dual-Stream Optical-SAR Segmentation & Controlled Ablation Architecture.
 
-Supports four controlled configurations sharing the exact same ResNet encoder
+Supports five controlled configurations sharing the exact same ResNet encoder
 blocks and multi-scale segmentation decoder:
   1. `optical_only`       : Pre-event optical stream only (no post-SAR input)
   2. `sar_only`           : Post-event SAR stream only (no pre-optical input)
   3. `concat`             : Dual-stream ResNet + naive multi-scale [O_i, S_i] 1x1 concat
-  4. `gated_cross_fusion` : Dual-stream ResNet + Pre-Event Optical Prior-Gated SAR &
-                            Cross-Modal Difference Fusion with SE recalibration
+  4. `gated_cross_fusion` : Dual-stream ResNet + dense 3x3 Prior-Gated Cross-Fusion (v0.1)
+  5. `lite_gated_fusion`  : Parameter-efficient Bottleneck Depthwise Residual Prior-Gated
+                            Cross-Fusion with LayerScale init (26.79M vs 39.77M params)
 """
 
 from __future__ import annotations
@@ -25,7 +26,13 @@ RESNET_LAYERS: dict[str, list[int]] = {
     "resnet34": [3, 4, 6, 3],
 }
 
-VALID_FUSION_MODES = ("optical_only", "sar_only", "concat", "gated_cross_fusion")
+VALID_FUSION_MODES = (
+    "optical_only",
+    "sar_only",
+    "concat",
+    "gated_cross_fusion",
+    "lite_gated_fusion",
+)
 
 
 class BasicBlock(nn.Module):
@@ -180,16 +187,7 @@ class SqueezeExcite(nn.Module):
 
 
 class PriorGatedCrossFusionBlock(nn.Module):
-    """Dedicated Optical-Prior-Gated SAR & Cross-Modal Difference Fusion Block.
-
-    Physical motivation:
-      1. `sar_align`: Projects SAR backscatter features into optical feature space.
-      2. `opt_prior_gate`: Spatial gate derived from pre-event optical features to
-         suppress background SAR speckle clutter outside building footprints.
-      3. `cross_change_gate`: Gates |O_i - S_tilde_i| structural change cues to
-         distinguish intact corner reflections from collapsed rubble scatter.
-      4. Residual skip from `feat_opt` preserves crisp pre-disaster building edges.
-    """
+    """Dense 3x3 Optical-Prior-Gated SAR & Cross-Modal Difference Fusion Block."""
 
     def __init__(self, channels: int) -> None:
         super().__init__()
@@ -224,6 +222,58 @@ class PriorGatedCrossFusionBlock(nn.Module):
         gated_diff = diff * self.cross_change_gate(torch.cat([feat_opt, sar_aligned], dim=1))
         merged = self.fuse(torch.cat([feat_opt, gated_sar, gated_diff], dim=1))
         return self.act(feat_opt + self.se(merged))
+
+
+class LitePriorGatedFusionBlock(nn.Module):
+    """Parameter-efficient Bottleneck Depthwise Residual Prior-Gated Cross-Fusion.
+
+    Designed from Milestone 4 ablation diagnosis: reduces fusion overhead by 96%
+    (+0.50M vs +13.48M params) and anchors representation on 1x1 multimodal concat
+    with LayerScale residual initialization (`gamma=0.05`) to prevent early overfitting.
+    """
+
+    def __init__(self, channels: int, init_scale: float = 0.05) -> None:
+        super().__init__()
+        mid = max(32, channels // 4)
+        self.base_concat = nn.Sequential(
+            nn.Conv2d(channels * 2, channels, kernel_size=1, bias=False),
+            nn.BatchNorm2d(channels),
+        )
+        self.opt_proj = nn.Sequential(
+            nn.Conv2d(channels, mid, kernel_size=1, bias=False),
+            nn.BatchNorm2d(mid),
+            nn.ReLU(inplace=True),
+        )
+        self.sar_proj = nn.Sequential(
+            nn.Conv2d(channels, mid, kernel_size=1, bias=False),
+            nn.BatchNorm2d(mid),
+            nn.ReLU(inplace=True),
+        )
+        self.opt_prior_gate = nn.Sequential(
+            nn.Conv2d(mid, 1, kernel_size=3, padding=1, bias=True),
+            nn.Sigmoid(),
+        )
+        self.change_branch = nn.Sequential(
+            nn.Conv2d(
+                mid * 2, mid * 2, kernel_size=3, padding=1, groups=mid * 2, bias=False
+            ),
+            nn.BatchNorm2d(mid * 2),
+            nn.ReLU(inplace=True),
+            nn.Conv2d(mid * 2, channels, kernel_size=1, bias=False),
+            nn.BatchNorm2d(channels),
+        )
+        self.se = SqueezeExcite(channels)
+        self.gamma = nn.Parameter(torch.full((1, channels, 1, 1), float(init_scale)))
+        self.act = nn.ReLU(inplace=True)
+
+    def forward(self, feat_opt: torch.Tensor, feat_sar: torch.Tensor) -> torch.Tensor:
+        anchor = self.base_concat(torch.cat([feat_opt, feat_sar], dim=1))
+        o_m = self.opt_proj(feat_opt)
+        s_m = self.sar_proj(feat_sar)
+        gated_s = s_m * self.opt_prior_gate(o_m)
+        diff_m = torch.abs(o_m - s_m)
+        delta = self.se(self.change_branch(torch.cat([gated_s, diff_m], dim=1)))
+        return self.act(anchor + self.gamma * delta)
 
 
 class DecoderStage(nn.Module):
@@ -288,7 +338,7 @@ class DualStreamDamageNet(nn.Module):
     def __init__(
         self,
         backbone_name: str = "resnet18",
-        fusion_mode: str = "gated_cross_fusion",
+        fusion_mode: str = "lite_gated_fusion",
         num_classes: int = 4,
         opt_in_channels: int = 3,
         sar_in_channels: int = 3,
@@ -308,14 +358,24 @@ class DualStreamDamageNet(nn.Module):
         self.sar_encoder: ResNetBackbone | None = None
         self.fusion_blocks: nn.ModuleList | None = None
 
-        if fusion_mode in ("optical_only", "concat", "gated_cross_fusion"):
+        if fusion_mode in (
+            "optical_only",
+            "concat",
+            "gated_cross_fusion",
+            "lite_gated_fusion",
+        ):
             self.optical_encoder = ResNetBackbone(
                 backbone_name=backbone_name,
                 in_channels=opt_in_channels,
                 pretrained=pretrained,
             )
 
-        if fusion_mode in ("sar_only", "concat", "gated_cross_fusion"):
+        if fusion_mode in (
+            "sar_only",
+            "concat",
+            "gated_cross_fusion",
+            "lite_gated_fusion",
+        ):
             self.sar_encoder = ResNetBackbone(
                 backbone_name=backbone_name,
                 in_channels=sar_in_channels,
@@ -330,6 +390,10 @@ class DualStreamDamageNet(nn.Module):
         elif fusion_mode == "gated_cross_fusion":
             self.fusion_blocks = nn.ModuleList(
                 [PriorGatedCrossFusionBlock(ch) for ch in enc_channels]
+            )
+        elif fusion_mode == "lite_gated_fusion":
+            self.fusion_blocks = nn.ModuleList(
+                [LitePriorGatedFusionBlock(ch) for ch in enc_channels]
             )
 
         self.decoder = MultiScaleSegmentationDecoder(

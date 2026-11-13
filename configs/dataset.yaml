@@ -84,3 +84,22 @@ subset_v0_1:
     libya-flood: 4
   test_unseen_events:
     noto-earthquake: 7
+
+# Medium-scale multi-hazard expansion (v0.2: 294 tiles across all 11 open-license events)
+# Includes 150 train (6 events), 40 val (3 events), and 104 unseen test (all 79 noto + 25 marshall)
+subset_v0_2:
+  seed: 42
+  train_events:
+    turkey-earthquake: 35
+    morocco-earthquake: 30
+    la_palma-volcano: 25
+    bata-explosion: 20
+    haiti-earthquake: 20
+    hawaii-wildfire: 20
+  val_events:
+    beirut-explosion: 15
+    libya-flood: 15
+    congo-volcano: 10
+  test_unseen_events:
+    noto-earthquake: 79
+    marshall-wildfire: 25
