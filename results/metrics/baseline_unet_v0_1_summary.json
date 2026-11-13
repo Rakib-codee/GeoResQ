@@ -1,0 +1,157 @@
+{
+  "timestamp_utc": "2026-11-13T07:18:10.178417+00:00",
+  "experiment_name": "baseline_unet_v0_1",
+  "dataset_version": "10.5281/zenodo.20072020",
+  "subset_version": "v0.1",
+  "seed": 42,
+  "hardware": {
+    "device": "cuda:0",
+    "gpu_name": "Tesla T4",
+    "amp_enabled": true,
+    "peak_vram_mb": 3607.66,
+    "training_duration_seconds": 177.94
+  },
+  "model_info": {
+    "total_params": 31045444,
+    "trainable_params": 31045444,
+    "fp32_size_mb": 118.43
+  },
+  "hyperparameters": {
+    "epochs": 25,
+    "train_batch_size": 4,
+    "eval_batch_size": 2,
+    "crop_size": 512,
+    "optimizer": "adamw",
+    "learning_rate": 0.0003,
+    "weight_decay": 0.001,
+    "lr_scheduler": "cosine",
+    "min_lr": 1e-05,
+    "use_amp": true,
+    "lovasz_weight": 0.75,
+    "use_train_class_weights": true,
+    "class_weight_power": 0.35,
+    "num_workers": 2,
+    "save_every_epochs": 5,
+    "selection_metric": "mIoU_foreground3"
+  },
+  "train_class_weights": [
+    0.2995,
+    0.586,
+    1.3818,
+    1.7326
+  ],
+  "documented_deviations": [
+    "crop_size reduced from 640 to 512 and batch_size from 16 to 4 with FP16 AMP to fit within single free Kaggle Tesla T4 (14.56 GB VRAM).",
+    "25 epochs (~200 steps on 30-tile v0.1 subset) with CosineAnnealingLR (lr=3e-4 -> 1e-5) instead of 800k iterations on 2,918 tiles.",
+    "Smoothed inverse-frequency class weights (power=0.35, computed strictly on train split) + ignore_index=255 added to CrossEntropy to mitigate 85.3% background dominance.",
+    "Best checkpoint selected strictly by validation mIoU_foreground3 (Intact/Damaged/Destroyed); unseen test event (noto-earthquake) is never evaluated until training finishes."
+  ],
+  "loss_progression": {
+    "first_epoch_train_loss": 1.702045,
+    "final_epoch_train_loss": 1.07699,
+    "loss_decreased": true
+  },
+  "best_checkpoint": {
+    "epoch": 7,
+    "selection_metric": "mIoU_foreground3",
+    "best_val_score": 0.075703
+  },
+  "final_validation_metrics": {
+    "overall_pixel_accuracy": 0.475116,
+    "mIoU_all4": 0.174018,
+    "mIoU_foreground3": 0.075703,
+    "macro_f1_all4": 0.260504,
+    "macro_f1_foreground3": 0.134508,
+    "bright_loc_f1": 0.45587,
+    "bright_harmonic_damage_f1": 0.000189,
+    "per_class": {
+      "background": {
+        "iou": 0.468963,
+        "precision": 0.888113,
+        "recall": 0.498409,
+        "f1": 0.638495,
+        "support_pixels": 6456701
+      },
+      "intact": {
+        "iou": 0.152435,
+        "precision": 0.159264,
+        "recall": 0.780467,
+        "f1": 0.264544,
+        "support_pixels": 904932
+      },
+      "damaged": {
+        "iou": 0.074643,
+        "precision": 0.185427,
+        "recall": 0.111059,
+        "f1": 0.138916,
+        "support_pixels": 551039
+      },
+      "destroyed": {
+        "iou": 3.1e-05,
+        "precision": 0.032051,
+        "recall": 3.2e-05,
+        "f1": 6.3e-05,
+        "support_pixels": 475936
+      }
+    },
+    "confusion_matrix": [
+      [3218079, 3083286, 154896, 440],
+      [101984, 706270, 96677, 1],
+      [58597, 431232, 61198, 12],
+      [244842, 213812, 17267, 15]
+    ],
+    "loss": 2.135079,
+    "inference_seconds": 2.4816,
+    "ms_per_tile": 310.19,
+    "tiles_per_sec": 3.22
+  },
+  "unseen_event_test_metrics_noto_earthquake": {
+    "overall_pixel_accuracy": 0.854954,
+    "mIoU_all4": 0.219923,
+    "mIoU_foreground3": 0.00795,
+    "macro_f1_all4": 0.24224,
+    "macro_f1_foreground3": 0.015546,
+    "bright_loc_f1": 0.052727,
+    "bright_harmonic_damage_f1": 0.000289,
+    "per_class": {
+      "background": {
+        "iou": 0.855842,
+        "precision": 0.925346,
+        "recall": 0.919318,
+        "f1": 0.922322,
+        "support_pixels": 6805919
+      },
+      "intact": {
+        "iou": 0.023331,
+        "precision": 0.054414,
+        "recall": 0.03924,
+        "f1": 0.045597,
+        "support_pixels": 470312
+      },
+      "damaged": {
+        "iou": 0.000467,
+        "precision": 0.000523,
+        "recall": 0.004336,
+        "f1": 0.000933,
+        "support_pixels": 28600
+      },
+      "destroyed": {
+        "iou": 5.4e-05,
+        "precision": 0.00101,
+        "recall": 5.7e-05,
+        "f1": 0.000108,
+        "support_pixels": 35201
+      }
+    },
+    "confusion_matrix": [
+      [6256807, 319372, 228410, 1330],
+      [442557, 18455, 8662, 638],
+      [27887, 579, 124, 10],
+      [34338, 756, 105, 2]
+    ],
+    "loss": 1.617376,
+    "inference_seconds": 2.1386,
+    "ms_per_tile": 305.51,
+    "tiles_per_sec": 3.27
+  }
+}
