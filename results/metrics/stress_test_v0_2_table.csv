@@ -1,0 +1,101 @@
+corruption,severity,variant_id,short_name,mIoU_foreground3,macro_f1_foreground3,bright_loc_f1,destroyed_f1,retention_mIoU_fg3_pct,retention_loc_f1_pct,mean_opt_mae_u8,mean_sar_mae_u8,lite_gate_stage1_bldg,lite_gate_stage1_bg
+cloud_occlusion,0.0,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,0.0,,
+cloud_occlusion,0.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,0.0,0.0,,
+cloud_occlusion,0.0,dual_concat_v0_2,Dual Concat (v0.2),0.150169,0.217669,0.625942,0.063986,100.0,100.0,0.0,0.0,,
+cloud_occlusion,0.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.133215,0.199399,0.60747,0.058647,100.0,100.0,0.0,0.0,0.3458,0.33241
+cloud_occlusion,0.25,optical_only_v0_2,Optical-Only (v0.2),0.088566,0.145218,0.478565,0.045248,117.06,112.27,10.357,0.0,,
+cloud_occlusion,0.25,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,10.357,0.0,,
+cloud_occlusion,0.25,dual_concat_v0_2,Dual Concat (v0.2),0.147464,0.217453,0.611751,0.080427,98.2,97.73,10.357,0.0,,
+cloud_occlusion,0.25,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.1301,0.197248,0.591888,0.06714,97.66,97.43,10.357,0.0,0.34729,0.33566
+cloud_occlusion,0.5,optical_only_v0_2,Optical-Only (v0.2),0.088389,0.145582,0.452935,0.050842,116.83,106.26,33.276,0.0,,
+cloud_occlusion,0.5,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,33.276,0.0,,
+cloud_occlusion,0.5,dual_concat_v0_2,Dual Concat (v0.2),0.131895,0.201718,0.556514,0.085526,87.83,88.91,33.276,0.0,,
+cloud_occlusion,0.5,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.113548,0.177542,0.532711,0.059139,85.24,87.69,33.276,0.0,0.34493,0.33416
+cloud_occlusion,0.75,optical_only_v0_2,Optical-Only (v0.2),0.05038,0.088726,0.27946,0.015298,66.59,65.56,74.545,0.0,,
+cloud_occlusion,0.75,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,74.545,0.0,,
+cloud_occlusion,0.75,dual_concat_v0_2,Dual Concat (v0.2),0.08145,0.137712,0.364546,0.064965,54.24,58.24,74.545,0.0,,
+cloud_occlusion,0.75,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.071801,0.121766,0.37244,0.036143,53.9,61.31,74.545,0.0,0.31117,0.30149
+cloud_occlusion,1.0,optical_only_v0_2,Optical-Only (v0.2),0.001149,0.002291,0.006101,0.0,1.52,1.43,119.24,0.0,,
+cloud_occlusion,1.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,119.24,0.0,,
+cloud_occlusion,1.0,dual_concat_v0_2,Dual Concat (v0.2),0.000215,0.00043,0.001324,0.000192,0.14,0.21,119.24,0.0,,
+cloud_occlusion,1.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.026735,0.049635,0.163652,0.002898,20.07,26.94,119.24,0.0,0.22923,0.22427
+smoke_haze,0.0,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,0.0,,
+smoke_haze,0.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,0.0,0.0,,
+smoke_haze,0.0,dual_concat_v0_2,Dual Concat (v0.2),0.150169,0.217669,0.625942,0.063986,100.0,100.0,0.0,0.0,,
+smoke_haze,0.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.133215,0.199399,0.60747,0.058647,100.0,100.0,0.0,0.0,0.3458,0.33241
+smoke_haze,0.25,optical_only_v0_2,Optical-Only (v0.2),0.10763,0.175049,0.569002,0.098821,142.26,133.49,44.981,0.0,,
+smoke_haze,0.25,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,44.981,0.0,,
+smoke_haze,0.25,dual_concat_v0_2,Dual Concat (v0.2),0.14136,0.217317,0.585445,0.125895,94.13,93.53,44.981,0.0,,
+smoke_haze,0.25,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.128516,0.201674,0.576738,0.114944,96.47,94.94,44.981,0.0,0.35755,0.35729
+smoke_haze,0.5,optical_only_v0_2,Optical-Only (v0.2),0.089971,0.152421,0.535806,0.101065,118.92,125.7,66.148,0.0,,
+smoke_haze,0.5,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,66.148,0.0,,
+smoke_haze,0.5,dual_concat_v0_2,Dual Concat (v0.2),0.128415,0.206251,0.516369,0.15748,85.51,82.49,66.148,0.0,,
+smoke_haze,0.5,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.121977,0.19042,0.557908,0.08405,91.56,91.84,66.148,0.0,0.36248,0.35758
+smoke_haze,0.75,optical_only_v0_2,Optical-Only (v0.2),0.025491,0.048247,0.181568,0.022588,33.69,42.6,76.022,0.0,,
+smoke_haze,0.75,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,76.022,0.0,,
+smoke_haze,0.75,dual_concat_v0_2,Dual Concat (v0.2),0.027074,0.051486,0.135043,0.037454,18.03,21.57,76.022,0.0,,
+smoke_haze,0.75,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.057326,0.099146,0.317036,0.015114,43.03,52.19,76.022,0.0,0.35324,0.34175
+smoke_haze,1.0,optical_only_v0_2,Optical-Only (v0.2),0.001319,0.002628,0.018676,0.0,1.74,4.38,80.742,0.0,,
+smoke_haze,1.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,80.742,0.0,,
+smoke_haze,1.0,dual_concat_v0_2,Dual Concat (v0.2),0.001164,0.00232,0.007875,0.0,0.78,1.26,80.742,0.0,,
+smoke_haze,1.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.004067,0.008036,0.022901,0.0,3.05,3.77,80.742,0.0,0.33453,0.32558
+optical_dropout,0.0,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,0.0,,
+optical_dropout,0.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,0.0,0.0,,
+optical_dropout,0.0,dual_concat_v0_2,Dual Concat (v0.2),0.150169,0.217669,0.625942,0.063986,100.0,100.0,0.0,0.0,,
+optical_dropout,0.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.133215,0.199399,0.60747,0.058647,100.0,100.0,0.0,0.0,0.3458,0.33241
+optical_dropout,0.25,optical_only_v0_2,Optical-Only (v0.2),0.065204,0.113808,0.367979,0.053795,86.18,86.33,28.874,0.0,,
+optical_dropout,0.25,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,28.874,0.0,,
+optical_dropout,0.25,dual_concat_v0_2,Dual Concat (v0.2),0.117574,0.182406,0.513858,0.060799,78.29,82.09,28.874,0.0,,
+optical_dropout,0.25,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.103391,0.163692,0.502772,0.044693,77.61,82.76,28.874,0.0,0.3271,0.31227
+optical_dropout,0.5,optical_only_v0_2,Optical-Only (v0.2),0.050466,0.090347,0.298271,0.036833,66.7,69.97,58.181,0.0,,
+optical_dropout,0.5,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,58.181,0.0,,
+optical_dropout,0.5,dual_concat_v0_2,Dual Concat (v0.2),0.089501,0.147224,0.402646,0.052714,59.6,64.33,58.181,0.0,,
+optical_dropout,0.5,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.080633,0.13359,0.40322,0.033834,60.53,66.38,58.181,0.0,0.30509,0.29434
+optical_dropout,0.75,optical_only_v0_2,Optical-Only (v0.2),0.032205,0.059866,0.189761,0.022616,42.57,44.52,86.568,0.0,,
+optical_dropout,0.75,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,86.568,0.0,,
+optical_dropout,0.75,dual_concat_v0_2,Dual Concat (v0.2),0.047884,0.086856,0.224025,0.046642,31.89,35.79,86.568,0.0,,
+optical_dropout,0.75,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.04546,0.081684,0.241115,0.024211,34.13,39.69,86.568,0.0,0.28302,0.27676
+optical_dropout,1.0,optical_only_v0_2,Optical-Only (v0.2),0.0,0.0,0.0,0.0,0.0,0.0,116.204,0.0,,
+optical_dropout,1.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,116.204,0.0,,
+optical_dropout,1.0,dual_concat_v0_2,Dual Concat (v0.2),0.0,0.0,0.0,0.0,0.0,0.0,116.204,0.0,,
+optical_dropout,1.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.0,0.0,0.0,0.0,0.0,0.0,116.204,0.0,0.26307,0.26333
+sar_speckle,0.0,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,0.0,,
+sar_speckle,0.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,0.0,0.0,,
+sar_speckle,0.0,dual_concat_v0_2,Dual Concat (v0.2),0.150169,0.217669,0.625942,0.063986,100.0,100.0,0.0,0.0,,
+sar_speckle,0.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.133215,0.199399,0.60747,0.058647,100.0,100.0,0.0,0.0,0.3458,0.33241
+sar_speckle,0.25,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,6.164,,
+sar_speckle,0.25,sar_only_v0_2,SAR-Only (v0.2),0.04255,0.075466,0.258714,0.0,65.22,71.29,0.0,6.164,,
+sar_speckle,0.25,dual_concat_v0_2,Dual Concat (v0.2),0.139121,0.200518,0.610796,0.025706,92.64,97.58,0.0,6.164,,
+sar_speckle,0.25,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.132606,0.206923,0.593686,0.120081,99.54,97.73,0.0,6.164,0.3458,0.33241
+sar_speckle,0.5,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,8.712,,
+sar_speckle,0.5,sar_only_v0_2,SAR-Only (v0.2),0.040907,0.072871,0.251006,0.0,62.7,69.16,0.0,8.712,,
+sar_speckle,0.5,dual_concat_v0_2,Dual Concat (v0.2),0.136712,0.199746,0.603925,0.036472,91.04,96.48,0.0,8.712,,
+sar_speckle,0.5,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.122686,0.197414,0.588447,0.137616,92.1,96.87,0.0,8.712,0.3458,0.33241
+sar_speckle,0.75,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,12.275,,
+sar_speckle,0.75,sar_only_v0_2,SAR-Only (v0.2),0.039513,0.070651,0.243834,0.0,60.56,67.19,0.0,12.275,,
+sar_speckle,0.75,dual_concat_v0_2,Dual Concat (v0.2),0.132481,0.199034,0.597884,0.061578,88.22,95.52,0.0,12.275,,
+sar_speckle,0.75,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.109649,0.181121,0.584647,0.134972,82.31,96.24,0.0,12.275,0.3458,0.33241
+sar_speckle,1.0,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,17.137,,
+sar_speckle,1.0,sar_only_v0_2,SAR-Only (v0.2),0.037802,0.067903,0.234628,0.0,57.94,64.65,0.0,17.137,,
+sar_speckle,1.0,dual_concat_v0_2,Dual Concat (v0.2),0.11589,0.183636,0.591785,0.086383,77.17,94.54,0.0,17.137,,
+sar_speckle,1.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.092996,0.158413,0.582518,0.124645,69.81,95.89,0.0,17.137,0.3458,0.33241
+compound_storm,0.0,optical_only_v0_2,Optical-Only (v0.2),0.075658,0.128874,0.426261,0.055391,100.0,100.0,0.0,0.0,,
+compound_storm,0.0,sar_only_v0_2,SAR-Only (v0.2),0.065241,0.109123,0.362925,0.0,100.0,100.0,0.0,0.0,,
+compound_storm,0.0,dual_concat_v0_2,Dual Concat (v0.2),0.150169,0.217669,0.625942,0.063986,100.0,100.0,0.0,0.0,,
+compound_storm,0.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.133215,0.199399,0.60747,0.058647,100.0,100.0,0.0,0.0,0.3458,0.33241
+compound_storm,0.25,optical_only_v0_2,Optical-Only (v0.2),0.112641,0.178851,0.58071,0.078476,148.88,136.23,32.389,5.367,,
+compound_storm,0.25,sar_only_v0_2,SAR-Only (v0.2),0.043233,0.076538,0.261729,0.0,66.27,72.12,32.389,5.367,,
+compound_storm,0.25,dual_concat_v0_2,Dual Concat (v0.2),0.141093,0.216351,0.587762,0.120614,93.96,93.9,32.389,5.367,,
+compound_storm,0.25,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.136842,0.217909,0.584728,0.175143,102.72,96.26,32.389,5.367,0.35431,0.35004
+compound_storm,0.5,optical_only_v0_2,Optical-Only (v0.2),0.104825,0.17046,0.534262,0.088336,138.55,125.34,56.767,6.606,,
+compound_storm,0.5,sar_only_v0_2,SAR-Only (v0.2),0.04242,0.075263,0.258311,0.0,65.02,71.17,56.767,6.606,,
+compound_storm,0.5,dual_concat_v0_2,Dual Concat (v0.2),0.128612,0.205143,0.542613,0.144588,85.64,86.69,56.767,6.606,,
+compound_storm,0.5,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.129849,0.211713,0.544973,0.19817,97.47,89.71,56.767,6.606,0.35711,0.35745
+compound_storm,0.75,optical_only_v0_2,Optical-Only (v0.2),0.084415,0.145768,0.42473,0.114154,111.57,99.64,75.064,8.131,,
+compound_storm,0.75,sar_only_v0_2,SAR-Only (v0.2),0.041344,0.073564,0.253276,0.0,63.37,69.79,75.064,8.131,,
+compound_storm,0.75,dual_concat_v0_2,Dual Concat (v0.2),0.103047,0.17439,0.431498,0.158025,68.62,68.94,75.064,8.131,,
+compound_storm,0.75,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.114249,0.191123,0.481031,0.185975,85.76,79.19,75.064,8.131,0.35022,0.34902
+compound_storm,1.0,optical_only_v0_2,Optical-Only (v0.2),0.032658,0.06117,0.195307,0.035773,43.17,45.82,91.652,9.998,,
+compound_storm,1.0,sar_only_v0_2,SAR-Only (v0.2),0.04063,0.072432,0.249796,0.0,62.28,68.83,91.652,9.998,,
+compound_storm,1.0,dual_concat_v0_2,Dual Concat (v0.2),0.042645,0.079943,0.185638,0.095033,28.4,29.66,91.652,9.998,,
+compound_storm,1.0,lite_gated_fusion_v0_2,Lite Gated Fusion (Ours),0.066247,0.119275,0.287657,0.120544,49.73,47.35,91.652,9.998,0.31743,0.32197

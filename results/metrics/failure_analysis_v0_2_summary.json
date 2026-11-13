@@ -1,0 +1,3260 @@
+{
+  "timestamp_utc": "2026-11-13T18:29:01.333158+00:00",
+  "suite_name": "failure_analysis_v0_2",
+  "heldout_tiles_evaluated": 144,
+  "duration_seconds": 91.8,
+  "exported_fp16_checkpoints": {
+    "dual_concat_v0_2": {
+      "path": "/kaggle/working/exports/dual_concat_v0_2_fp16.pth",
+      "size_mb": 50.35
+    },
+    "lite_gated_fusion_v0_2": {
+      "path": "/kaggle/working/exports/lite_gated_fusion_v0_2_fp16.pth",
+      "size_mb": 51.29
+    }
+  },
+  "tile_mode_distribution_lite_gated": {
+    "sub_roof_damaged_as_intact": 21,
+    "rubble_destroyed_as_intact": 16,
+    "sar_layover_or_clutter_fp": 35,
+    "moderate_mixed_boundary_error": 27,
+    "sparse_or_clean_background": 40,
+    "cross_event_success": 2,
+    "missed_small_or_sparse_buildings": 3
+  },
+  "selected_gallery_tiles": [
+    {
+      "case": "1. Cross-Event Success (Wildfire Ash vs Roof)",
+      "sample_id": "marshall-wildfire_00000041",
+      "event": "marshall-wildfire"
+    },
+    {
+      "case": "2. Seismic Rubble (Destroyed -> Intact)",
+      "sample_id": "noto-earthquake_00000038",
+      "event": "noto-earthquake"
+    },
+    {
+      "case": "3. Sub-Roof Damage (Damaged -> Intact)",
+      "sample_id": "libya-flood_00000007",
+      "event": "libya-flood"
+    },
+    {
+      "case": "4. Dense Urban / SAR Layover False Alarms",
+      "sample_id": "noto-earthquake_00000048",
+      "event": "noto-earthquake"
+    },
+    {
+      "case": "5. Sparse / Volcanic Missed Footprints",
+      "sample_id": "congo-volcano_00000085",
+      "event": "congo-volcano"
+    }
+  ],
+  "validation_40_summary": {
+    "optical_only_v0_2": {
+      "overall_pixel_accuracy": 0.830148,
+      "mIoU_all4": 0.326264,
+      "mIoU_foreground3": 0.142696,
+      "macro_f1_all4": 0.397571,
+      "macro_f1_foreground3": 0.218611,
+      "bright_loc_f1": 0.746825,
+      "bright_harmonic_damage_f1": 0.0,
+      "per_class": {
+        "background": {
+          "iou": 0.876967,
+          "precision": 0.946594,
+          "recall": 0.922616,
+          "f1": 0.934451,
+          "support_pixels": 33744407
+        },
+        "intact": {
+          "iou": 0.361591,
+          "precision": 0.405235,
+          "recall": 0.770503,
+          "f1": 0.53113,
+          "support_pixels": 4681149
+        },
+        "damaged": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 2404180
+        },
+        "destroyed": {
+          "iou": 0.066498,
+          "precision": 0.516751,
+          "recall": 0.070907,
+          "f1": 0.124703,
+          "support_pixels": 1113304
+        }
+      },
+      "confusion_matrix": [
+        [
+          31133141,
+          2589198,
+          0,
+          22068
+        ],
+        [
+          1042896,
+          3606841,
+          0,
+          31412
+        ],
+        [
+          484743,
+          1899094,
+          0,
+          20343
+        ],
+        [
+          228879,
+          805484,
+          0,
+          78941
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            92.262,
+            7.673,
+            0.0,
+            0.065
+          ],
+          [
+            22.279,
+            77.05,
+            0.0,
+            0.671
+          ],
+          [
+            20.163,
+            78.991,
+            0.0,
+            0.846
+          ],
+          [
+            20.559,
+            72.351,
+            0.0,
+            7.091
+          ]
+        ],
+        "false_building_alarm_rate_pct": 7.738,
+        "missed_building_fn_rate_pct": 21.425,
+        "conditional_severity_acc_given_detected_pct": 57.214,
+        "intact_routing_pct": {
+          "pred_background_pct": 22.279,
+          "pred_intact_pct": 77.05,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.671
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 20.163,
+          "pred_intact_pct": 78.991,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.846
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 20.559,
+          "pred_intact_pct": 72.351,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 7.091
+        }
+      }
+    },
+    "sar_only_v0_2": {
+      "overall_pixel_accuracy": 0.722349,
+      "mIoU_all4": 0.239724,
+      "mIoU_foreground3": 0.07477,
+      "macro_f1_all4": 0.303354,
+      "macro_f1_foreground3": 0.122142,
+      "bright_loc_f1": 0.480097,
+      "bright_harmonic_damage_f1": 0.0,
+      "per_class": {
+        "background": {
+          "iou": 0.734586,
+          "precision": 0.883484,
+          "recall": 0.813386,
+          "f1": 0.846987,
+          "support_pixels": 33744407
+        },
+        "intact": {
+          "iou": 0.22431,
+          "precision": 0.262071,
+          "recall": 0.608885,
+          "f1": 0.366427,
+          "support_pixels": 4681149
+        },
+        "damaged": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 2404180
+        },
+        "destroyed": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 1113304
+        }
+      },
+      "confusion_matrix": [
+        [
+          27447240,
+          6297167,
+          0,
+          0
+        ],
+        [
+          1830868,
+          2850281,
+          0,
+          0
+        ],
+        [
+          916826,
+          1487354,
+          0,
+          0
+        ],
+        [
+          872104,
+          241200,
+          0,
+          0
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            81.339,
+            18.661,
+            0.0,
+            0.0
+          ],
+          [
+            39.112,
+            60.888,
+            0.0,
+            0.0
+          ],
+          [
+            38.135,
+            61.865,
+            0.0,
+            0.0
+          ],
+          [
+            78.335,
+            21.665,
+            0.0,
+            0.0
+          ]
+        ],
+        "false_building_alarm_rate_pct": 18.661,
+        "missed_building_fn_rate_pct": 44.151,
+        "conditional_severity_acc_given_detected_pct": 62.249,
+        "intact_routing_pct": {
+          "pred_background_pct": 39.112,
+          "pred_intact_pct": 60.888,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.0
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 38.135,
+          "pred_intact_pct": 61.865,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.0
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 78.335,
+          "pred_intact_pct": 21.665,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.0
+        }
+      }
+    },
+    "dual_concat_v0_2": {
+      "overall_pixel_accuracy": 0.841469,
+      "mIoU_all4": 0.360091,
+      "mIoU_foreground3": 0.185749,
+      "macro_f1_all4": 0.448769,
+      "macro_f1_foreground3": 0.285714,
+      "bright_loc_f1": 0.739084,
+      "bright_harmonic_damage_f1": 0.0,
+      "per_class": {
+        "background": {
+          "iou": 0.88312,
+          "precision": 0.934114,
+          "recall": 0.941783,
+          "f1": 0.937933,
+          "support_pixels": 33744407
+        },
+        "intact": {
+          "iou": 0.365449,
+          "precision": 0.433305,
+          "recall": 0.700029,
+          "f1": 0.535281,
+          "support_pixels": 4681149
+        },
+        "damaged": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 2404180
+        },
+        "destroyed": {
+          "iou": 0.191796,
+          "precision": 0.660076,
+          "recall": 0.212816,
+          "f1": 0.321861,
+          "support_pixels": 1113304
+        }
+      },
+      "confusion_matrix": [
+        [
+          31779909,
+          1913950,
+          0,
+          50548
+        ],
+        [
+          1347109,
+          3276938,
+          0,
+          57102
+        ],
+        [
+          645710,
+          1744107,
+          0,
+          14363
+        ],
+        [
+          248709,
+          627666,
+          0,
+          236929
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            94.178,
+            5.672,
+            0.0,
+            0.15
+          ],
+          [
+            28.777,
+            70.003,
+            0.0,
+            1.22
+          ],
+          [
+            26.858,
+            72.545,
+            0.0,
+            0.597
+          ],
+          [
+            22.34,
+            56.379,
+            0.0,
+            21.282
+          ]
+        ],
+        "false_building_alarm_rate_pct": 5.822,
+        "missed_building_fn_rate_pct": 27.34,
+        "conditional_severity_acc_given_detected_pct": 58.986,
+        "intact_routing_pct": {
+          "pred_background_pct": 28.777,
+          "pred_intact_pct": 70.003,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 1.22
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 26.858,
+          "pred_intact_pct": 72.545,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.597
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 22.34,
+          "pred_intact_pct": 56.379,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 21.282
+        }
+      }
+    },
+    "lite_gated_fusion_v0_2": {
+      "overall_pixel_accuracy": 0.835389,
+      "mIoU_all4": 0.365122,
+      "mIoU_foreground3": 0.193687,
+      "macro_f1_all4": 0.456551,
+      "macro_f1_foreground3": 0.296786,
+      "bright_loc_f1": 0.748681,
+      "bright_harmonic_damage_f1": 0.000118,
+      "per_class": {
+        "background": {
+          "iou": 0.879428,
+          "precision": 0.945203,
+          "recall": 0.926673,
+          "f1": 0.935847,
+          "support_pixels": 33744407
+        },
+        "intact": {
+          "iou": 0.364271,
+          "precision": 0.416681,
+          "recall": 0.743334,
+          "f1": 0.534016,
+          "support_pixels": 4681149
+        },
+        "damaged": {
+          "iou": 2e-05,
+          "precision": 0.155116,
+          "recall": 2e-05,
+          "f1": 3.9e-05,
+          "support_pixels": 2404180
+        },
+        "destroyed": {
+          "iou": 0.216769,
+          "precision": 0.567826,
+          "recall": 0.259598,
+          "f1": 0.356303,
+          "support_pixels": 1113304
+        }
+      },
+      "confusion_matrix": [
+        [
+          31270043,
+          2399483,
+          136,
+          74745
+        ],
+        [
+          1105957,
+          3479657,
+          6,
+          95529
+        ],
+        [
+          509226,
+          1845213,
+          47,
+          49694
+        ],
+        [
+          197649,
+          626529,
+          114,
+          289012
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            92.667,
+            7.111,
+            0.0,
+            0.222
+          ],
+          [
+            23.626,
+            74.333,
+            0.0,
+            2.041
+          ],
+          [
+            21.181,
+            76.75,
+            0.002,
+            2.067
+          ],
+          [
+            17.753,
+            56.277,
+            0.01,
+            25.96
+          ]
+        ],
+        "false_building_alarm_rate_pct": 7.333,
+        "missed_building_fn_rate_pct": 22.111,
+        "conditional_severity_acc_given_detected_pct": 59.017,
+        "intact_routing_pct": {
+          "pred_background_pct": 23.626,
+          "pred_intact_pct": 74.333,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 2.041
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 21.181,
+          "pred_intact_pct": 76.75,
+          "pred_damaged_pct": 0.002,
+          "pred_destroyed_pct": 2.067
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 17.753,
+          "pred_intact_pct": 56.277,
+          "pred_damaged_pct": 0.01,
+          "pred_destroyed_pct": 25.96
+        }
+      }
+    }
+  },
+  "unseen_test_104_summary": {
+    "optical_only_v0_2": {
+      "overall_pixel_accuracy": 0.885676,
+      "mIoU_all4": 0.280062,
+      "mIoU_foreground3": 0.07566,
+      "macro_f1_all4": 0.332564,
+      "macro_f1_foreground3": 0.128877,
+      "bright_loc_f1": 0.426282,
+      "bright_harmonic_damage_f1": 0.0,
+      "per_class": {
+        "background": {
+          "iou": 0.893265,
+          "precision": 0.975143,
+          "recall": 0.914079,
+          "f1": 0.943624,
+          "support_pixels": 102504250
+        },
+        "intact": {
+          "iou": 0.198501,
+          "precision": 0.246839,
+          "recall": 0.503389,
+          "f1": 0.331248,
+          "support_pixels": 5614300
+        },
+        "damaged": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 228018
+        },
+        "destroyed": {
+          "iou": 0.02848,
+          "precision": 0.040565,
+          "recall": 0.087253,
+          "f1": 0.055383,
+          "support_pixels": 705336
+        }
+      },
+      "confusion_matrix": [
+        [
+          93696935,
+          8150414,
+          0,
+          656901
+        ],
+        [
+          2016106,
+          2826175,
+          0,
+          772019
+        ],
+        [
+          90050,
+          111303,
+          0,
+          26665
+        ],
+        [
+          282208,
+          361585,
+          0,
+          61543
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            91.408,
+            7.951,
+            0.0,
+            0.641
+          ],
+          [
+            35.91,
+            50.339,
+            0.0,
+            13.751
+          ],
+          [
+            39.492,
+            48.813,
+            0.0,
+            11.694
+          ],
+          [
+            40.01,
+            51.264,
+            0.0,
+            8.725
+          ]
+        ],
+        "false_building_alarm_rate_pct": 8.592,
+        "missed_building_fn_rate_pct": 36.477,
+        "conditional_severity_acc_given_detected_pct": 69.428,
+        "intact_routing_pct": {
+          "pred_background_pct": 35.91,
+          "pred_intact_pct": 50.339,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 13.751
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 39.492,
+          "pred_intact_pct": 48.813,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 11.694
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 40.01,
+          "pred_intact_pct": 51.264,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 8.725
+        }
+      }
+    },
+    "sar_only_v0_2": {
+      "overall_pixel_accuracy": 0.810606,
+      "mIoU_all4": 0.250695,
+      "mIoU_foreground3": 0.065241,
+      "macro_f1_all4": 0.30515,
+      "macro_f1_foreground3": 0.109124,
+      "bright_loc_f1": 0.362925,
+      "bright_harmonic_damage_f1": 0.0,
+      "per_class": {
+        "background": {
+          "iou": 0.80706,
+          "precision": 0.989717,
+          "recall": 0.813884,
+          "f1": 0.89323,
+          "support_pixels": 102504250
+        },
+        "intact": {
+          "iou": 0.195722,
+          "precision": 0.200803,
+          "recall": 0.885524,
+          "f1": 0.327371,
+          "support_pixels": 5614300
+        },
+        "damaged": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 228018
+        },
+        "destroyed": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 705336
+        }
+      },
+      "confusion_matrix": [
+        [
+          83426561,
+          19077689,
+          0,
+          0
+        ],
+        [
+          642702,
+          4971598,
+          0,
+          0
+        ],
+        [
+          14779,
+          213239,
+          0,
+          0
+        ],
+        [
+          209265,
+          496071,
+          0,
+          0
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            81.388,
+            18.612,
+            0.0,
+            0.0
+          ],
+          [
+            11.448,
+            88.552,
+            0.0,
+            0.0
+          ],
+          [
+            6.482,
+            93.518,
+            0.0,
+            0.0
+          ],
+          [
+            29.669,
+            70.331,
+            0.0,
+            0.0
+          ]
+        ],
+        "false_building_alarm_rate_pct": 18.612,
+        "missed_building_fn_rate_pct": 13.238,
+        "conditional_severity_acc_given_detected_pct": 87.514,
+        "intact_routing_pct": {
+          "pred_background_pct": 11.448,
+          "pred_intact_pct": 88.552,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.0
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 6.482,
+          "pred_intact_pct": 93.518,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.0
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 29.669,
+          "pred_intact_pct": 70.331,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.0
+        }
+      }
+    },
+    "dual_concat_v0_2": {
+      "overall_pixel_accuracy": 0.944841,
+      "mIoU_all4": 0.349914,
+      "mIoU_foreground3": 0.150166,
+      "macro_f1_all4": 0.406728,
+      "macro_f1_foreground3": 0.217665,
+      "bright_loc_f1": 0.625941,
+      "bright_harmonic_damage_f1": 0.0,
+      "per_class": {
+        "background": {
+          "iou": 0.949157,
+          "precision": 0.979307,
+          "recall": 0.968583,
+          "f1": 0.973915,
+          "support_pixels": 102504250
+        },
+        "intact": {
+          "iou": 0.417453,
+          "precision": 0.531516,
+          "recall": 0.660472,
+          "f1": 0.589018,
+          "support_pixels": 5614300
+        },
+        "damaged": {
+          "iou": 0.0,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support_pixels": 228018
+        },
+        "destroyed": {
+          "iou": 0.033046,
+          "precision": 0.064515,
+          "recall": 0.063448,
+          "f1": 0.063977,
+          "support_pixels": 705336
+        }
+      },
+      "confusion_matrix": [
+        [
+          99283884,
+          2693310,
+          0,
+          527056
+        ],
+        [
+          1786035,
+          3708089,
+          0,
+          120176
+        ],
+        [
+          75134,
+          151204,
+          0,
+          1680
+        ],
+        [
+          236749,
+          423835,
+          0,
+          44752
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            96.858,
+            2.628,
+            0.0,
+            0.514
+          ],
+          [
+            31.812,
+            66.047,
+            0.0,
+            2.141
+          ],
+          [
+            32.951,
+            66.312,
+            0.0,
+            0.737
+          ],
+          [
+            33.565,
+            60.09,
+            0.0,
+            6.345
+          ]
+        ],
+        "false_building_alarm_rate_pct": 3.142,
+        "missed_building_fn_rate_pct": 32.041,
+        "conditional_severity_acc_given_detected_pct": 84.339,
+        "intact_routing_pct": {
+          "pred_background_pct": 31.812,
+          "pred_intact_pct": 66.047,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 2.141
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 32.951,
+          "pred_intact_pct": 66.312,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 0.737
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 33.565,
+          "pred_intact_pct": 60.09,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 6.345
+        }
+      }
+    },
+    "lite_gated_fusion_v0_2": {
+      "overall_pixel_accuracy": 0.925754,
+      "mIoU_all4": 0.332612,
+      "mIoU_foreground3": 0.133214,
+      "macro_f1_all4": 0.390588,
+      "macro_f1_foreground3": 0.199396,
+      "bright_loc_f1": 0.60747,
+      "bright_harmonic_damage_f1": 2.7e-05,
+      "per_class": {
+        "background": {
+          "iou": 0.930806,
+          "precision": 0.989671,
+          "recall": 0.939937,
+          "f1": 0.964163,
+          "support_pixels": 102504250
+        },
+        "intact": {
+          "iou": 0.369432,
+          "precision": 0.403197,
+          "recall": 0.815211,
+          "f1": 0.539541,
+          "support_pixels": 5614300
+        },
+        "damaged": {
+          "iou": 4e-06,
+          "precision": 0.012658,
+          "recall": 4e-06,
+          "f1": 9e-06,
+          "support_pixels": 228018
+        },
+        "destroyed": {
+          "iou": 0.030205,
+          "precision": 0.088845,
+          "recall": 0.043761,
+          "f1": 0.058639,
+          "support_pixels": 705336
+        }
+      },
+      "confusion_matrix": [
+        [
+          96347493,
+          6009385,
+          30,
+          147342
+        ],
+        [
+          871362,
+          4576839,
+          44,
+          166055
+        ],
+        [
+          22253,
+          202613,
+          1,
+          3151
+        ],
+        [
+          111927,
+          562539,
+          4,
+          30866
+        ]
+      ],
+      "error_decomposition": {
+        "row_normalized_pct": [
+          [
+            93.994,
+            5.863,
+            0.0,
+            0.144
+          ],
+          [
+            15.52,
+            81.521,
+            0.001,
+            2.958
+          ],
+          [
+            9.759,
+            88.858,
+            0.0,
+            1.382
+          ],
+          [
+            15.869,
+            79.755,
+            0.001,
+            4.376
+          ]
+        ],
+        "false_building_alarm_rate_pct": 6.006,
+        "missed_building_fn_rate_pct": 15.357,
+        "conditional_severity_acc_given_detected_pct": 83.14,
+        "intact_routing_pct": {
+          "pred_background_pct": 15.52,
+          "pred_intact_pct": 81.521,
+          "pred_damaged_pct": 0.001,
+          "pred_destroyed_pct": 2.958
+        },
+        "damaged_routing_pct": {
+          "pred_background_pct": 9.759,
+          "pred_intact_pct": 88.858,
+          "pred_damaged_pct": 0.0,
+          "pred_destroyed_pct": 1.382
+        },
+        "destroyed_routing_pct": {
+          "pred_background_pct": 15.869,
+          "pred_intact_pct": 79.755,
+          "pred_damaged_pct": 0.001,
+          "pred_destroyed_pct": 4.376
+        }
+      }
+    }
+  },
+  "per_event_heldout_summary": {
+    "beirut-explosion": {
+      "optical_only_v0_2": {
+        "overall_pixel_accuracy": 0.790745,
+        "mIoU_all4": 0.329605,
+        "mIoU_foreground3": 0.166615,
+        "macro_f1_all4": 0.41614,
+        "macro_f1_foreground3": 0.254774,
+        "bright_loc_f1": 0.701274,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.818576,
+            "precision": 0.899941,
+            "recall": 0.900535,
+            "f1": 0.900238,
+            "support_pixels": 11787070
+          },
+          "intact": {
+            "iou": 0.380808,
+            "precision": 0.45973,
+            "recall": 0.689271,
+            "f1": 0.551572,
+            "support_pixels": 2552265
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 899824
+          },
+          "destroyed": {
+            "iou": 0.119037,
+            "precision": 0.592108,
+            "recall": 0.12967,
+            "f1": 0.212749,
+            "support_pixels": 489481
+          }
+        },
+        "confusion_matrix": [
+          [
+            10614674,
+            1153289,
+            0,
+            19107
+          ],
+          [
+            788170,
+            1759201,
+            0,
+            4894
+          ],
+          [
+            265338,
+            614763,
+            0,
+            19723
+          ],
+          [
+            126668,
+            299342,
+            0,
+            63471
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              90.054,
+              9.784,
+              0.0,
+              0.162
+            ],
+            [
+              30.881,
+              68.927,
+              0.0,
+              0.192
+            ],
+            [
+              29.488,
+              68.32,
+              0.0,
+              2.192
+            ],
+            [
+              25.878,
+              61.155,
+              0.0,
+              12.967
+            ]
+          ],
+          "false_building_alarm_rate_pct": 9.946,
+          "missed_building_fn_rate_pct": 29.942,
+          "conditional_severity_acc_given_detected_pct": 66.006,
+          "intact_routing_pct": {
+            "pred_background_pct": 30.881,
+            "pred_intact_pct": 68.927,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.192
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 29.488,
+            "pred_intact_pct": 68.32,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 2.192
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 25.878,
+            "pred_intact_pct": 61.155,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 12.967
+          }
+        }
+      },
+      "sar_only_v0_2": {
+        "overall_pixel_accuracy": 0.6081,
+        "mIoU_all4": 0.205038,
+        "mIoU_foreground3": 0.07586,
+        "macro_f1_all4": 0.278738,
+        "macro_f1_foreground3": 0.123593,
+        "bright_loc_f1": 0.457762,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.592572,
+            "precision": 0.829595,
+            "recall": 0.674695,
+            "f1": 0.74417,
+            "support_pixels": 11787070
+          },
+          "intact": {
+            "iou": 0.227581,
+            "precision": 0.262422,
+            "recall": 0.631561,
+            "f1": 0.37078,
+            "support_pixels": 2552265
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 899824
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 489481
+          }
+        },
+        "confusion_matrix": [
+          [
+            7952678,
+            3834392,
+            0,
+            0
+          ],
+          [
+            940355,
+            1611910,
+            0,
+            0
+          ],
+          [
+            392972,
+            506852,
+            0,
+            0
+          ],
+          [
+            300208,
+            189273,
+            0,
+            0
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              67.47,
+              32.53,
+              0.0,
+              0.0
+            ],
+            [
+              36.844,
+              63.156,
+              0.0,
+              0.0
+            ],
+            [
+              43.672,
+              56.328,
+              0.0,
+              0.0
+            ],
+            [
+              61.332,
+              38.668,
+              0.0,
+              0.0
+            ]
+          ],
+          "false_building_alarm_rate_pct": 32.53,
+          "missed_building_fn_rate_pct": 41.444,
+          "conditional_severity_acc_given_detected_pct": 69.839,
+          "intact_routing_pct": {
+            "pred_background_pct": 36.844,
+            "pred_intact_pct": 63.156,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 43.672,
+            "pred_intact_pct": 56.328,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 61.332,
+            "pred_intact_pct": 38.668,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          }
+        }
+      },
+      "dual_concat_v0_2": {
+        "overall_pixel_accuracy": 0.782094,
+        "mIoU_all4": 0.301586,
+        "mIoU_foreground3": 0.130222,
+        "macro_f1_all4": 0.373903,
+        "macro_f1_foreground3": 0.199042,
+        "bright_loc_f1": 0.690737,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.815678,
+            "precision": 0.894365,
+            "recall": 0.902639,
+            "f1": 0.898483,
+            "support_pixels": 11787070
+          },
+          "intact": {
+            "iou": 0.349392,
+            "precision": 0.433597,
+            "recall": 0.642744,
+            "f1": 0.51785,
+            "support_pixels": 2552265
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 899824
+          },
+          "destroyed": {
+            "iou": 0.041274,
+            "precision": 0.434272,
+            "recall": 0.04362,
+            "f1": 0.079277,
+            "support_pixels": 489481
+          }
+        },
+        "confusion_matrix": [
+          [
+            10639470,
+            1132278,
+            0,
+            15322
+          ],
+          [
+            901349,
+            1640454,
+            0,
+            10462
+          ],
+          [
+            275133,
+            622661,
+            0,
+            2030
+          ],
+          [
+            80160,
+            387970,
+            0,
+            21351
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              90.264,
+              9.606,
+              0.0,
+              0.13
+            ],
+            [
+              35.316,
+              64.274,
+              0.0,
+              0.41
+            ],
+            [
+              30.576,
+              69.198,
+              0.0,
+              0.226
+            ],
+            [
+              16.377,
+              79.262,
+              0.0,
+              4.362
+            ]
+          ],
+          "false_building_alarm_rate_pct": 9.736,
+          "missed_building_fn_rate_pct": 31.882,
+          "conditional_severity_acc_given_detected_pct": 61.894,
+          "intact_routing_pct": {
+            "pred_background_pct": 35.316,
+            "pred_intact_pct": 64.274,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.41
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 30.576,
+            "pred_intact_pct": 69.198,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.226
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 16.377,
+            "pred_intact_pct": 79.262,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 4.362
+          }
+        }
+      },
+      "lite_gated_fusion_v0_2": {
+        "overall_pixel_accuracy": 0.785792,
+        "mIoU_all4": 0.319141,
+        "mIoU_foreground3": 0.153457,
+        "macro_f1_all4": 0.401377,
+        "macro_f1_foreground3": 0.23557,
+        "bright_loc_f1": 0.69863,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.816192,
+            "precision": 0.899752,
+            "recall": 0.89784,
+            "f1": 0.898795,
+            "support_pixels": 11787070
+          },
+          "intact": {
+            "iou": 0.368689,
+            "precision": 0.44769,
+            "recall": 0.676305,
+            "f1": 0.538747,
+            "support_pixels": 2552265
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 899824
+          },
+          "destroyed": {
+            "iou": 0.091682,
+            "precision": 0.454264,
+            "recall": 0.10303,
+            "f1": 0.167964,
+            "support_pixels": 489481
+          }
+        },
+        "confusion_matrix": [
+          [
+            10582904,
+            1188196,
+            2,
+            15968
+          ],
+          [
+            816727,
+            1726109,
+            0,
+            9429
+          ],
+          [
+            276521,
+            588114,
+            0,
+            35189
+          ],
+          [
+            85875,
+            353175,
+            0,
+            50431
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              89.784,
+              10.081,
+              0.0,
+              0.135
+            ],
+            [
+              32.0,
+              67.63,
+              0.0,
+              0.369
+            ],
+            [
+              30.731,
+              65.359,
+              0.0,
+              3.911
+            ],
+            [
+              17.544,
+              72.153,
+              0.0,
+              10.303
+            ]
+          ],
+          "false_building_alarm_rate_pct": 10.216,
+          "missed_building_fn_rate_pct": 29.915,
+          "conditional_severity_acc_given_detected_pct": 64.31,
+          "intact_routing_pct": {
+            "pred_background_pct": 32.0,
+            "pred_intact_pct": 67.63,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.369
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 30.731,
+            "pred_intact_pct": 65.359,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 3.911
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 17.544,
+            "pred_intact_pct": 72.153,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 10.303
+          }
+        }
+      }
+    },
+    "congo-volcano": {
+      "optical_only_v0_2": {
+        "overall_pixel_accuracy": 0.939432,
+        "mIoU_all4": 0.349945,
+        "mIoU_foreground3": 0.143788,
+        "macro_f1_all4": 0.405921,
+        "macro_f1_foreground3": 0.213243,
+        "bright_loc_f1": 0.821238,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.968419,
+            "precision": 0.987317,
+            "recall": 0.980618,
+            "f1": 0.983956,
+            "support_pixels": 9654921
+          },
+          "intact": {
+            "iou": 0.391062,
+            "precision": 0.431653,
+            "recall": 0.806154,
+            "f1": 0.56225,
+            "support_pixels": 455738
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 20977
+          },
+          "destroyed": {
+            "iou": 0.040301,
+            "precision": 0.342166,
+            "recall": 0.043685,
+            "f1": 0.077479,
+            "support_pixels": 354124
+          }
+        },
+        "confusion_matrix": [
+          [
+            9467789,
+            184171,
+            0,
+            2961
+          ],
+          [
+            61939,
+            367395,
+            0,
+            26404
+          ],
+          [
+            2645,
+            17955,
+            0,
+            377
+          ],
+          [
+            57039,
+            281615,
+            0,
+            15470
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              98.062,
+              1.908,
+              0.0,
+              0.031
+            ],
+            [
+              13.591,
+              80.615,
+              0.0,
+              5.794
+            ],
+            [
+              12.609,
+              85.594,
+              0.0,
+              1.797
+            ],
+            [
+              16.107,
+              79.524,
+              0.0,
+              4.369
+            ]
+          ],
+          "false_building_alarm_rate_pct": 1.938,
+          "missed_building_fn_rate_pct": 14.639,
+          "conditional_severity_acc_given_detected_pct": 53.984,
+          "intact_routing_pct": {
+            "pred_background_pct": 13.591,
+            "pred_intact_pct": 80.615,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 5.794
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 12.609,
+            "pred_intact_pct": 85.594,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 1.797
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 16.107,
+            "pred_intact_pct": 79.524,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 4.369
+          }
+        }
+      },
+      "sar_only_v0_2": {
+        "overall_pixel_accuracy": 0.885219,
+        "mIoU_all4": 0.276099,
+        "mIoU_foreground3": 0.073427,
+        "macro_f1_all4": 0.324882,
+        "macro_f1_foreground3": 0.120344,
+        "bright_loc_f1": 0.302885,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.884116,
+            "precision": 0.940378,
+            "recall": 0.936618,
+            "f1": 0.938494,
+            "support_pixels": 9654921
+          },
+          "intact": {
+            "iou": 0.22028,
+            "precision": 0.275138,
+            "recall": 0.524898,
+            "f1": 0.361032,
+            "support_pixels": 455738
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 20977
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 354124
+          }
+        },
+        "confusion_matrix": [
+          [
+            9042975,
+            611946,
+            0,
+            0
+          ],
+          [
+            216522,
+            239216,
+            0,
+            0
+          ],
+          [
+            13256,
+            7721,
+            0,
+            0
+          ],
+          [
+            343566,
+            10558,
+            0,
+            0
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              93.662,
+              6.338,
+              0.0,
+              0.0
+            ],
+            [
+              47.51,
+              52.49,
+              0.0,
+              0.0
+            ],
+            [
+              63.193,
+              36.807,
+              0.0,
+              0.0
+            ],
+            [
+              97.019,
+              2.981,
+              0.0,
+              0.0
+            ]
+          ],
+          "false_building_alarm_rate_pct": 6.338,
+          "missed_building_fn_rate_pct": 69.008,
+          "conditional_severity_acc_given_detected_pct": 92.901,
+          "intact_routing_pct": {
+            "pred_background_pct": 47.51,
+            "pred_intact_pct": 52.49,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 63.193,
+            "pred_intact_pct": 36.807,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 97.019,
+            "pred_intact_pct": 2.981,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          }
+        }
+      },
+      "dual_concat_v0_2": {
+        "overall_pixel_accuracy": 0.96171,
+        "mIoU_all4": 0.504854,
+        "mIoU_foreground3": 0.349411,
+        "macro_f1_all4": 0.590117,
+        "macro_f1_foreground3": 0.458363,
+        "bright_loc_f1": 0.827355,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.971182,
+            "precision": 0.984136,
+            "recall": 0.986628,
+            "f1": 0.98538,
+            "support_pixels": 9654921
+          },
+          "intact": {
+            "iou": 0.543862,
+            "precision": 0.662046,
+            "recall": 0.75288,
+            "f1": 0.704547,
+            "support_pixels": 455738
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 20977
+          },
+          "destroyed": {
+            "iou": 0.504372,
+            "precision": 0.747341,
+            "recall": 0.608055,
+            "f1": 0.670542,
+            "support_pixels": 354124
+          }
+        },
+        "confusion_matrix": [
+          [
+            9525816,
+            96736,
+            0,
+            32369
+          ],
+          [
+            77553,
+            343116,
+            0,
+            35069
+          ],
+          [
+            3766,
+            11852,
+            0,
+            5359
+          ],
+          [
+            72235,
+            66562,
+            0,
+            215327
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              98.663,
+              1.002,
+              0.0,
+              0.335
+            ],
+            [
+              17.017,
+              75.288,
+              0.0,
+              7.695
+            ],
+            [
+              17.953,
+              56.5,
+              0.0,
+              25.547
+            ],
+            [
+              20.398,
+              18.796,
+              0.0,
+              60.806
+            ]
+          ],
+          "false_building_alarm_rate_pct": 1.337,
+          "missed_building_fn_rate_pct": 18.482,
+          "conditional_severity_acc_given_detected_pct": 82.453,
+          "intact_routing_pct": {
+            "pred_background_pct": 17.017,
+            "pred_intact_pct": 75.288,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 7.695
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 17.953,
+            "pred_intact_pct": 56.5,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 25.547
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 20.398,
+            "pred_intact_pct": 18.796,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 60.806
+          }
+        }
+      },
+      "lite_gated_fusion_v0_2": {
+        "overall_pixel_accuracy": 0.957797,
+        "mIoU_all4": 0.491182,
+        "mIoU_foreground3": 0.331775,
+        "macro_f1_all4": 0.578422,
+        "macro_f1_foreground3": 0.443074,
+        "bright_loc_f1": 0.824394,
+        "bright_harmonic_damage_f1": 0.000283,
+        "per_class": {
+          "background": {
+            "iou": 0.969405,
+            "precision": 0.986657,
+            "recall": 0.982283,
+            "f1": 0.984465,
+            "support_pixels": 9654921
+          },
+          "intact": {
+            "iou": 0.498076,
+            "precision": 0.629718,
+            "recall": 0.704367,
+            "f1": 0.664954,
+            "support_pixels": 455738
+          },
+          "damaged": {
+            "iou": 4.7e-05,
+            "precision": 0.004065,
+            "recall": 4.8e-05,
+            "f1": 9.4e-05,
+            "support_pixels": 20977
+          },
+          "destroyed": {
+            "iou": 0.497201,
+            "precision": 0.655491,
+            "recall": 0.673089,
+            "f1": 0.664174,
+            "support_pixels": 354124
+          }
+        },
+        "confusion_matrix": [
+          [
+            9483862,
+            121133,
+            125,
+            49801
+          ],
+          [
+            66255,
+            321007,
+            6,
+            68470
+          ],
+          [
+            3272,
+            10701,
+            1,
+            7003
+          ],
+          [
+            58731,
+            56922,
+            114,
+            238357
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              98.228,
+              1.255,
+              0.001,
+              0.516
+            ],
+            [
+              14.538,
+              70.437,
+              0.001,
+              15.024
+            ],
+            [
+              15.598,
+              51.013,
+              0.005,
+              33.384
+            ],
+            [
+              16.585,
+              16.074,
+              0.032,
+              67.309
+            ]
+          ],
+          "false_building_alarm_rate_pct": 1.772,
+          "missed_building_fn_rate_pct": 15.437,
+          "conditional_severity_acc_given_detected_pct": 79.616,
+          "intact_routing_pct": {
+            "pred_background_pct": 14.538,
+            "pred_intact_pct": 70.437,
+            "pred_damaged_pct": 0.001,
+            "pred_destroyed_pct": 15.024
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 15.598,
+            "pred_intact_pct": 51.013,
+            "pred_damaged_pct": 0.005,
+            "pred_destroyed_pct": 33.384
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 16.585,
+            "pred_intact_pct": 16.074,
+            "pred_damaged_pct": 0.032,
+            "pred_destroyed_pct": 67.309
+          }
+        }
+      }
+    },
+    "libya-flood": {
+      "optical_only_v0_2": {
+        "overall_pixel_accuracy": 0.796695,
+        "mIoU_all4": 0.300363,
+        "mIoU_foreground3": 0.111739,
+        "macro_f1_all4": 0.35761,
+        "macro_f1_foreground3": 0.167372,
+        "bright_loc_f1": 0.776918,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.866235,
+            "precision": 0.960478,
+            "recall": 0.898253,
+            "f1": 0.928324,
+            "support_pixels": 12302416
+          },
+          "intact": {
+            "iou": 0.335217,
+            "precision": 0.350529,
+            "recall": 0.884708,
+            "f1": 0.502116,
+            "support_pixels": 1673146
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 1483379
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 269699
+          }
+        },
+        "confusion_matrix": [
+          [
+            11050678,
+            1251738,
+            0,
+            0
+          ],
+          [
+            192787,
+            1480245,
+            0,
+            114
+          ],
+          [
+            216760,
+            1266376,
+            0,
+            243
+          ],
+          [
+            45172,
+            224527,
+            0,
+            0
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              89.825,
+              10.175,
+              0.0,
+              0.0
+            ],
+            [
+              11.522,
+              88.471,
+              0.0,
+              0.007
+            ],
+            [
+              14.613,
+              85.371,
+              0.0,
+              0.016
+            ],
+            [
+              16.749,
+              83.251,
+              0.0,
+              0.0
+            ]
+          ],
+          "false_building_alarm_rate_pct": 10.175,
+          "missed_building_fn_rate_pct": 13.272,
+          "conditional_severity_acc_given_detected_pct": 49.815,
+          "intact_routing_pct": {
+            "pred_background_pct": 11.522,
+            "pred_intact_pct": 88.471,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.007
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 14.613,
+            "pred_intact_pct": 85.371,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.016
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 16.749,
+            "pred_intact_pct": 83.251,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          }
+        }
+      },
+      "sar_only_v0_2": {
+        "overall_pixel_accuracy": 0.728019,
+        "mIoU_all4": 0.245551,
+        "mIoU_foreground3": 0.07339,
+        "macro_f1_all4": 0.306458,
+        "macro_f1_foreground3": 0.120294,
+        "bright_loc_f1": 0.55232,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.762037,
+            "precision": 0.880912,
+            "recall": 0.849556,
+            "f1": 0.86495,
+            "support_pixels": 12302416
+          },
+          "intact": {
+            "iou": 0.220169,
+            "precision": 0.258572,
+            "recall": 0.597171,
+            "f1": 0.360883,
+            "support_pixels": 1673146
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 1483379
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 269699
+          }
+        },
+        "confusion_matrix": [
+          [
+            10451587,
+            1850829,
+            0,
+            0
+          ],
+          [
+            673991,
+            999155,
+            0,
+            0
+          ],
+          [
+            510598,
+            972781,
+            0,
+            0
+          ],
+          [
+            228330,
+            41369,
+            0,
+            0
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              84.956,
+              15.044,
+              0.0,
+              0.0
+            ],
+            [
+              40.283,
+              59.717,
+              0.0,
+              0.0
+            ],
+            [
+              34.421,
+              65.579,
+              0.0,
+              0.0
+            ],
+            [
+              84.661,
+              15.339,
+              0.0,
+              0.0
+            ]
+          ],
+          "false_building_alarm_rate_pct": 15.044,
+          "missed_building_fn_rate_pct": 41.238,
+          "conditional_severity_acc_given_detected_pct": 49.628,
+          "intact_routing_pct": {
+            "pred_background_pct": 40.283,
+            "pred_intact_pct": 59.717,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 34.421,
+            "pred_intact_pct": 65.579,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 84.661,
+            "pred_intact_pct": 15.339,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          }
+        }
+      },
+      "dual_concat_v0_2": {
+        "overall_pixel_accuracy": 0.820684,
+        "mIoU_all4": 0.31011,
+        "mIoU_foreground3": 0.118701,
+        "macro_f1_all4": 0.366147,
+        "macro_f1_foreground3": 0.175324,
+        "bright_loc_f1": 0.773566,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.884334,
+            "precision": 0.933205,
+            "recall": 0.944093,
+            "f1": 0.938617,
+            "support_pixels": 12302416
+          },
+          "intact": {
+            "iou": 0.355242,
+            "precision": 0.396613,
+            "recall": 0.773016,
+            "f1": 0.524249,
+            "support_pixels": 1673146
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 1483379
+          },
+          "destroyed": {
+            "iou": 0.000862,
+            "precision": 0.011592,
+            "recall": 0.000931,
+            "f1": 0.001723,
+            "support_pixels": 269699
+          }
+        },
+        "confusion_matrix": [
+          [
+            11614623,
+            684936,
+            0,
+            2857
+          ],
+          [
+            368207,
+            1293368,
+            0,
+            11571
+          ],
+          [
+            366811,
+            1109594,
+            0,
+            6974
+          ],
+          [
+            96314,
+            173134,
+            0,
+            251
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              94.409,
+              5.567,
+              0.0,
+              0.023
+            ],
+            [
+              22.007,
+              77.302,
+              0.0,
+              0.692
+            ],
+            [
+              24.728,
+              74.802,
+              0.0,
+              0.47
+            ],
+            [
+              35.712,
+              64.195,
+              0.0,
+              0.093
+            ]
+          ],
+          "false_building_alarm_rate_pct": 5.591,
+          "missed_building_fn_rate_pct": 24.264,
+          "conditional_severity_acc_given_detected_pct": 49.853,
+          "intact_routing_pct": {
+            "pred_background_pct": 22.007,
+            "pred_intact_pct": 77.302,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.692
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 24.728,
+            "pred_intact_pct": 74.802,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.47
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 35.712,
+            "pred_intact_pct": 64.195,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.093
+          }
+        }
+      },
+      "lite_gated_fusion_v0_2": {
+        "overall_pixel_accuracy": 0.803381,
+        "mIoU_all4": 0.303615,
+        "mIoU_foreground3": 0.113247,
+        "macro_f1_all4": 0.360256,
+        "macro_f1_foreground3": 0.169284,
+        "bright_loc_f1": 0.784507,
+        "bright_harmonic_damage_f1": 0.000179,
+        "per_class": {
+          "background": {
+            "iou": 0.874718,
+            "precision": 0.956831,
+            "recall": 0.910657,
+            "f1": 0.933173,
+            "support_pixels": 12302416
+          },
+          "intact": {
+            "iou": 0.338972,
+            "precision": 0.359436,
+            "recall": 0.856196,
+            "f1": 0.506317,
+            "support_pixels": 1673146
+          },
+          "damaged": {
+            "iou": 3.1e-05,
+            "precision": 0.836364,
+            "recall": 3.1e-05,
+            "f1": 6.2e-05,
+            "support_pixels": 1483379
+          },
+          "destroyed": {
+            "iou": 0.000737,
+            "precision": 0.006525,
+            "recall": 0.000831,
+            "f1": 0.001474,
+            "support_pixels": 269699
+          }
+        },
+        "confusion_matrix": [
+          [
+            11203277,
+            1090154,
+            9,
+            8976
+          ],
+          [
+            222975,
+            1432541,
+            0,
+            17630
+          ],
+          [
+            229433,
+            1246398,
+            46,
+            7502
+          ],
+          [
+            53043,
+            216432,
+            0,
+            224
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              91.066,
+              8.861,
+              0.0,
+              0.073
+            ],
+            [
+              13.327,
+              85.62,
+              0.0,
+              1.054
+            ],
+            [
+              15.467,
+              84.024,
+              0.003,
+              0.506
+            ],
+            [
+              19.667,
+              80.249,
+              0.0,
+              0.083
+            ]
+          ],
+          "false_building_alarm_rate_pct": 8.934,
+          "missed_building_fn_rate_pct": 14.752,
+          "conditional_severity_acc_given_detected_pct": 49.056,
+          "intact_routing_pct": {
+            "pred_background_pct": 13.327,
+            "pred_intact_pct": 85.62,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 1.054
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 15.467,
+            "pred_intact_pct": 84.024,
+            "pred_damaged_pct": 0.003,
+            "pred_destroyed_pct": 0.506
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 19.667,
+            "pred_intact_pct": 80.249,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.083
+          }
+        }
+      }
+    },
+    "marshall-wildfire": {
+      "optical_only_v0_2": {
+        "overall_pixel_accuracy": 0.948612,
+        "mIoU_all4": 0.340975,
+        "mIoU_foreground3": 0.136524,
+        "macro_f1_all4": 0.393898,
+        "macro_f1_foreground3": 0.199654,
+        "bright_loc_f1": 0.629257,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.95433,
+            "precision": 0.971461,
+            "recall": 0.981856,
+            "f1": 0.976631,
+            "support_pixels": 24528776
+          },
+          "intact": {
+            "iou": 0.390654,
+            "precision": 0.591035,
+            "recall": 0.535371,
+            "f1": 0.561828,
+            "support_pixels": 1452356
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 17412
+          },
+          "destroyed": {
+            "iou": 0.018918,
+            "precision": 0.055822,
+            "recall": 0.027819,
+            "f1": 0.037133,
+            "support_pixels": 215856
+          }
+        },
+        "confusion_matrix": [
+          [
+            24083737,
+            423664,
+            0,
+            21375
+          ],
+          [
+            594859,
+            777550,
+            0,
+            79947
+          ],
+          [
+            6195,
+            10970,
+            0,
+            247
+          ],
+          [
+            106461,
+            103390,
+            0,
+            6005
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              98.186,
+              1.727,
+              0.0,
+              0.087
+            ],
+            [
+              40.958,
+              53.537,
+              0.0,
+              5.505
+            ],
+            [
+              35.579,
+              63.003,
+              0.0,
+              1.419
+            ],
+            [
+              49.32,
+              47.898,
+              0.0,
+              2.782
+            ]
+          ],
+          "false_building_alarm_rate_pct": 1.814,
+          "missed_building_fn_rate_pct": 41.973,
+          "conditional_severity_acc_given_detected_pct": 80.109,
+          "intact_routing_pct": {
+            "pred_background_pct": 40.958,
+            "pred_intact_pct": 53.537,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 5.505
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 35.579,
+            "pred_intact_pct": 63.003,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 1.419
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 49.32,
+            "pred_intact_pct": 47.898,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 2.782
+          }
+        }
+      },
+      "sar_only_v0_2": {
+        "overall_pixel_accuracy": 0.80111,
+        "mIoU_all4": 0.243888,
+        "mIoU_foreground3": 0.060796,
+        "macro_f1_all4": 0.29829,
+        "macro_f1_foreground3": 0.102836,
+        "bright_loc_f1": 0.306581,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.793164,
+            "precision": 0.973588,
+            "recall": 0.810607,
+            "f1": 0.884653,
+            "support_pixels": 24528776
+          },
+          "intact": {
+            "iou": 0.182387,
+            "precision": 0.192934,
+            "recall": 0.769395,
+            "f1": 0.308507,
+            "support_pixels": 1452356
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 17412
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 215856
+          }
+        },
+        "confusion_matrix": [
+          [
+            19883188,
+            4645588,
+            0,
+            0
+          ],
+          [
+            334920,
+            1117436,
+            0,
+            0
+          ],
+          [
+            6216,
+            11196,
+            0,
+            0
+          ],
+          [
+            198269,
+            17587,
+            0,
+            0
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              81.061,
+              18.939,
+              0.0,
+              0.0
+            ],
+            [
+              23.06,
+              76.94,
+              0.0,
+              0.0
+            ],
+            [
+              35.7,
+              64.3,
+              0.0,
+              0.0
+            ],
+            [
+              91.852,
+              8.148,
+              0.0,
+              0.0
+            ]
+          ],
+          "false_building_alarm_rate_pct": 18.939,
+          "missed_building_fn_rate_pct": 32.0,
+          "conditional_severity_acc_given_detected_pct": 97.489,
+          "intact_routing_pct": {
+            "pred_background_pct": 23.06,
+            "pred_intact_pct": 76.94,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 35.7,
+            "pred_intact_pct": 64.3,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 91.852,
+            "pred_intact_pct": 8.148,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          }
+        }
+      },
+      "dual_concat_v0_2": {
+        "overall_pixel_accuracy": 0.951407,
+        "mIoU_all4": 0.376641,
+        "mIoU_foreground3": 0.183899,
+        "macro_f1_all4": 0.450909,
+        "macro_f1_foreground3": 0.275575,
+        "bright_loc_f1": 0.633727,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.954865,
+            "precision": 0.971744,
+            "recall": 0.982134,
+            "f1": 0.976911,
+            "support_pixels": 24528776
+          },
+          "intact": {
+            "iou": 0.415662,
+            "precision": 0.619808,
+            "recall": 0.557913,
+            "f1": 0.587234,
+            "support_pixels": 1452356
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 17412
+          },
+          "destroyed": {
+            "iou": 0.136036,
+            "precision": 0.342518,
+            "recall": 0.184113,
+            "f1": 0.239493,
+            "support_pixels": 215856
+          }
+        },
+        "confusion_matrix": [
+          [
+            24090546,
+            426298,
+            0,
+            11932
+          ],
+          [
+            577847,
+            810288,
+            0,
+            64221
+          ],
+          [
+            6314,
+            10964,
+            0,
+            134
+          ],
+          [
+            116342,
+            59772,
+            0,
+            39742
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              98.213,
+              1.738,
+              0.0,
+              0.049
+            ],
+            [
+              39.787,
+              55.791,
+              0.0,
+              4.422
+            ],
+            [
+              36.262,
+              62.968,
+              0.0,
+              0.77
+            ],
+            [
+              53.898,
+              27.691,
+              0.0,
+              18.411
+            ]
+          ],
+          "false_building_alarm_rate_pct": 1.787,
+          "missed_building_fn_rate_pct": 41.557,
+          "conditional_severity_acc_given_detected_pct": 86.287,
+          "intact_routing_pct": {
+            "pred_background_pct": 39.787,
+            "pred_intact_pct": 55.791,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 4.422
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 36.262,
+            "pred_intact_pct": 62.968,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.77
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 53.898,
+            "pred_intact_pct": 27.691,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 18.411
+          }
+        }
+      },
+      "lite_gated_fusion_v0_2": {
+        "overall_pixel_accuracy": 0.948808,
+        "mIoU_all4": 0.365165,
+        "mIoU_foreground3": 0.168335,
+        "macro_f1_all4": 0.430105,
+        "macro_f1_foreground3": 0.247699,
+        "bright_loc_f1": 0.678711,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.955654,
+            "precision": 0.979026,
+            "recall": 0.975628,
+            "f1": 0.977324,
+            "support_pixels": 24528776
+          },
+          "intact": {
+            "iou": 0.427113,
+            "precision": 0.570952,
+            "recall": 0.628995,
+            "f1": 0.59857,
+            "support_pixels": 1452356
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 17412
+          },
+          "destroyed": {
+            "iou": 0.077892,
+            "precision": 0.163641,
+            "recall": 0.12941,
+            "f1": 0.144526,
+            "support_pixels": 215856
+          }
+        },
+        "confusion_matrix": [
+          [
+            23930961,
+            571934,
+            12,
+            25869
+          ],
+          [
+            423539,
+            913525,
+            35,
+            115257
+          ],
+          [
+            3198,
+            12571,
+            0,
+            1643
+          ],
+          [
+            85944,
+            101974,
+            4,
+            27934
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              97.563,
+              2.332,
+              0.0,
+              0.105
+            ],
+            [
+              29.162,
+              62.9,
+              0.002,
+              7.936
+            ],
+            [
+              18.367,
+              72.197,
+              0.0,
+              9.436
+            ],
+            [
+              39.815,
+              47.242,
+              0.002,
+              12.941
+            ]
+          ],
+          "false_building_alarm_rate_pct": 2.437,
+          "missed_building_fn_rate_pct": 30.415,
+          "conditional_severity_acc_given_detected_pct": 80.265,
+          "intact_routing_pct": {
+            "pred_background_pct": 29.162,
+            "pred_intact_pct": 62.9,
+            "pred_damaged_pct": 0.002,
+            "pred_destroyed_pct": 7.936
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 18.367,
+            "pred_intact_pct": 72.197,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 9.436
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 39.815,
+            "pred_intact_pct": 47.242,
+            "pred_damaged_pct": 0.002,
+            "pred_destroyed_pct": 12.941
+          }
+        }
+      }
+    },
+    "noto-earthquake": {
+      "optical_only_v0_2": {
+        "overall_pixel_accuracy": 0.86576,
+        "mIoU_all4": 0.26783,
+        "mIoU_foreground3": 0.0658,
+        "macro_f1_all4": 0.319453,
+        "macro_f1_foreground3": 0.115032,
+        "bright_loc_f1": 0.387819,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.873919,
+            "precision": 0.976424,
+            "recall": 0.892758,
+            "f1": 0.932718,
+            "support_pixels": 77975474
+          },
+          "intact": {
+            "iou": 0.167273,
+            "precision": 0.202156,
+            "recall": 0.492228,
+            "f1": 0.286604,
+            "support_pixels": 4161944
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 210606
+          },
+          "destroyed": {
+            "iou": 0.030126,
+            "precision": 0.039401,
+            "recall": 0.113463,
+            "f1": 0.058491,
+            "support_pixels": 489480
+          }
+        },
+        "confusion_matrix": [
+          [
+            69613198,
+            7726750,
+            0,
+            635526
+          ],
+          [
+            1421247,
+            2048625,
+            0,
+            692072
+          ],
+          [
+            83855,
+            100333,
+            0,
+            26418
+          ],
+          [
+            175747,
+            258195,
+            0,
+            55538
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              89.276,
+              9.909,
+              0.0,
+              0.815
+            ],
+            [
+              34.149,
+              49.223,
+              0.0,
+              16.629
+            ],
+            [
+              39.816,
+              47.64,
+              0.0,
+              12.544
+            ],
+            [
+              35.905,
+              52.749,
+              0.0,
+              11.346
+            ]
+          ],
+          "false_building_alarm_rate_pct": 10.724,
+          "missed_building_fn_rate_pct": 34.571,
+          "conditional_severity_acc_given_detected_pct": 66.144,
+          "intact_routing_pct": {
+            "pred_background_pct": 34.149,
+            "pred_intact_pct": 49.223,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 16.629
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 39.816,
+            "pred_intact_pct": 47.64,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 12.544
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 35.905,
+            "pred_intact_pct": 52.749,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 11.346
+          }
+        }
+      },
+      "sar_only_v0_2": {
+        "overall_pixel_accuracy": 0.813611,
+        "mIoU_all4": 0.252867,
+        "mIoU_foreground3": 0.066654,
+        "macro_f1_all4": 0.307307,
+        "macro_f1_foreground3": 0.111093,
+        "bright_loc_f1": 0.380605,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.811508,
+            "precision": 0.994875,
+            "recall": 0.814915,
+            "f1": 0.895948,
+            "support_pixels": 77975474
+          },
+          "intact": {
+            "iou": 0.199961,
+            "precision": 0.203206,
+            "recall": 0.926049,
+            "f1": 0.333279,
+            "support_pixels": 4161944
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 210606
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 489480
+          }
+        },
+        "confusion_matrix": [
+          [
+            63543373,
+            14432101,
+            0,
+            0
+          ],
+          [
+            307782,
+            3854162,
+            0,
+            0
+          ],
+          [
+            8563,
+            202043,
+            0,
+            0
+          ],
+          [
+            10996,
+            478484,
+            0,
+            0
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              81.491,
+              18.509,
+              0.0,
+              0.0
+            ],
+            [
+              7.395,
+              92.605,
+              0.0,
+              0.0
+            ],
+            [
+              4.066,
+              95.934,
+              0.0,
+              0.0
+            ],
+            [
+              2.246,
+              97.754,
+              0.0,
+              0.0
+            ]
+          ],
+          "false_building_alarm_rate_pct": 18.509,
+          "missed_building_fn_rate_pct": 6.733,
+          "conditional_severity_acc_given_detected_pct": 84.993,
+          "intact_routing_pct": {
+            "pred_background_pct": 7.395,
+            "pred_intact_pct": 92.605,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 4.066,
+            "pred_intact_pct": 95.934,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 2.246,
+            "pred_intact_pct": 97.754,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.0
+          }
+        }
+      },
+      "dual_concat_v0_2": {
+        "overall_pixel_accuracy": 0.942763,
+        "mIoU_all4": 0.342504,
+        "mIoU_foreground3": 0.140891,
+        "macro_f1_all4": 0.392967,
+        "macro_f1_foreground3": 0.199636,
+        "bright_loc_f1": 0.623761,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.947343,
+            "precision": 0.981755,
+            "recall": 0.96432,
+            "f1": 0.972959,
+            "support_pixels": 77975474
+          },
+          "intact": {
+            "iou": 0.417957,
+            "precision": 0.511156,
+            "recall": 0.696261,
+            "f1": 0.589519,
+            "support_pixels": 4161944
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 210606
+          },
+          "destroyed": {
+            "iou": 0.004717,
+            "precision": 0.008673,
+            "recall": 0.010235,
+            "f1": 0.00939,
+            "support_pixels": 489480
+          }
+        },
+        "confusion_matrix": [
+          [
+            75193338,
+            2267012,
+            0,
+            515124
+          ],
+          [
+            1208188,
+            2897801,
+            0,
+            55955
+          ],
+          [
+            68820,
+            140240,
+            0,
+            1546
+          ],
+          [
+            120407,
+            364063,
+            0,
+            5010
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              96.432,
+              2.907,
+              0.0,
+              0.661
+            ],
+            [
+              29.029,
+              69.626,
+              0.0,
+              1.344
+            ],
+            [
+              32.677,
+              66.589,
+              0.0,
+              0.734
+            ],
+            [
+              24.599,
+              74.378,
+              0.0,
+              1.024
+            ]
+          ],
+          "false_building_alarm_rate_pct": 3.568,
+          "missed_building_fn_rate_pct": 28.741,
+          "conditional_severity_acc_given_detected_pct": 83.785,
+          "intact_routing_pct": {
+            "pred_background_pct": 29.029,
+            "pred_intact_pct": 69.626,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 1.344
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 32.677,
+            "pred_intact_pct": 66.589,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.734
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 24.599,
+            "pred_intact_pct": 74.378,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 1.024
+          }
+        }
+      },
+      "lite_gated_fusion_v0_2": {
+        "overall_pixel_accuracy": 0.918458,
+        "mIoU_all4": 0.321174,
+        "mIoU_foreground3": 0.120607,
+        "macro_f1_all4": 0.373823,
+        "macro_f1_foreground3": 0.178468,
+        "bright_loc_f1": 0.590822,
+        "bright_harmonic_damage_f1": 2.9e-05,
+        "per_class": {
+          "background": {
+            "iou": 0.922876,
+            "precision": 0.99324,
+            "recall": 0.928709,
+            "f1": 0.959891,
+            "support_pixels": 77975474
+          },
+          "intact": {
+            "iou": 0.357396,
+            "precision": 0.375672,
+            "recall": 0.880193,
+            "f1": 0.526591,
+            "support_pixels": 4161944
+          },
+          "damaged": {
+            "iou": 5e-06,
+            "precision": 0.035714,
+            "recall": 5e-06,
+            "f1": 9e-06,
+            "support_pixels": 210606
+          },
+          "destroyed": {
+            "iou": 0.004421,
+            "precision": 0.016592,
+            "recall": 0.00599,
+            "f1": 0.008802,
+            "support_pixels": 489480
+          }
+        },
+        "confusion_matrix": [
+          [
+            72416532,
+            5437451,
+            18,
+            121473
+          ],
+          [
+            447823,
+            3663314,
+            9,
+            50798
+          ],
+          [
+            19055,
+            190042,
+            1,
+            1508
+          ],
+          [
+            25983,
+            460565,
+            0,
+            2932
+          ]
+        ],
+        "error_decomposition": {
+          "row_normalized_pct": [
+            [
+              92.871,
+              6.973,
+              0.0,
+              0.156
+            ],
+            [
+              10.76,
+              88.019,
+              0.0,
+              1.221
+            ],
+            [
+              9.048,
+              90.236,
+              0.0,
+              0.716
+            ],
+            [
+              5.308,
+              94.093,
+              0.0,
+              0.599
+            ]
+          ],
+          "false_building_alarm_rate_pct": 7.129,
+          "missed_building_fn_rate_pct": 10.137,
+          "conditional_severity_acc_given_detected_pct": 83.912,
+          "intact_routing_pct": {
+            "pred_background_pct": 10.76,
+            "pred_intact_pct": 88.019,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 1.221
+          },
+          "damaged_routing_pct": {
+            "pred_background_pct": 9.048,
+            "pred_intact_pct": 90.236,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.716
+          },
+          "destroyed_routing_pct": {
+            "pred_background_pct": 5.308,
+            "pred_intact_pct": 94.093,
+            "pred_damaged_pct": 0.0,
+            "pred_destroyed_pct": 0.599
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,2144 @@
+{
+  "timestamp_utc": "2026-11-13T16:50:08.603579+00:00",
+  "suite_name": "benchmark_v0_2",
+  "subset_version": "v0.2",
+  "seed": 42,
+  "train_class_weights": [
+    0.6434,
+    0.8638,
+    1.315,
+    1.1777
+  ],
+  "comparison_table": [
+    {
+      "variant_id": "optical_only_v0_2",
+      "short_name": "Optical-Only (v0.2)",
+      "params_M": 14.43,
+      "peak_vram_mb": 3005.38,
+      "train_sec": 284.3,
+      "ms_per_tile": 179.75,
+      "best_epoch": 22,
+      "val_bg_recall": 0.922614,
+      "val_mIoU_all4": 0.326266,
+      "val_mIoU_fg3": 0.1427,
+      "val_macro_f1_fg3": 0.218619,
+      "val_loc_f1": 0.746822,
+      "val_intact_f1": 0.531127,
+      "val_damaged_f1": 0.0,
+      "val_destroyed_f1": 0.124729,
+      "test104_mIoU_fg3": 0.075643,
+      "test104_macro_f1_fg3": 0.128853,
+      "test104_loc_f1": 0.426188,
+      "noto_mIoU_fg3": 0.065782,
+      "noto_macro_f1_fg3": 0.115007,
+      "noto_loc_f1": 0.387718,
+      "noto_damaged_f1": 0.0,
+      "noto_destroyed_f1": 0.058496,
+      "marshall_mIoU_fg3": 0.136525,
+      "marshall_macro_f1_fg3": 0.199656,
+      "marshall_loc_f1": 0.629247,
+      "marshall_destroyed_f1": 0.037141
+    },
+    {
+      "variant_id": "sar_only_v0_2",
+      "short_name": "SAR-Only (v0.2)",
+      "params_M": 14.43,
+      "peak_vram_mb": 3171.76,
+      "train_sec": 284.7,
+      "ms_per_tile": 164.21,
+      "best_epoch": 4,
+      "val_bg_recall": 0.813388,
+      "val_mIoU_all4": 0.239724,
+      "val_mIoU_fg3": 0.074769,
+      "val_macro_f1_fg3": 0.122141,
+      "val_loc_f1": 0.480099,
+      "val_intact_f1": 0.366424,
+      "val_damaged_f1": 0.0,
+      "val_destroyed_f1": 0.0,
+      "test104_mIoU_fg3": 0.065241,
+      "test104_macro_f1_fg3": 0.109124,
+      "test104_loc_f1": 0.362926,
+      "noto_mIoU_fg3": 0.066654,
+      "noto_macro_f1_fg3": 0.111093,
+      "noto_loc_f1": 0.380606,
+      "noto_damaged_f1": 0.0,
+      "noto_destroyed_f1": 0.0,
+      "marshall_mIoU_fg3": 0.060796,
+      "marshall_macro_f1_fg3": 0.102837,
+      "marshall_loc_f1": 0.306582,
+      "marshall_destroyed_f1": 0.0
+    },
+    {
+      "variant_id": "dual_concat_v0_2",
+      "short_name": "Dual Concat (v0.2)",
+      "params_M": 26.32,
+      "peak_vram_mb": 3579.05,
+      "train_sec": 305.04,
+      "ms_per_tile": 183.1,
+      "best_epoch": 21,
+      "val_bg_recall": 0.941783,
+      "val_mIoU_all4": 0.360089,
+      "val_mIoU_fg3": 0.185745,
+      "val_macro_f1_fg3": 0.285709,
+      "val_loc_f1": 0.739085,
+      "val_intact_f1": 0.535279,
+      "val_damaged_f1": 0.0,
+      "val_destroyed_f1": 0.321848,
+      "test104_mIoU_fg3": 0.150166,
+      "test104_macro_f1_fg3": 0.217664,
+      "test104_loc_f1": 0.625938,
+      "noto_mIoU_fg3": 0.140891,
+      "noto_macro_f1_fg3": 0.199635,
+      "noto_loc_f1": 0.623762,
+      "noto_damaged_f1": 0.0,
+      "noto_destroyed_f1": 0.009384,
+      "marshall_mIoU_fg3": 0.183897,
+      "marshall_macro_f1_fg3": 0.275574,
+      "marshall_loc_f1": 0.633713,
+      "marshall_destroyed_f1": 0.239499
+    },
+    {
+      "variant_id": "lite_gated_fusion_v0_2",
+      "short_name": "Lite Gated Fusion (Ours)",
+      "params_M": 26.78,
+      "peak_vram_mb": 3824.1,
+      "train_sec": 340.05,
+      "ms_per_tile": 194.13,
+      "best_epoch": 22,
+      "val_bg_recall": 0.926673,
+      "val_mIoU_all4": 0.365122,
+      "val_mIoU_fg3": 0.193686,
+      "val_macro_f1_fg3": 0.296785,
+      "val_loc_f1": 0.748682,
+      "val_intact_f1": 0.534017,
+      "val_damaged_f1": 3.9e-05,
+      "val_destroyed_f1": 0.3563,
+      "test104_mIoU_fg3": 0.133215,
+      "test104_macro_f1_fg3": 0.199397,
+      "test104_loc_f1": 0.607473,
+      "noto_mIoU_fg3": 0.120608,
+      "noto_macro_f1_fg3": 0.178469,
+      "noto_loc_f1": 0.590825,
+      "noto_damaged_f1": 9e-06,
+      "noto_destroyed_f1": 0.008805,
+      "marshall_mIoU_fg3": 0.168333,
+      "marshall_macro_f1_fg3": 0.247696,
+      "marshall_loc_f1": 0.678712,
+      "marshall_destroyed_f1": 0.144522
+    }
+  ],
+  "variant_details": {
+    "optical_only_v0_2": {
+      "timestamp_utc": "2026-11-13T16:33:08.752427+00:00",
+      "variant_id": "optical_only_v0_2",
+      "label": "Optical-Only (R18 + 1xSkip + AuxLoc)",
+      "short_name": "Optical-Only (v0.2)",
+      "subset_version": "v0.2",
+      "seed": 42,
+      "train_class_weights": [
+        0.6434,
+        0.8638,
+        1.315,
+        1.1777
+      ],
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 3005.38,
+        "training_duration_seconds": 284.3
+      },
+      "model_info": {
+        "total_params": 14433093,
+        "trainable_params": 14433093,
+        "fp32_size_mb": 55.06
+      },
+      "best_checkpoint": {
+        "epoch": 22,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.1427
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 2.234926,
+        "final_epoch_train_loss": 1.051477,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.830146,
+        "mIoU_all4": 0.326266,
+        "mIoU_foreground3": 0.1427,
+        "macro_f1_all4": 0.397576,
+        "macro_f1_foreground3": 0.218619,
+        "bright_loc_f1": 0.746822,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.876965,
+            "precision": 0.946593,
+            "recall": 0.922614,
+            "f1": 0.93445,
+            "support_pixels": 33744407
+          },
+          "intact": {
+            "iou": 0.361588,
+            "precision": 0.405232,
+            "recall": 0.7705,
+            "f1": 0.531127,
+            "support_pixels": 4681149
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 2404180
+          },
+          "destroyed": {
+            "iou": 0.066513,
+            "precision": 0.516757,
+            "recall": 0.070924,
+            "f1": 0.124729,
+            "support_pixels": 1113304
+          }
+        },
+        "confusion_matrix": [
+          [
+            31133077,
+            2589257,
+            0,
+            22073
+          ],
+          [
+            1042901,
+            3606825,
+            0,
+            31423
+          ],
+          [
+            484745,
+            1899092,
+            0,
+            20343
+          ],
+          [
+            228876,
+            805468,
+            0,
+            78960
+          ]
+        ],
+        "loss": 1.064008,
+        "inference_seconds": 7.1902,
+        "ms_per_tile": 179.75,
+        "tiles_per_sec": 5.56
+      },
+      "validation_per_event": {
+        "beirut-explosion": {
+          "overall_pixel_accuracy": 0.790746,
+          "mIoU_all4": 0.329616,
+          "mIoU_foreground3": 0.16663,
+          "macro_f1_all4": 0.416157,
+          "macro_f1_foreground3": 0.254797,
+          "bright_loc_f1": 0.701274,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.818575,
+              "precision": 0.899942,
+              "recall": 0.900534,
+              "f1": 0.900238,
+              "support_pixels": 11787070
+            },
+            "intact": {
+              "iou": 0.380809,
+              "precision": 0.459732,
+              "recall": 0.689272,
+              "f1": 0.551574,
+              "support_pixels": 2552265
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 899824
+            },
+            "destroyed": {
+              "iou": 0.11908,
+              "precision": 0.592144,
+              "recall": 0.129719,
+              "f1": 0.212817,
+              "support_pixels": 489481
+            }
+          },
+          "confusion_matrix": [
+            [
+              10614657,
+              1153300,
+              0,
+              19113
+            ],
+            [
+              788163,
+              1759204,
+              0,
+              4898
+            ],
+            [
+              265346,
+              614755,
+              0,
+              19723
+            ],
+            [
+              126660,
+              299326,
+              0,
+              63495
+            ]
+          ]
+        },
+        "congo-volcano": {
+          "overall_pixel_accuracy": 0.939429,
+          "mIoU_all4": 0.349937,
+          "mIoU_foreground3": 0.143776,
+          "macro_f1_all4": 0.405909,
+          "macro_f1_foreground3": 0.213228,
+          "bright_loc_f1": 0.821231,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.968417,
+              "precision": 0.987317,
+              "recall": 0.980616,
+              "f1": 0.983955,
+              "support_pixels": 9654921
+            },
+            "intact": {
+              "iou": 0.391042,
+              "precision": 0.431633,
+              "recall": 0.806136,
+              "f1": 0.562229,
+              "support_pixels": 455738
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 20977
+            },
+            "destroyed": {
+              "iou": 0.040287,
+              "precision": 0.342055,
+              "recall": 0.043671,
+              "f1": 0.077454,
+              "support_pixels": 354124
+            }
+          },
+          "confusion_matrix": [
+            [
+              9467771,
+              184190,
+              0,
+              2960
+            ],
+            [
+              61940,
+              367387,
+              0,
+              26411
+            ],
+            [
+              2645,
+              17956,
+              0,
+              376
+            ],
+            [
+              57036,
+              281623,
+              0,
+              15465
+            ]
+          ]
+        },
+        "libya-flood": {
+          "overall_pixel_accuracy": 0.796692,
+          "mIoU_all4": 0.300361,
+          "mIoU_foreground3": 0.111737,
+          "macro_f1_all4": 0.357608,
+          "macro_f1_foreground3": 0.16737,
+          "bright_loc_f1": 0.776913,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.866232,
+              "precision": 0.960477,
+              "recall": 0.89825,
+              "f1": 0.928322,
+              "support_pixels": 12302416
+            },
+            "intact": {
+              "iou": 0.335212,
+              "precision": 0.350525,
+              "recall": 0.884701,
+              "f1": 0.502111,
+              "support_pixels": 1673146
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 1483379
+            },
+            "destroyed": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 269699
+            }
+          },
+          "confusion_matrix": [
+            [
+              11050649,
+              1251767,
+              0,
+              0
+            ],
+            [
+              192798,
+              1480234,
+              0,
+              114
+            ],
+            [
+              216754,
+              1266381,
+              0,
+              244
+            ],
+            [
+              45180,
+              224519,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "unseen_test_combined_metrics": {
+        "overall_pixel_accuracy": 0.885638,
+        "mIoU_all4": 0.280038,
+        "mIoU_foreground3": 0.075643,
+        "macro_f1_all4": 0.33254,
+        "macro_f1_foreground3": 0.128853,
+        "bright_loc_f1": 0.426188,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.893225,
+            "precision": 0.975142,
+            "recall": 0.914038,
+            "f1": 0.943602,
+            "support_pixels": 102504250
+          },
+          "intact": {
+            "iou": 0.198445,
+            "precision": 0.246751,
+            "recall": 0.503394,
+            "f1": 0.331171,
+            "support_pixels": 5614300
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 228018
+          },
+          "destroyed": {
+            "iou": 0.028483,
+            "precision": 0.04057,
+            "recall": 0.087262,
+            "f1": 0.055389,
+            "support_pixels": 705336
+          }
+        },
+        "confusion_matrix": [
+          [
+            93692747,
+            8154599,
+            0,
+            656904
+          ],
+          [
+            2016124,
+            2826203,
+            0,
+            771973
+          ],
+          [
+            90055,
+            111286,
+            0,
+            26677
+          ],
+          [
+            282223,
+            361564,
+            0,
+            61549
+          ]
+        ],
+        "loss": 0.722693,
+        "inference_seconds": 17.8246,
+        "ms_per_tile": 171.39,
+        "tiles_per_sec": 5.83
+      },
+      "unseen_test_per_event": {
+        "marshall-wildfire": {
+          "overall_pixel_accuracy": 0.948611,
+          "mIoU_all4": 0.340976,
+          "mIoU_foreground3": 0.136525,
+          "macro_f1_all4": 0.3939,
+          "macro_f1_foreground3": 0.199656,
+          "bright_loc_f1": 0.629247,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.954328,
+              "precision": 0.97146,
+              "recall": 0.981856,
+              "f1": 0.97663,
+              "support_pixels": 24528776
+            },
+            "intact": {
+              "iou": 0.390654,
+              "precision": 0.591031,
+              "recall": 0.535375,
+              "f1": 0.561828,
+              "support_pixels": 1452356
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 17412
+            },
+            "destroyed": {
+              "iou": 0.018922,
+              "precision": 0.055839,
+              "recall": 0.027824,
+              "f1": 0.037141,
+              "support_pixels": 215856
+            }
+          },
+          "confusion_matrix": [
+            [
+              24083720,
+              423678,
+              0,
+              21378
+            ],
+            [
+              594873,
+              777555,
+              0,
+              79928
+            ],
+            [
+              6195,
+              10970,
+              0,
+              247
+            ],
+            [
+              106462,
+              103388,
+              0,
+              6006
+            ]
+          ]
+        },
+        "noto-earthquake": {
+          "overall_pixel_accuracy": 0.86571,
+          "mIoU_all4": 0.267804,
+          "mIoU_foreground3": 0.065782,
+          "macro_f1_all4": 0.319427,
+          "macro_f1_foreground3": 0.115007,
+          "bright_loc_f1": 0.387718,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.873867,
+              "precision": 0.976422,
+              "recall": 0.892704,
+              "f1": 0.932688,
+              "support_pixels": 77975474
+            },
+            "intact": {
+              "iou": 0.167218,
+              "precision": 0.202075,
+              "recall": 0.492233,
+              "f1": 0.286524,
+              "support_pixels": 4161944
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 210606
+            },
+            "destroyed": {
+              "iou": 0.030129,
+              "precision": 0.039405,
+              "recall": 0.113473,
+              "f1": 0.058496,
+              "support_pixels": 489480
+            }
+          },
+          "confusion_matrix": [
+            [
+              69609027,
+              7730921,
+              0,
+              635526
+            ],
+            [
+              1421251,
+              2048648,
+              0,
+              692045
+            ],
+            [
+              83860,
+              100316,
+              0,
+              26430
+            ],
+            [
+              175761,
+              258176,
+              0,
+              55543
+            ]
+          ]
+        }
+      }
+    },
+    "sar_only_v0_2": {
+      "timestamp_utc": "2026-11-13T16:38:17.646216+00:00",
+      "variant_id": "sar_only_v0_2",
+      "label": "SAR-Only (R18 + 1xSkip + AuxLoc)",
+      "short_name": "SAR-Only (v0.2)",
+      "subset_version": "v0.2",
+      "seed": 42,
+      "train_class_weights": [
+        0.6434,
+        0.8638,
+        1.315,
+        1.1777
+      ],
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 3171.76,
+        "training_duration_seconds": 284.7
+      },
+      "model_info": {
+        "total_params": 14433093,
+        "trainable_params": 14433093,
+        "fp32_size_mb": 55.06
+      },
+      "best_checkpoint": {
+        "epoch": 4,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.074769
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 2.369319,
+        "final_epoch_train_loss": 1.484783,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.72235,
+        "mIoU_all4": 0.239724,
+        "mIoU_foreground3": 0.074769,
+        "macro_f1_all4": 0.303353,
+        "macro_f1_foreground3": 0.122141,
+        "bright_loc_f1": 0.480099,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.734588,
+            "precision": 0.883485,
+            "recall": 0.813388,
+            "f1": 0.846989,
+            "support_pixels": 33744407
+          },
+          "intact": {
+            "iou": 0.224308,
+            "precision": 0.262069,
+            "recall": 0.608878,
+            "f1": 0.366424,
+            "support_pixels": 4681149
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 2404180
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 1113304
+          }
+        },
+        "confusion_matrix": [
+          [
+            27447293,
+            6297114,
+            0,
+            0
+          ],
+          [
+            1830901,
+            2850248,
+            0,
+            0
+          ],
+          [
+            916778,
+            1487402,
+            0,
+            0
+          ],
+          [
+            872105,
+            241199,
+            0,
+            0
+          ]
+        ],
+        "loss": 1.365118,
+        "inference_seconds": 6.5686,
+        "ms_per_tile": 164.21,
+        "tiles_per_sec": 6.09
+      },
+      "validation_per_event": {
+        "beirut-explosion": {
+          "overall_pixel_accuracy": 0.608099,
+          "mIoU_all4": 0.205037,
+          "mIoU_foreground3": 0.075858,
+          "macro_f1_all4": 0.278736,
+          "macro_f1_foreground3": 0.123591,
+          "bright_loc_f1": 0.457763,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.592575,
+              "precision": 0.829596,
+              "recall": 0.674698,
+              "f1": 0.744172,
+              "support_pixels": 11787070
+            },
+            "intact": {
+              "iou": 0.227575,
+              "precision": 0.262417,
+              "recall": 0.631543,
+              "f1": 0.370772,
+              "support_pixels": 2552265
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 899824
+            },
+            "destroyed": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 489481
+            }
+          },
+          "confusion_matrix": [
+            [
+              7952712,
+              3834358,
+              0,
+              0
+            ],
+            [
+              940399,
+              1611866,
+              0,
+              0
+            ],
+            [
+              392927,
+              506897,
+              0,
+              0
+            ],
+            [
+              300214,
+              189267,
+              0,
+              0
+            ]
+          ]
+        },
+        "congo-volcano": {
+          "overall_pixel_accuracy": 0.885222,
+          "mIoU_all4": 0.276103,
+          "mIoU_foreground3": 0.073431,
+          "macro_f1_all4": 0.324886,
+          "macro_f1_foreground3": 0.120349,
+          "bright_loc_f1": 0.302897,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.88412,
+              "precision": 0.940379,
+              "recall": 0.936622,
+              "f1": 0.938496,
+              "support_pixels": 9654921
+            },
+            "intact": {
+              "iou": 0.220292,
+              "precision": 0.275153,
+              "recall": 0.524911,
+              "f1": 0.361048,
+              "support_pixels": 455738
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 20977
+            },
+            "destroyed": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 354124
+            }
+          },
+          "confusion_matrix": [
+            [
+              9043008,
+              611913,
+              0,
+              0
+            ],
+            [
+              216516,
+              239222,
+              0,
+              0
+            ],
+            [
+              13257,
+              7720,
+              0,
+              0
+            ],
+            [
+              343565,
+              10559,
+              0,
+              0
+            ]
+          ]
+        },
+        "libya-flood": {
+          "overall_pixel_accuracy": 0.728018,
+          "mIoU_all4": 0.245551,
+          "mIoU_foreground3": 0.07339,
+          "macro_f1_all4": 0.306458,
+          "macro_f1_foreground3": 0.120294,
+          "bright_loc_f1": 0.552321,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.762036,
+              "precision": 0.880913,
+              "recall": 0.849555,
+              "f1": 0.86495,
+              "support_pixels": 12302416
+            },
+            "intact": {
+              "iou": 0.220169,
+              "precision": 0.258571,
+              "recall": 0.597174,
+              "f1": 0.360883,
+              "support_pixels": 1673146
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 1483379
+            },
+            "destroyed": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 269699
+            }
+          },
+          "confusion_matrix": [
+            [
+              10451573,
+              1850843,
+              0,
+              0
+            ],
+            [
+              673986,
+              999160,
+              0,
+              0
+            ],
+            [
+              510594,
+              972785,
+              0,
+              0
+            ],
+            [
+              228326,
+              41373,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      "unseen_test_combined_metrics": {
+        "overall_pixel_accuracy": 0.810608,
+        "mIoU_all4": 0.250696,
+        "mIoU_foreground3": 0.065241,
+        "macro_f1_all4": 0.305151,
+        "macro_f1_foreground3": 0.109124,
+        "bright_loc_f1": 0.362926,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.807061,
+            "precision": 0.989717,
+            "recall": 0.813886,
+            "f1": 0.893231,
+            "support_pixels": 102504250
+          },
+          "intact": {
+            "iou": 0.195723,
+            "precision": 0.200804,
+            "recall": 0.885522,
+            "f1": 0.327372,
+            "support_pixels": 5614300
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 228018
+          },
+          "destroyed": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 705336
+          }
+        },
+        "confusion_matrix": [
+          [
+            83426734,
+            19077516,
+            0,
+            0
+          ],
+          [
+            642714,
+            4971586,
+            0,
+            0
+          ],
+          [
+            14780,
+            213238,
+            0,
+            0
+          ],
+          [
+            209270,
+            496066,
+            0,
+            0
+          ]
+        ],
+        "loss": 1.075075,
+        "inference_seconds": 16.6588,
+        "ms_per_tile": 160.18,
+        "tiles_per_sec": 6.24
+      },
+      "unseen_test_per_event": {
+        "marshall-wildfire": {
+          "overall_pixel_accuracy": 0.801113,
+          "mIoU_all4": 0.243889,
+          "mIoU_foreground3": 0.060796,
+          "macro_f1_all4": 0.298291,
+          "macro_f1_foreground3": 0.102837,
+          "bright_loc_f1": 0.306582,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.793167,
+              "precision": 0.973587,
+              "recall": 0.81061,
+              "f1": 0.884655,
+              "support_pixels": 24528776
+            },
+            "intact": {
+              "iou": 0.182389,
+              "precision": 0.192936,
+              "recall": 0.769394,
+              "f1": 0.30851,
+              "support_pixels": 1452356
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 17412
+            },
+            "destroyed": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 215856
+            }
+          },
+          "confusion_matrix": [
+            [
+              19883263,
+              4645513,
+              0,
+              0
+            ],
+            [
+              334922,
+              1117434,
+              0,
+              0
+            ],
+            [
+              6216,
+              11196,
+              0,
+              0
+            ],
+            [
+              198276,
+              17580,
+              0,
+              0
+            ]
+          ]
+        },
+        "noto-earthquake": {
+          "overall_pixel_accuracy": 0.813612,
+          "mIoU_all4": 0.252868,
+          "mIoU_foreground3": 0.066654,
+          "macro_f1_all4": 0.307307,
+          "macro_f1_foreground3": 0.111093,
+          "bright_loc_f1": 0.380606,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.811509,
+              "precision": 0.994875,
+              "recall": 0.814916,
+              "f1": 0.895948,
+              "support_pixels": 77975474
+            },
+            "intact": {
+              "iou": 0.199961,
+              "precision": 0.203206,
+              "recall": 0.926046,
+              "f1": 0.33328,
+              "support_pixels": 4161944
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 210606
+            },
+            "destroyed": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 489480
+            }
+          },
+          "confusion_matrix": [
+            [
+              63543471,
+              14432003,
+              0,
+              0
+            ],
+            [
+              307792,
+              3854152,
+              0,
+              0
+            ],
+            [
+              8564,
+              202042,
+              0,
+              0
+            ],
+            [
+              10994,
+              478486,
+              0,
+              0
+            ]
+          ]
+        }
+      }
+    },
+    "dual_concat_v0_2": {
+      "timestamp_utc": "2026-11-13T16:43:49.453624+00:00",
+      "variant_id": "dual_concat_v0_2",
+      "label": "Dual-Stream Concat (R18 + 1xSkip + AuxLoc)",
+      "short_name": "Dual Concat (v0.2)",
+      "subset_version": "v0.2",
+      "seed": 42,
+      "train_class_weights": [
+        0.6434,
+        0.8638,
+        1.315,
+        1.1777
+      ],
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 3579.05,
+        "training_duration_seconds": 305.04
+      },
+      "model_info": {
+        "total_params": 26316165,
+        "trainable_params": 26316165,
+        "fp32_size_mb": 100.39
+      },
+      "best_checkpoint": {
+        "epoch": 21,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.185745
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 2.555958,
+        "final_epoch_train_loss": 1.06267,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.841469,
+        "mIoU_all4": 0.360089,
+        "mIoU_foreground3": 0.185745,
+        "macro_f1_all4": 0.448765,
+        "macro_f1_foreground3": 0.285709,
+        "bright_loc_f1": 0.739085,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.883121,
+            "precision": 0.934114,
+            "recall": 0.941783,
+            "f1": 0.937933,
+            "support_pixels": 33744407
+          },
+          "intact": {
+            "iou": 0.365448,
+            "precision": 0.433304,
+            "recall": 0.700026,
+            "f1": 0.535279,
+            "support_pixels": 4681149
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 2404180
+          },
+          "destroyed": {
+            "iou": 0.191787,
+            "precision": 0.660043,
+            "recall": 0.212809,
+            "f1": 0.321848,
+            "support_pixels": 1113304
+          }
+        },
+        "confusion_matrix": [
+          [
+            31779918,
+            1913940,
+            0,
+            50549
+          ],
+          [
+            1347104,
+            3276927,
+            0,
+            57118
+          ],
+          [
+            645723,
+            1744097,
+            0,
+            14360
+          ],
+          [
+            248693,
+            627690,
+            0,
+            236921
+          ]
+        ],
+        "loss": 1.055039,
+        "inference_seconds": 7.3239,
+        "ms_per_tile": 183.1,
+        "tiles_per_sec": 5.46
+      },
+      "validation_per_event": {
+        "beirut-explosion": {
+          "overall_pixel_accuracy": 0.782095,
+          "mIoU_all4": 0.301588,
+          "mIoU_foreground3": 0.130224,
+          "macro_f1_all4": 0.373905,
+          "macro_f1_foreground3": 0.199046,
+          "bright_loc_f1": 0.690738,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.815679,
+              "precision": 0.894365,
+              "recall": 0.902641,
+              "f1": 0.898484,
+              "support_pixels": 11787070
+            },
+            "intact": {
+              "iou": 0.349391,
+              "precision": 0.433597,
+              "recall": 0.642741,
+              "f1": 0.51785,
+              "support_pixels": 2552265
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 899824
+            },
+            "destroyed": {
+              "iou": 0.04128,
+              "precision": 0.434325,
+              "recall": 0.043626,
+              "f1": 0.079288,
+              "support_pixels": 489481
+            }
+          },
+          "confusion_matrix": [
+            [
+              10639487,
+              1132261,
+              0,
+              15322
+            ],
+            [
+              901357,
+              1640446,
+              0,
+              10462
+            ],
+            [
+              275139,
+              622657,
+              0,
+              2028
+            ],
+            [
+              80150,
+              387977,
+              0,
+              21354
+            ]
+          ]
+        },
+        "congo-volcano": {
+          "overall_pixel_accuracy": 0.961708,
+          "mIoU_all4": 0.504838,
+          "mIoU_foreground3": 0.349389,
+          "macro_f1_all4": 0.590103,
+          "macro_f1_foreground3": 0.458344,
+          "bright_loc_f1": 0.827362,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.971183,
+              "precision": 0.984137,
+              "recall": 0.986629,
+              "f1": 0.985381,
+              "support_pixels": 9654921
+            },
+            "intact": {
+              "iou": 0.543842,
+              "precision": 0.662029,
+              "recall": 0.752862,
+              "f1": 0.70453,
+              "support_pixels": 455738
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 20977
+            },
+            "destroyed": {
+              "iou": 0.504326,
+              "precision": 0.747296,
+              "recall": 0.608019,
+              "f1": 0.670501,
+              "support_pixels": 354124
+            }
+          },
+          "confusion_matrix": [
+            [
+              9525821,
+              96730,
+              0,
+              32370
+            ],
+            [
+              77549,
+              343108,
+              0,
+              35081
+            ],
+            [
+              3767,
+              11851,
+              0,
+              5359
+            ],
+            [
+              72232,
+              66578,
+              0,
+              215314
+            ]
+          ]
+        },
+        "libya-flood": {
+          "overall_pixel_accuracy": 0.820684,
+          "mIoU_all4": 0.310111,
+          "mIoU_foreground3": 0.118704,
+          "macro_f1_all4": 0.366151,
+          "macro_f1_foreground3": 0.175329,
+          "bright_loc_f1": 0.773566,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.884334,
+              "precision": 0.933205,
+              "recall": 0.944092,
+              "f1": 0.938617,
+              "support_pixels": 12302416
+            },
+            "intact": {
+              "iou": 0.355242,
+              "precision": 0.396613,
+              "recall": 0.773019,
+              "f1": 0.524249,
+              "support_pixels": 1673146
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 1483379
+            },
+            "destroyed": {
+              "iou": 0.000869,
+              "precision": 0.011682,
+              "recall": 0.000938,
+              "f1": 0.001737,
+              "support_pixels": 269699
+            }
+          },
+          "confusion_matrix": [
+            [
+              11614610,
+              684949,
+              0,
+              2857
+            ],
+            [
+              368198,
+              1293373,
+              0,
+              11575
+            ],
+            [
+              366817,
+              1109589,
+              0,
+              6973
+            ],
+            [
+              96311,
+              173135,
+              0,
+              253
+            ]
+          ]
+        }
+      },
+      "unseen_test_combined_metrics": {
+        "overall_pixel_accuracy": 0.944841,
+        "mIoU_all4": 0.349913,
+        "mIoU_foreground3": 0.150166,
+        "macro_f1_all4": 0.406727,
+        "macro_f1_foreground3": 0.217664,
+        "bright_loc_f1": 0.625938,
+        "bright_harmonic_damage_f1": 0.0,
+        "per_class": {
+          "background": {
+            "iou": 0.949156,
+            "precision": 0.979307,
+            "recall": 0.968582,
+            "f1": 0.973915,
+            "support_pixels": 102504250
+          },
+          "intact": {
+            "iou": 0.417452,
+            "precision": 0.531513,
+            "recall": 0.660475,
+            "f1": 0.589018,
+            "support_pixels": 5614300
+          },
+          "damaged": {
+            "iou": 0.0,
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "support_pixels": 228018
+          },
+          "destroyed": {
+            "iou": 0.033044,
+            "precision": 0.064513,
+            "recall": 0.063445,
+            "f1": 0.063974,
+            "support_pixels": 705336
+          }
+        },
+        "confusion_matrix": [
+          [
+            99283821,
+            2693372,
+            0,
+            527057
+          ],
+          [
+            1786021,
+            3708106,
+            0,
+            120173
+          ],
+          [
+            75137,
+            151202,
+            0,
+            1679
+          ],
+          [
+            236755,
+            423831,
+            0,
+            44750
+          ]
+        ],
+        "loss": 0.636662,
+        "inference_seconds": 18.2764,
+        "ms_per_tile": 175.73,
+        "tiles_per_sec": 5.69
+      },
+      "unseen_test_per_event": {
+        "marshall-wildfire": {
+          "overall_pixel_accuracy": 0.951406,
+          "mIoU_all4": 0.376638,
+          "mIoU_foreground3": 0.183897,
+          "macro_f1_all4": 0.450908,
+          "macro_f1_foreground3": 0.275574,
+          "bright_loc_f1": 0.633713,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.954863,
+              "precision": 0.971743,
+              "recall": 0.982133,
+              "f1": 0.97691,
+              "support_pixels": 24528776
+            },
+            "intact": {
+              "iou": 0.41565,
+              "precision": 0.619793,
+              "recall": 0.557903,
+              "f1": 0.587222,
+              "support_pixels": 1452356
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 17412
+            },
+            "destroyed": {
+              "iou": 0.13604,
+              "precision": 0.342529,
+              "recall": 0.184118,
+              "f1": 0.239499,
+              "support_pixels": 215856
+            }
+          },
+          "confusion_matrix": [
+            [
+              24090519,
+              426326,
+              0,
+              11931
+            ],
+            [
+              577862,
+              810274,
+              0,
+              64220
+            ],
+            [
+              6313,
+              10965,
+              0,
+              134
+            ],
+            [
+              116347,
+              59766,
+              0,
+              39743
+            ]
+          ]
+        },
+        "noto-earthquake": {
+          "overall_pixel_accuracy": 0.942763,
+          "mIoU_all4": 0.342504,
+          "mIoU_foreground3": 0.140891,
+          "macro_f1_all4": 0.392966,
+          "macro_f1_foreground3": 0.199635,
+          "bright_loc_f1": 0.623762,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.947343,
+              "precision": 0.981755,
+              "recall": 0.96432,
+              "f1": 0.972959,
+              "support_pixels": 77975474
+            },
+            "intact": {
+              "iou": 0.417959,
+              "precision": 0.511155,
+              "recall": 0.696269,
+              "f1": 0.589522,
+              "support_pixels": 4161944
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 210606
+            },
+            "destroyed": {
+              "iou": 0.004714,
+              "precision": 0.008668,
+              "recall": 0.010229,
+              "f1": 0.009384,
+              "support_pixels": 489480
+            }
+          },
+          "confusion_matrix": [
+            [
+              75193302,
+              2267046,
+              0,
+              515126
+            ],
+            [
+              1208159,
+              2897832,
+              0,
+              55953
+            ],
+            [
+              68824,
+              140237,
+              0,
+              1545
+            ],
+            [
+              120408,
+              364065,
+              0,
+              5007
+            ]
+          ]
+        }
+      }
+    },
+    "lite_gated_fusion_v0_2": {
+      "timestamp_utc": "2026-11-13T16:49:57.793117+00:00",
+      "variant_id": "lite_gated_fusion_v0_2",
+      "label": "GeoResQ Lite Prior-Gated Fusion (Ours, v0.2)",
+      "short_name": "Lite Gated Fusion (Ours)",
+      "subset_version": "v0.2",
+      "seed": 42,
+      "train_class_weights": [
+        0.6434,
+        0.8638,
+        1.315,
+        1.1777
+      ],
+      "hardware": {
+        "device": "cuda:0",
+        "gpu_name": "Tesla T4",
+        "amp_enabled": true,
+        "peak_vram_mb": 3824.1,
+        "training_duration_seconds": 340.05
+      },
+      "model_info": {
+        "total_params": 26781050,
+        "trainable_params": 26781050,
+        "fp32_size_mb": 102.16
+      },
+      "best_checkpoint": {
+        "epoch": 22,
+        "selection_metric": "mIoU_foreground3",
+        "best_val_score": 0.193686
+      },
+      "loss_progression": {
+        "first_epoch_train_loss": 2.488263,
+        "final_epoch_train_loss": 1.0321,
+        "loss_decreased": true
+      },
+      "final_validation_metrics": {
+        "overall_pixel_accuracy": 0.835389,
+        "mIoU_all4": 0.365122,
+        "mIoU_foreground3": 0.193686,
+        "macro_f1_all4": 0.456551,
+        "macro_f1_foreground3": 0.296785,
+        "bright_loc_f1": 0.748682,
+        "bright_harmonic_damage_f1": 0.000118,
+        "per_class": {
+          "background": {
+            "iou": 0.879429,
+            "precision": 0.945204,
+            "recall": 0.926673,
+            "f1": 0.935847,
+            "support_pixels": 33744407
+          },
+          "intact": {
+            "iou": 0.364272,
+            "precision": 0.416682,
+            "recall": 0.743337,
+            "f1": 0.534017,
+            "support_pixels": 4681149
+          },
+          "damaged": {
+            "iou": 2e-05,
+            "precision": 0.155116,
+            "recall": 2e-05,
+            "f1": 3.9e-05,
+            "support_pixels": 2404180
+          },
+          "destroyed": {
+            "iou": 0.216767,
+            "precision": 0.567831,
+            "recall": 0.259595,
+            "f1": 0.3563,
+            "support_pixels": 1113304
+          }
+        },
+        "confusion_matrix": [
+          [
+            31270044,
+            2399475,
+            136,
+            74752
+          ],
+          [
+            1105963,
+            3479669,
+            6,
+            95511
+          ],
+          [
+            509214,
+            1845222,
+            47,
+            49697
+          ],
+          [
+            197647,
+            626535,
+            114,
+            289008
+          ]
+        ],
+        "loss": 1.036267,
+        "inference_seconds": 7.7652,
+        "ms_per_tile": 194.13,
+        "tiles_per_sec": 5.15
+      },
+      "validation_per_event": {
+        "beirut-explosion": {
+          "overall_pixel_accuracy": 0.785793,
+          "mIoU_all4": 0.319141,
+          "mIoU_foreground3": 0.153457,
+          "macro_f1_all4": 0.401377,
+          "macro_f1_foreground3": 0.23557,
+          "bright_loc_f1": 0.698633,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.816193,
+              "precision": 0.899753,
+              "recall": 0.897841,
+              "f1": 0.898796,
+              "support_pixels": 11787070
+            },
+            "intact": {
+              "iou": 0.368689,
+              "precision": 0.447689,
+              "recall": 0.676306,
+              "f1": 0.538747,
+              "support_pixels": 2552265
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 899824
+            },
+            "destroyed": {
+              "iou": 0.091681,
+              "precision": 0.454292,
+              "recall": 0.103027,
+              "f1": 0.167963,
+              "support_pixels": 489481
+            }
+          },
+          "confusion_matrix": [
+            [
+              10582911,
+              1188186,
+              2,
+              15971
+            ],
+            [
+              816731,
+              1726113,
+              0,
+              9421
+            ],
+            [
+              276512,
+              588126,
+              0,
+              35186
+            ],
+            [
+              85866,
+              353185,
+              0,
+              50430
+            ]
+          ]
+        },
+        "congo-volcano": {
+          "overall_pixel_accuracy": 0.957797,
+          "mIoU_all4": 0.491185,
+          "mIoU_foreground3": 0.331779,
+          "macro_f1_all4": 0.578424,
+          "macro_f1_foreground3": 0.443078,
+          "bright_loc_f1": 0.824386,
+          "bright_harmonic_damage_f1": 0.000283,
+          "per_class": {
+            "background": {
+              "iou": 0.969404,
+              "precision": 0.986656,
+              "recall": 0.982282,
+              "f1": 0.984464,
+              "support_pixels": 9654921
+            },
+            "intact": {
+              "iou": 0.498085,
+              "precision": 0.629719,
+              "recall": 0.704385,
+              "f1": 0.664963,
+              "support_pixels": 455738
+            },
+            "damaged": {
+              "iou": 4.7e-05,
+              "precision": 0.004065,
+              "recall": 4.8e-05,
+              "f1": 9.4e-05,
+              "support_pixels": 20977
+            },
+            "destroyed": {
+              "iou": 0.497204,
+              "precision": 0.655507,
+              "recall": 0.673078,
+              "f1": 0.664176,
+              "support_pixels": 354124
+            }
+          },
+          "confusion_matrix": [
+            [
+              9483857,
+              121141,
+              125,
+              49798
+            ],
+            [
+              66255,
+              321015,
+              6,
+              68462
+            ],
+            [
+              3273,
+              10700,
+              1,
+              7003
+            ],
+            [
+              58738,
+              56919,
+              114,
+              238353
+            ]
+          ]
+        },
+        "libya-flood": {
+          "overall_pixel_accuracy": 0.803381,
+          "mIoU_all4": 0.303616,
+          "mIoU_foreground3": 0.113248,
+          "macro_f1_all4": 0.360258,
+          "macro_f1_foreground3": 0.169287,
+          "bright_loc_f1": 0.784507,
+          "bright_harmonic_damage_f1": 0.000179,
+          "per_class": {
+            "background": {
+              "iou": 0.874718,
+              "precision": 0.956831,
+              "recall": 0.910657,
+              "f1": 0.933173,
+              "support_pixels": 12302416
+            },
+            "intact": {
+              "iou": 0.338973,
+              "precision": 0.359437,
+              "recall": 0.856196,
+              "f1": 0.506318,
+              "support_pixels": 1673146
+            },
+            "damaged": {
+              "iou": 3.1e-05,
+              "precision": 0.836364,
+              "recall": 3.1e-05,
+              "f1": 6.2e-05,
+              "support_pixels": 1483379
+            },
+            "destroyed": {
+              "iou": 0.000741,
+              "precision": 0.006551,
+              "recall": 0.000834,
+              "f1": 0.00148,
+              "support_pixels": 269699
+            }
+          },
+          "confusion_matrix": [
+            [
+              11203276,
+              1090148,
+              9,
+              8983
+            ],
+            [
+              222977,
+              1432541,
+              0,
+              17628
+            ],
+            [
+              229429,
+              1246396,
+              46,
+              7508
+            ],
+            [
+              53043,
+              216431,
+              0,
+              225
+            ]
+          ]
+        }
+      },
+      "unseen_test_combined_metrics": {
+        "overall_pixel_accuracy": 0.925754,
+        "mIoU_all4": 0.332612,
+        "mIoU_foreground3": 0.133215,
+        "macro_f1_all4": 0.390589,
+        "macro_f1_foreground3": 0.199397,
+        "bright_loc_f1": 0.607473,
+        "bright_harmonic_damage_f1": 2.7e-05,
+        "per_class": {
+          "background": {
+            "iou": 0.930806,
+            "precision": 0.989671,
+            "recall": 0.939937,
+            "f1": 0.964163,
+            "support_pixels": 102504250
+          },
+          "intact": {
+            "iou": 0.369433,
+            "precision": 0.403198,
+            "recall": 0.815208,
+            "f1": 0.539542,
+            "support_pixels": 5614300
+          },
+          "damaged": {
+            "iou": 4e-06,
+            "precision": 0.012658,
+            "recall": 4e-06,
+            "f1": 9e-06,
+            "support_pixels": 228018
+          },
+          "destroyed": {
+            "iou": 0.030206,
+            "precision": 0.088848,
+            "recall": 0.043762,
+            "f1": 0.058641,
+            "support_pixels": 705336
+          }
+        },
+        "confusion_matrix": [
+          [
+            96347576,
+            6009318,
+            30,
+            147326
+          ],
+          [
+            871364,
+            4576823,
+            44,
+            166069
+          ],
+          [
+            22249,
+            202616,
+            1,
+            3152
+          ],
+          [
+            111927,
+            562538,
+            4,
+            30867
+          ]
+        ],
+        "loss": 0.670989,
+        "inference_seconds": 19.2681,
+        "ms_per_tile": 185.27,
+        "tiles_per_sec": 5.4
+      },
+      "unseen_test_per_event": {
+        "marshall-wildfire": {
+          "overall_pixel_accuracy": 0.948807,
+          "mIoU_all4": 0.365163,
+          "mIoU_foreground3": 0.168333,
+          "macro_f1_all4": 0.430103,
+          "macro_f1_foreground3": 0.247696,
+          "bright_loc_f1": 0.678712,
+          "bright_harmonic_damage_f1": 0.0,
+          "per_class": {
+            "background": {
+              "iou": 0.955653,
+              "precision": 0.979026,
+              "recall": 0.975627,
+              "f1": 0.977324,
+              "support_pixels": 24528776
+            },
+            "intact": {
+              "iou": 0.427109,
+              "precision": 0.570945,
+              "recall": 0.628995,
+              "f1": 0.598566,
+              "support_pixels": 1452356
+            },
+            "damaged": {
+              "iou": 0.0,
+              "precision": 0.0,
+              "recall": 0.0,
+              "f1": 0.0,
+              "support_pixels": 17412
+            },
+            "destroyed": {
+              "iou": 0.07789,
+              "precision": 0.16363,
+              "recall": 0.12941,
+              "f1": 0.144522,
+              "support_pixels": 215856
+            }
+          },
+          "confusion_matrix": [
+            [
+              23930944,
+              571954,
+              12,
+              25866
+            ],
+            [
+              423527,
+              913524,
+              35,
+              115270
+            ],
+            [
+              3198,
+              12570,
+              0,
+              1644
+            ],
+            [
+              85946,
+              101972,
+              4,
+              27934
+            ]
+          ]
+        },
+        "noto-earthquake": {
+          "overall_pixel_accuracy": 0.918459,
+          "mIoU_all4": 0.321175,
+          "mIoU_foreground3": 0.120608,
+          "macro_f1_all4": 0.373825,
+          "macro_f1_foreground3": 0.178469,
+          "bright_loc_f1": 0.590825,
+          "bright_harmonic_damage_f1": 2.9e-05,
+          "per_class": {
+            "background": {
+              "iou": 0.922877,
+              "precision": 0.99324,
+              "recall": 0.92871,
+              "f1": 0.959892,
+              "support_pixels": 77975474
+            },
+            "intact": {
+              "iou": 0.357398,
+              "precision": 0.375674,
+              "recall": 0.880189,
+              "f1": 0.526593,
+              "support_pixels": 4161944
+            },
+            "damaged": {
+              "iou": 5e-06,
+              "precision": 0.035714,
+              "recall": 5e-06,
+              "f1": 9e-06,
+              "support_pixels": 210606
+            },
+            "destroyed": {
+              "iou": 0.004422,
+              "precision": 0.016599,
+              "recall": 0.005992,
+              "f1": 0.008805,
+              "support_pixels": 489480
+            }
+          },
+          "confusion_matrix": [
+            [
+              72416632,
+              5437364,
+              18,
+              121460
+            ],
+            [
+              447837,
+              3663299,
+              9,
+              50799
+            ],
+            [
+              19051,
+              190046,
+              1,
+              1508
+            ],
+            [
+              25981,
+              460566,
+              0,
+              2933
+            ]
+          ]
+        }
+      }
+    }
+  }
+}

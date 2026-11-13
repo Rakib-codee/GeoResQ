@@ -208,3 +208,20 @@ class BrightDamageDataset(_BaseDataset):  # type: ignore[misc]
             "sample_id": row["sample_id"],
             "disaster_event": row["disaster_event"],
         }
+
+
+def read_rgb_tif(path):
+    import numpy as np
+    from PIL import Image
+    return np.array(Image.open(path))[:, :, :3]
+
+
+def read_single_band_tif(path):
+    import numpy as np
+    from PIL import Image
+    arr = np.array(Image.open(path))
+    return arr[:, :, 0] if arr.ndim == 3 else arr
+
+
+_read_rgb_tif = read_rgb_tif
+_read_single_band_tif = read_single_band_tif

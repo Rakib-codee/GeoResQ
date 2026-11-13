@@ -290,7 +290,9 @@ def save_qualitative_gate_panel(
 
         # Overlay Lite Gated prediction with subtle inset / alpha blend of prior gate contours
         axes[r_i, 5].imshow(mask_to_rgb(pred_gat))
-        axes[r_i, 5].contour(g_map, levels=[0.45, 0.60], colors=["#38bdf8", "#fde047"], linewidths=0.7, alpha=0.8)
+        q_lo, q_hi = [float(v) for v in np.quantile(g_map, [0.55, 0.85])]
+        if q_hi - q_lo > 1e-4:
+            axes[r_i, 5].contour(g_map, levels=[q_lo, q_hi], colors=["#38bdf8", "#fde047"], linewidths=0.7, alpha=0.85)
         axes[r_i, 5].set_xlabel(f"mean gate={float(g_map.mean()):.3f}", fontsize=8)
 
         for c_i in range(6):
@@ -437,7 +439,7 @@ def main() -> int:
             }
 
     batch_size = int(exp_cfg.get("eval_batch_size", 4))  # type: ignore[attr-defined]
-    num_workers = int(exp_cfg.get("num_workers", 2)) if device.type == "cuda" else 0  # type: ignore[attr-defined]
+    num_workers = 0  # type: ignore[attr-defined]
 
     def run_pass(
         corruption: str,
