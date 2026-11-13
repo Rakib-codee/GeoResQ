@@ -1,0 +1,153 @@
+{
+  "generated_at_utc": "2026-11-13T06:01:30.329249+00:00",
+  "dataset_name": "BRIGHT",
+  "paper_doi": "10.5194/essd-17-6217-2025",
+  "zenodo_version_doi": "10.5281/zenodo.20072020",
+  "download_source": "https://huggingface.co/datasets/Kullervo/BRIGHT (HTTP 206 selective extraction)",
+  "excluded_restricted_events": [
+    "mexico-hurricane",
+    "myanmar-hurricane",
+    "ukraine-conflict"
+  ],
+  "subset_version": "v0.1",
+  "selection_criteria": "Event-separated split (train/val/unseen-test) with deterministic round-robin stratification across damage-presence strata (has_destroyed, has_damaged, intact_only), seed=42.",
+  "subset_summary": {
+    "total_triplets": 45,
+    "split_counts": {
+      "train": 30,
+      "val": 8,
+      "test": 7
+    },
+    "alignment_mismatches": 0,
+    "pixel_totals": {
+      "0": 40234978,
+      "1": 5339259,
+      "2": 921457,
+      "3": 690226,
+      "255": 0
+    }
+  },
+  "global_11_open_events_audit": {
+    "morocco-earthquake": {
+      "region": "Al Haouz, Morocco",
+      "tiles": 567,
+      "pixels": {
+        "0": 582354133,
+        "1": 11943058,
+        "2": 207963,
+        "3": 37438,
+        "255": 0
+      }
+    },
+    "turkey-earthquake": {
+      "region": "Southeastern Turkey",
+      "tiles": 1114,
+      "pixels": {
+        "0": 843249112,
+        "1": 302064208,
+        "2": 13294768,
+        "3": 9505576,
+        "255": 0
+      }
+    },
+    "congo-volcano": {
+      "region": "Goma, DR Congo",
+      "tiles": 123,
+      "pixels": {
+        "0": 120613153,
+        "1": 7442964,
+        "2": 52715,
+        "3": 866016,
+        "255": 0
+      }
+    },
+    "bata-explosion": {
+      "region": "Bata, Equatorial Guinea",
+      "tiles": 107,
+      "pixels": {
+        "0": 105956347,
+        "1": 5689395,
+        "2": 338544,
+        "3": 213346,
+        "255": 0
+      }
+    },
+    "la_palma-volcano": {
+      "region": "La Palma, Spain",
+      "tiles": 933,
+      "pixels": {
+        "0": 897858810,
+        "1": 58985337,
+        "2": 258020,
+        "3": 21219241,
+        "255": 0
+      }
+    },
+    "libya-flood": {
+      "region": "Derna, Libya",
+      "tiles": 124,
+      "pixels": {
+        "0": 105648520,
+        "1": 15620647,
+        "2": 7361791,
+        "3": 1392466,
+        "255": 0
+      }
+    },
+    "beirut-explosion": {
+      "region": "Beirut, Lebanon",
+      "tiles": 133,
+      "pixels": {
+        "0": 95615966,
+        "1": 41748832,
+        "2": 1524059,
+        "3": 571751,
+        "255": 0
+      }
+    },
+    "hawaii-wildfire": {
+      "region": "Maui, Hawaii, USA",
+      "tiles": 65,
+      "pixels": {
+        "0": 60286827,
+        "1": 2644924,
+        "2": 802925,
+        "3": 4422764,
+        "255": 0
+      }
+    },
+    "marshall-wildfire": {
+      "region": "Boulder, Colorado, USA",
+      "tiles": 77,
+      "pixels": {
+        "0": 75368167,
+        "1": 4975475,
+        "2": 37303,
+        "3": 359407,
+        "255": 0
+      }
+    },
+    "noto-earthquake": {
+      "region": "Noto Peninsula, Japan",
+      "tiles": 79,
+      "pixels": {
+        "0": 77975474,
+        "1": 4161944,
+        "2": 210606,
+        "3": 489480,
+        "255": 0
+      }
+    },
+    "haiti-earthquake": {
+      "region": "Les Cayes, Haiti",
+      "tiles": 73,
+      "pixels": {
+        "0": 66614766,
+        "1": 9771085,
+        "2": 146782,
+        "3": 13415,
+        "255": 0
+      }
+    }
+  }
+}
