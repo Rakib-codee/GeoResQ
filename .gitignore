@@ -71,5 +71,7 @@ dist/
 logs/
 wandb/
 runs/
+/outputs/
+/exports/
 tmp/
 temp/

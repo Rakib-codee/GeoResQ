@@ -53,9 +53,8 @@ def _upsample_bilinear_2d(grid: np.ndarray, out_h: int, out_w: int) -> np.ndarra
     wy = (ys - y0)[:, None]
     wx = (xs - x0)[None, :]
 
-    top = grid[y0][:, x0] * (1.0 - wx) + grid[y0][:, x1] * wx
-    bot = grid[y1][:, x0] * (1.0 - wx) + grid[y1][:, x1] * wx
-    return (top * (1.0 - wy) + bot * wy).astype(np.float32)
+    horiz = grid[:, x0] * (1.0 - wx) + grid[:, x1] * wx
+    return (horiz[y0, :] * (1.0 - wy) + horiz[y1, :] * wy).astype(np.float32)
 
 
 def _fractal_field_2d(
