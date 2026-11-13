@@ -1,5 +1,7 @@
 # GeoResQ: All-Weather Multimodal Optical–SAR Building Damage Assessment & Stress-Testing Suite
 
+[![CI](https://github.com/Rakib-codee/GeoResQ/actions/workflows/ci.yml/badge.svg)](https://github.com/Rakib-codee/GeoResQ/actions/workflows/ci.yml)
+[![Release: v0.2.0](https://img.shields.io/badge/Release-v0.2.0-8b5cf6.svg)](https://github.com/Rakib-codee/GeoResQ/releases/tag/v0.2.0)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-3776AB.svg)](pyproject.toml)
 [![Dataset: BRIGHT Open Subset](https://img.shields.io/badge/Dataset-BRIGHT_ESSD_2025-10b981.svg)](https://doi.org/10.5194/essd-17-6217-2025)
