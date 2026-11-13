@@ -3,9 +3,9 @@
 # ==========================================
 
 # 1. Raw & Processed Satellite Datasets (NEVER commit imagery)
-data/
-datasets/
-BRIGHT/
+/data/
+/datasets/
+/BRIGHT/
 pre-event/
 post-event/
 target/
