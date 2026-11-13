@@ -179,6 +179,34 @@ def save_checkpoint(
     torch.save(payload, path)
 
 
+def export_fp16_inference_checkpoint(
+    src_ckpt_path: Path,
+    dst_ckpt_path: Path,
+    variant_config: dict[str, object],
+    norm_mode: str = "modality_specific_v0_2",
+) -> float:
+    """Export a compact fp16 inference-only checkpoint (~50 MB) without optimizer state."""
+    import torch
+
+    ckpt = torch.load(src_ckpt_path, map_location="cpu", weights_only=False)
+    raw_sd = ckpt.get("model_state_dict", ckpt)
+    fp16_sd = {
+        k: (v.half() if torch.is_floating_point(v) else v)
+        for k, v in raw_sd.items()
+    }
+    dst_ckpt_path.parent.mkdir(parents=True, exist_ok=True)
+    payload = {
+        "format": "georesq_inference_fp16_v1",
+        "epoch": int(ckpt.get("epoch", 0)),
+        "best_score": float(ckpt.get("best_score", 0.0)),
+        "norm_mode": norm_mode,
+        "variant_config": variant_config,
+        "model_state_dict": fp16_sd,
+    }
+    torch.save(payload, dst_ckpt_path)
+    return round(dst_ckpt_path.stat().st_size / (1024 ** 2), 2)
+
+
 def load_checkpoint(
     path: Path,
     model,
@@ -192,7 +220,13 @@ def load_checkpoint(
     if not path.exists():
         raise FileNotFoundError(f"Checkpoint not found: {path}")
     ckpt = torch.load(path, map_location=device or "cpu", weights_only=False)
-    model.load_state_dict(ckpt["model_state_dict"])
+    raw_sd = ckpt["model_state_dict"] if "model_state_dict" in ckpt else ckpt
+    model_sd = model.state_dict()
+    cast_sd = {
+        k: (v.to(dtype=model_sd[k].dtype) if k in model_sd and torch.is_floating_point(v) else v)
+        for k, v in raw_sd.items()
+    }
+    model.load_state_dict(cast_sd)
     if optimizer is not None and ckpt.get("optimizer_state_dict") is not None:
         optimizer.load_state_dict(ckpt["optimizer_state_dict"])
     if scheduler is not None and ckpt.get("scheduler_state_dict") is not None:

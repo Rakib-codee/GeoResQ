@@ -509,3 +509,32 @@ class DualStreamDamageNet(nn.Module):
     ) -> torch.Tensor:
         clf_logits, _ = self.forward_with_aux(pre_opt, post_sar)
         return clf_logits
+
+    def extract_fusion_diagnostics(
+        self,
+        pre_opt: torch.Tensor,
+        post_sar: torch.Tensor,
+    ) -> tuple[torch.Tensor, list[torch.Tensor], list[float]]:
+        """Run forward pass while capturing spatial prior-gate maps & |gamma| scales."""
+        gates: list[torch.Tensor] = []
+        gammas: list[float] = []
+        handles = []
+
+        if self.fusion_blocks is not None:
+            for blk in self.fusion_blocks:
+                if hasattr(blk, "gamma"):
+                    gammas.append(float(blk.gamma.detach().abs().mean().item()))  # type: ignore[union-attr]
+                gate_mod = getattr(blk, "opt_prior_gate", None)
+                if gate_mod is not None:
+                    handles.append(
+                        gate_mod.register_forward_hook(
+                            lambda _m, _inp, out: gates.append(out.detach())
+                        )
+                    )
+        try:
+            clf_logits, _ = self.forward_with_aux(pre_opt, post_sar)
+        finally:
+            for h in handles:
+                h.remove()
+
+        return clf_logits, gates, gammas

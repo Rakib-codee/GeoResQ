@@ -1,0 +1,42 @@
+# GeoResQ Milestone 6 — All-Weather & Modality Degradation Stress-Test Suite
+# Evaluates the 4 frozen Milestone 5 v0.2 checkpoints across realistic pre-optical
+# and post-SAR operational degradations on the 104-tile unseen test split (Noto + Marshall).
+
+experiment:
+  suite_name: "stress_test_v0_2"
+  benchmark_config: "configs/benchmark_v0_2.yaml"
+  manifest_relpath: "results/metrics/manifest_v0_2.csv"
+  split: "test"
+  seed: 42
+  eval_batch_size: 4
+  num_workers: 2
+  use_amp: true
+
+severities:
+  - 0.0
+  - 0.25
+  - 0.5
+  - 0.75
+  - 1.0
+
+corruptions:
+  cloud_occlusion:
+    title: "Pre-Optical Cloud Occlusion"
+    affected_modality: "optical"
+    x_label: "Cloud Severity (0.0 -> 1.0 Overcast)"
+  smoke_haze:
+    title: "Wildfire Smoke & Atmospheric Haze"
+    affected_modality: "optical"
+    x_label: "Koschmieder Haze Severity (0.0 -> 1.0)"
+  optical_dropout:
+    title: "Archive Optical Swath / Tile Dropout"
+    affected_modality: "optical"
+    x_label: "Missing Optical Fraction (0% -> 100%)"
+  sar_speckle:
+    title: "Post-SAR Nakagami Speckle (ENL inf->1)"
+    affected_modality: "sar"
+    x_label: "Speckle Severity (L=inf, 8, 4, 2, 1)"
+  compound_storm:
+    title: "Compound Storm (Cloud+Smoke + SAR Speckle)"
+    affected_modality: "both"
+    x_label: "Compound Storm Severity (0.0 -> 1.0)"

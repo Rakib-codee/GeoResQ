@@ -92,3 +92,48 @@ class DamageEvaluator:
             },
             "confusion_matrix": self.confusion_matrix.tolist(),
         }
+
+
+def decompose_confusion_errors(cm_input: list[list[int]] | np.ndarray) -> dict[str, object]:
+    """Decompose a 4x4 confusion matrix into physical localization vs. severity error modes."""
+    cm = np.asarray(cm_input, dtype=np.float64)
+    if cm.shape != (4, 4):
+        raise ValueError(f"Expected (4, 4) confusion matrix, got {cm.shape}")
+
+    eps = 1e-9
+    row_sums = cm.sum(axis=1, keepdims=True)
+    row_norm = np.where(row_sums > 0, cm / np.maximum(row_sums, eps), 0.0)
+
+    gt_bg = float(cm[0, :].sum())
+    gt_bldg = float(cm[1:, :].sum())
+
+    false_bldg_alarm_rate = float(cm[0, 1:].sum() / max(gt_bg, eps))
+    missed_bldg_rate = float(cm[1:, 0].sum() / max(gt_bldg, eps))
+
+    # Conditional severity grading accuracy among detected building pixels (gt > 0 AND pred > 0)
+    detected_bldg_sub = cm[1:, 1:]
+    detected_bldg_total = float(detected_bldg_sub.sum())
+    cond_severity_acc = (
+        float(np.trace(detected_bldg_sub) / detected_bldg_total)
+        if detected_bldg_total > 0
+        else 0.0
+    )
+
+    def _routing_dict(cls_idx: int) -> dict[str, float]:
+        tot = float(cm[cls_idx, :].sum())
+        if tot <= 0:
+            return {f"pred_{name}_pct": 0.0 for name in CLASS_NAMES}
+        return {
+            f"pred_{name}_pct": round(100.0 * float(cm[cls_idx, j]) / tot, 3)
+            for j, name in enumerate(CLASS_NAMES)
+        }
+
+    return {
+        "row_normalized_pct": np.round(row_norm * 100.0, 3).tolist(),
+        "false_building_alarm_rate_pct": round(100.0 * false_bldg_alarm_rate, 3),
+        "missed_building_fn_rate_pct": round(100.0 * missed_bldg_rate, 3),
+        "conditional_severity_acc_given_detected_pct": round(100.0 * cond_severity_acc, 3),
+        "intact_routing_pct": _routing_dict(1),
+        "damaged_routing_pct": _routing_dict(2),
+        "destroyed_routing_pct": _routing_dict(3),
+    }
